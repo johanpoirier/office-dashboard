@@ -163,7 +163,7 @@ var Clock = {
   timeParts: function() {
 	var date = new Date(),
 		hour = date.getHours();
-		hour = 12;
+		//hour = 12;
 	
 	return {
 	  // Digital
