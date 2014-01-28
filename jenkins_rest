@@ -1,0 +1,1 @@
+curl -XGET -g http://AtosWorldline:b7aaeecffefab859a3087625466cd69f@preprod.meteo-integration.aw.atos.net/api/json?tree=jobs[name,color]

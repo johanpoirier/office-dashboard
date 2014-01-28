@@ -7,8 +7,8 @@ var express = require('express')
   , server = require('http').createServer(app)
   , path = require('path')
   , io = require('socket.io').listen(server)
-  , spawn = require('child_process').spawn;
-
+  , spawn = require('child_process').spawn
+  , http = require('http');
 
 
 // all environments
