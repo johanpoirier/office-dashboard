@@ -1,7 +1,7 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>rPiTV - Remote</title>
+	<title>Office Dashboard - Remote</title>
 	<link href="css/bootstrap.css" rel="stylesheet" type="text/css">
 	<link href="css/flat-ui.css" rel="stylesheet" type="text/css">
 	<link href="css/style.css" rel="stylesheet" type="text/css">
@@ -17,7 +17,7 @@
 <body>
 	<div class="r-container ">
 		<div class="r-header">
-			<h2>rPiTV Remote</h2>
+			<h2>Office Dashboard - Remote</h2>
 		</div>
 		<div class="r-logo">
 			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 570 720"><script/>
@@ -56,7 +56,7 @@
 	
 	<script>	 
 		
-	  	var socket = io.connect('http://10.40.247.55:8080'); 
+	  	var socket = io.connect('http://localhost:8080'); 
 	    socket.on('connect', function(data){
 	  	socket.emit('remote');
 	  		  	

@@ -86,3 +86,38 @@ io.sockets.on('connection', function (socket) {
    }
  });
 });
+
+
+//Jenkins API call
+var username = 'AtosWorldline';
+var password = 'b7aaeecffefab859a3087625466cd69f';
+var auth = 'Basic ' + new Buffer(username + ':' + password).toString('base64');
+var optionsget = {
+    host : 'preprod.meteo-integration.aw.atos.net',
+    port : 80,
+    path : '/api/json?tree=jobs[name,color]',
+    method : 'GET',
+    headers:{
+      'Host': 'preprod.meteo-integration.aw.atos.net',
+      'Authorization': auth
+    }
+};
+ 
+// do the GET request
+setInterval(function() {
+   var reqGet = http.request(optionsget, function(res) {
+       var data = "";
+       res.on('data', function(d) {
+           data += d;
+       });
+       res.on('end', function(d) {
+           var jobs = JSON.parse(data).jobs;
+           io.sockets.emit('jenkins', jobs.filter(function(job) { return job.color == "red"; })); 
+       });
+   });
+    
+   reqGet.end();
+   reqGet.on('error', function(e) {
+       console.error(e);
+   });
+}, 10000);
