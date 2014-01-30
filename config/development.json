@@ -1,3 +1,11 @@
 {
-    "modules": []
+    "modules": [
+        {
+            "id": "git",
+            "host": "https://github.com",
+            "path": "/johanpoirier/office-dashboard.git",
+            "nb_commits_display": 5,
+            "branch": "master"
+        }
+    ]
 }
