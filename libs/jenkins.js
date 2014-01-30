@@ -16,7 +16,7 @@ exports.withConfig = function(config) {
             'Authorization': 'Basic ' + new Buffer(username + ':' + apiToken).toString('base64')
         }
     }
-
+    console.log("Jenkins module loaded");
     return this;
 }
 

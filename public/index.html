@@ -2,72 +2,13 @@
 <head>
     <meta charset="utf-8">
     <title>Office Dashboard</title>
-
-    <link href="css/style.css" rel="stylesheet" type="text/css">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
+    <link href="/css/main.css" rel="stylesheet" type="text/css" media="screen" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
 </head>
 <body>
-<div id="loader" class="status fadeInDown animated hidden">Y</div>
-<div class="logo"></div>
-<div class="logo-txt">
-    <h2>Office Dashboard</h2>
-</div>
-<div class="jenkins-block">
-    <h3>Jenkins jobs in error</h3>
-    <div id="jobs"></div>
-</div>
-<div class="time-block">
-    <div id="time"></div>
-    <p id="date" class="title"></p>
-</div>
-
-<script src="/socket.io/socket.io.js"></script>
-<script src="js/jquery-2.0.1.min.js"></script>
-<script src="js/mustache.js" type="text/javascript"></script>
-<script src="js/main.js" type="text/javascript"></script>
-<script>
-    var socket = io.connect('http://localhost:8080');
-    socket.on('connect', function (data) {
-        socket.emit('screen');
-    });
-
-    socket.on('jenkins', function (jobs) {
-        $("#jobs").html("");
-        jobs.forEach(function (job) {
-            $("#jobs").append("<a href='" + job.url + "' target='_blank'>" + job.name + "</a><br>");
-        });
-    });
-
-    socket.on('controlling', function (data) {
-        var current = $(".selected");
-
-        if (data.action === "goLeft") {
-
-            $(".selected").removeClass("selected");
-
-            if ($(current).prev().attr("id") === "start-block") {
-                $("#end-block").prev().addClass("selected");
-            } else {
-                $(current).prev().addClass("selected");
-            }
-
-        }
-        else if (data.action === "goRight") {
-
-            $(".selected").removeClass("selected");
-
-            if ($(current).next().attr("id") === "end-block") {
-                $("#start-block").next().addClass("selected");
-            } else {
-                $(current).next().addClass("selected");
-            }
-
-        }
-        else if (data.action === "enter") {
-
-        }
-    })
-
-</script>
+    <header>Office Dashboard</header>
+    <div id="modules"></div>
+    <footer></footer>
+    <script src="/js/libs/require.js" data-main="js/main"></script>
 </body>
 </html>
