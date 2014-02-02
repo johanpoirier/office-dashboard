@@ -1,8 +1,8 @@
-define([ "jquery", "handlebars", "hbs!modules/git/template"],
+define([ "jquery", "handlebars", "hbs!modules/jenkins/template"],
     function($, Handlebars, template) {
         return {
             start: function(config, rootEl) {
-                console.info("git module init");
+                console.info("jenkins module init");
                 rootEl.append($("<div/>", { "id": config["id"]}).html(template()));
             }
         }

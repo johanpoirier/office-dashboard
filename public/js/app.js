@@ -8,7 +8,7 @@ define(["jquery", "socket-io"], function($, io) {
         console.info('Config', config);
 
         config['modules'].forEach(function(moduleConfig) {
-            require(["modules/" + moduleConfig['id'] + "/controller"], function(controller) {
+            require(["modules/" + moduleConfig['id'] + "/frontend"], function(controller) {
                 controller.start(moduleConfig, $("#modules"));
             });
         });

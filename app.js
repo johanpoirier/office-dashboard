@@ -5,19 +5,20 @@ var express = require('express')
     , app = express()
     , server = require('http').createServer(app)
     , path = require('path')
-    , io = require('socket.io').listen(server)
-    , spawn = require('child_process').spawn;
+    , io = require('socket.io').listen(server);
 
 /**
  * Config
  */
 var config = require(__dirname + '/config/' + app.get('env') + '.json');
 
+
 /**
  * Loading modules
  */
+var modules = [];
 config['modules'].forEach(function(moduleConfig) {
-    require('./libs/' + moduleConfig['id']).withConfig(moduleConfig);
+    modules.push(require('./public/js/modules/' + moduleConfig['id'] + '/backend').withConfig(moduleConfig));
 });
 
 
@@ -48,6 +49,7 @@ server.listen(app.get('port'), function () {
 
 //Socket.io Server
 io.sockets.on('connection', function (socket) {
+    modules.forEach(function(module) { module.start(socket); });
     socket.on('get-config', function () {
         console.log("Client requested config");
         socket.emit('config', config);
