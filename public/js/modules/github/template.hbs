@@ -1,6 +1,8 @@
-<h2>Last commits</h2>
+<h2 class="module-title">{{repo}} : last commits</h2>
 <div class="commits">
 {{#each commits}}
-    <span>{{this.commit.message}}</span><br/>
+    <div class="module-item">
+        <div class="module-item-detail">{{this.committer.login}} : {{this.commit.message}}</div>
+    </div>
 {{/each}}
 </div>

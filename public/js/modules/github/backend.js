@@ -1,12 +1,18 @@
+var http = require('http');
 var https = require('https');
 
-var config;
-var socket;
+var config, socket;
 
- exports.withConfig = function(cfg) {
+exports.withConfig = function(cfg) {
     console.log("Github module loaded");
     config = cfg;
     return this;
+}
+
+exports.start = function(socketio) {
+    socket = socketio;
+    socket.on("github:screen", getData.bind(this));
+    setInterval(getData.bind(this), config['refresh']);
 }
 
 exports.getLastCommits = function(callback) {
@@ -22,6 +28,14 @@ exports.getLastCommits = function(callback) {
         }
     };
 
+    // proxy conf
+    if(config['proxy_host'] && config['proxy_port']) {
+        options.hostname = config['proxy_host'];
+        options.port = config['proxy_port'];
+        options.path = 'https://' + config['host'] + config['path'];
+        https = http;
+    }
+
     var req = https.request(options, function (res) {
         var data = "";
         res.on('data', function(d) {
@@ -29,7 +43,8 @@ exports.getLastCommits = function(callback) {
         });
         res.on('end', function() {
             if(callback) {
-                callback(JSON.parse(data));
+                var commits = JSON.parse(data);
+                callback(commits.slice(0, config['nb_commits_display']));
             }
         });
     });
@@ -39,14 +54,8 @@ exports.getLastCommits = function(callback) {
     req.end();
 }
 
-var startScheduledTask = function() {
+var getData = function() {
     this.getLastCommits(function(commits) {
         socket.emit("github:commits", commits);
     });
 };
-
-exports.start = function(socketio) {
-    socket = socketio;
-    startScheduledTask.call(this);
-    setInterval(startScheduledTask.bind(this), 300000);
-}

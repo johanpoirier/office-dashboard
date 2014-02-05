@@ -6,7 +6,11 @@
             "path": "/repos/johanpoirier/office-dashboard/commits",
             "token": "6661e628354e10a070761f7c8c93f8f370d229b3",
             "nb_commits_display": 5,
-            "branch": "master"
+            "branch": "master",
+            "refresh": 300000
+        },
+        {
+            "id": "chat"
         }
     ]
 }

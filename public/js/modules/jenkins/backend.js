@@ -1,11 +1,11 @@
 var http = require('http');
 
-var username, apiToken, url, options;
+var config, socket;
+var options;
 
-exports.withConfig = function(config) {
-    username = config['username'];
-    apiToken = config['apiToken'];
-    url = config['url'];
+exports.withConfig = function(cfg) {
+    console.log("Jenkins module loaded");
+    config = cfg;
     options = {
         host: config['url'],
         port: 80,
@@ -13,15 +13,20 @@ exports.withConfig = function(config) {
         method: 'GET',
         headers: {
             'Host': config['url'],
-            'Authorization': 'Basic ' + new Buffer(username + ':' + apiToken).toString('base64')
+            'Authorization': 'Basic ' + new Buffer(config['username'] + ':' + config['apiToken']).toString('base64')
         }
     }
-    console.log("Jenkins module loaded");
     return this;
 }
 
+exports.start = function(socketio) {
+    socket = socketio;
+    socket.on("jenkins:screen", getData.bind(this));
+    setInterval(getData.bind(this), config['refresh']);
+}
+
 exports.getJobsInError = function(callback) {
-    if(username != '') {
+    if(config['username'] != '') {
         var jobs = [];
         var reqGet = http.request(options, function (res) {
             var data = "";
@@ -40,7 +45,7 @@ exports.getJobsInError = function(callback) {
 
                 // set url to jenkins
                 jobs.forEach(function(job) {
-                    job.url = "http://" + url + "/job/" + job.name;
+                    job.url = "http://" + config["url"] + "/job/" + job.name;
                 });
 
                 console.log("jobs jenkins in error : " + jobs.length);
@@ -60,4 +65,10 @@ exports.getJobsInError = function(callback) {
         console.warn('jenkins module not configured');
         callback([]);
     }
+};
+
+var getData = function() {
+    this.getJobsInError(function(jobs) {
+        socket.emit("jenkins:jobs", jobs);
+    });
 };
