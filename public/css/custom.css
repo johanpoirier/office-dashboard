@@ -8,36 +8,52 @@ a {
     text-decoration: none;
 }
 
+.pure-g {
+    box-sizing: border-box;
+}
+
 #chat {
     background: #4fb3db;
-    border-radius: 5px;
-    clear: both;
-    float: left;
-    margin: 15px 15px 0;
-    min-height: 120px;
-    padding: 4px 6px 3px;
-    position: relative;
-    width: 100%;
 }
 
 .chat-messages {
     background: white;
-    height: 200px;
-    overflow-y: scroll;
+    height: 89%;
+    overflow-y: auto;
+}
+
+.chat-message {
+    padding: 2px 4px;
+}
+
+.chat-message > span {
+    clear: both;
+    float: left;
+}
+
+.chat-message-author {
+    color: grey;
+    font-size: 12px;
+}
+
+.chat-message-content {
+    margin-left: 10px;
 }
 
 .chat-users {
     background-color: #e2edff;
+    height: 89%;
+    overflow-y: auto;
 }
 
 .module {
     background: #dbdbdb;
     border-radius: 5px;
     float: left;
+    height: 300px;
     margin: 15px 0 15px 15px;
     padding: 4px 6px 3px;
     position: relative;
-    width: 350px;
 }
 
 .module-title {

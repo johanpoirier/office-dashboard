@@ -1,24 +1,32 @@
-define([ "jquery", "socket-io", "handlebars", "hbs!modules/chat/template"],
-    function($, socketio, Handlebars, template) {
+/**
+ * Chat frontend controller
+ */
+define([ "jquery", "socket-io", "handlebars", "hbs!modules/chat/template", "hbs!modules/chat/message-template"],
+    function($, socketio, Handlebars, template, messageTemplate) {
 
         var _config, _socket, _el;
 
         var sendMessage = function() {
             var text = _el.find("textarea");
-            _socket.emit("chat:message", text.val());
-            text.val("");
+            if(text.val().length > 0) {
+                _socket.emit("chat:message", text.val());
+                text.val("");
+            }
             return false;
         };
 
-        var updateMesages = function(message) {
+        var updateMesages = function(messages) {
             var text = _el.find(".chat-messages");
-            text.append(message + "<br>");
+            if(!(messages instanceof Array)) {
+                messages = [ messages ];
+            }
+            messages.forEach(function(message) {
+                text.append(messageTemplate(message));
+            });
             text.scrollTop(text.prop("scrollHeight"));
-            console.debug("[chat] " + message);
         };
 
         var updateUsers = function(users) {
-            console.log("[chat] users : ", users);
             var usersEl = _el.find(".chat-users");
             usersEl.html("");
             users.forEach(function(user) {
@@ -53,6 +61,7 @@ define([ "jquery", "socket-io", "handlebars", "hbs!modules/chat/template"],
 
                 // render
                 _el.html(template());
+                _el.find("textarea").focus();
 
                 // input watch
                 _el.find("textarea").on("keypress", handleKeyPress);
