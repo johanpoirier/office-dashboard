@@ -1,17 +1,20 @@
 var http = require('http');
 var https = require('https');
 
-var config, socket;
+var config, iosockets;
 
 exports.withConfig = function(cfg) {
-    console.log("Github module loaded");
+    console.log("[github] module loaded");
     config = cfg;
     return this;
 }
 
 exports.start = function(socketio) {
-    socket = socketio;
-    socket.on("github:screen", getData.bind(this));
+    var githubModule = this;
+    iosockets = socketio;
+    iosockets.on('connection', function (socket) {
+        socket.on("github:screen", getData.bind(githubModule));
+    });
     setInterval(getData.bind(this), config['refresh']);
 }
 
@@ -56,6 +59,6 @@ exports.getLastCommits = function(callback) {
 
 var getData = function() {
     this.getLastCommits(function(commits) {
-        socket.emit("github:commits", commits);
+        iosockets.emit("github:commits", commits);
     });
 };

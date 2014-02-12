@@ -1,10 +1,10 @@
 var http = require('http');
 
-var config, socket;
+var config, iosockets;
 var options;
 
 exports.withConfig = function(cfg) {
-    console.log("Jenkins module loaded");
+    console.log("[jenkins] module loaded");
     config = cfg;
     options = {
         host: config['url'],
@@ -20,8 +20,11 @@ exports.withConfig = function(cfg) {
 }
 
 exports.start = function(socketio) {
-    socket = socketio;
-    socket.on("jenkins:screen", getData.bind(this));
+    var jenkinsModule = this;
+    iosockets = socketio;
+    iosockets.on('connection', function (socket) {
+        socket.on("jenkins:screen", getData.bind(jenkinsModule));
+    });
     setInterval(getData.bind(this), config['refresh']);
 }
 
@@ -48,7 +51,7 @@ exports.getJobsInError = function(callback) {
                     job.url = "http://" + config["url"] + "/job/" + job.name;
                 });
 
-                console.log("jobs jenkins in error : " + jobs.length);
+                console.log("[jenkins] number of jobs in error : " + jobs.length);
                 if(callback) {
                     callback(jobs);
                 }
@@ -62,13 +65,13 @@ exports.getJobsInError = function(callback) {
         reqGet.end();
     }
     else {
-        console.warn('jenkins module not configured');
+        console.warn('[jenkins] module not configured');
         callback([]);
     }
 };
 
 var getData = function() {
     this.getJobsInError(function(jobs) {
-        socket.emit("jenkins:jobs", jobs);
+        iosockets.emit("jenkins:jobs", jobs);
     });
 };

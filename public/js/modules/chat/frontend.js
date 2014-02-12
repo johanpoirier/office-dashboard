@@ -3,7 +3,7 @@ define([ "jquery", "socket-io", "handlebars", "hbs!modules/chat/template"],
 
         var _config, _socket, _el;
 
-        var sendMessage = function(e) {
+        var sendMessage = function() {
             var text = _el.find("textarea");
             _socket.emit("chat:message", text.val());
             text.val("");
@@ -13,6 +13,24 @@ define([ "jquery", "socket-io", "handlebars", "hbs!modules/chat/template"],
         var updateMesages = function(message) {
             var text = _el.find(".chat-messages");
             text.append(message + "<br>");
+            text.scrollTop(text.prop("scrollHeight"));
+            console.debug("[chat] " + message);
+        };
+
+        var updateUsers = function(users) {
+            console.log("[chat] users : ", users);
+            var usersEl = _el.find(".chat-users");
+            usersEl.html("");
+            users.forEach(function(user) {
+                usersEl.append(user + "<br>");
+            });
+        };
+
+        var handleKeyPress = function(event) {
+            if(event.keyCode == 13) {
+                sendMessage();
+                return false;
+            }
         };
 
         return {
@@ -23,14 +41,21 @@ define([ "jquery", "socket-io", "handlebars", "hbs!modules/chat/template"],
                 _el = $("div#chat");
 
                 // socket init & listen
-                _socket = socketio.connect("http://localhost:8080", { "forceNew" : true });
+                _socket = socketio.connect("http://10.40.244.6:8080", { "force new connection": true });
+
+                _socket.on('connect', function() {
+                    _socket.emit('chat:adduser', prompt("What's your name?"));
+                });
+
                 _socket.emit("chat:screen");
                 _socket.on("chat:dispatch", updateMesages);
+                _socket.on("chat:users", updateUsers);
 
                 // render
                 _el.html(template());
 
                 // input watch
+                _el.find("textarea").on("keypress", handleKeyPress);
                 _el.find("button.btn").on("click", sendMessage);
             }
         }

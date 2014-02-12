@@ -48,8 +48,8 @@ server.listen(app.get('port'), function () {
 });
 
 //Socket.io Server
+modules.forEach(function(module) { module.start(io.sockets); });
 io.sockets.on('connection', function (socket) {
-    modules.forEach(function(module) { module.start(socket); });
     socket.on('get-config', function () {
         console.log("Client requested config");
         socket.emit('config', config);

@@ -1,9 +1,12 @@
-<div class="chat-messages">
-{{#each messages}}
-    {{this}}
-{{/each}}
+<div class="chat-window pure-g">
+    <div class="chat-messages pure-u-4-5">
+    {{#each messages}}
+        {{this}}
+    {{/each}}
+    </div>
+    <div class="chat-users pure-u-1-5"></div>
 </div>
 <form>
-    <textarea name="text" rows="1" tabindex="1"></textarea>
+    <textarea name="text" rows="1" cols="60" tabindex="1"></textarea>
     <button type="submit" class="btn btn-success" tabindex="2"><i class="icon-ok icon-white"></i> Send</button>
 </form>

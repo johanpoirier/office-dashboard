@@ -8,7 +8,7 @@ define([ "jquery", "socket-io", "handlebars", "hbs!modules/github/template"],
                 console.info("[github] module started");
                 _rootEl = rootEl;
                 _config = config;
-                _socket = socketio.connect("http://localhost:8080");
+                _socket = socketio.connect("http://10.40.244.6:8080");
                 _socket.emit("github:screen");
                 _socket.on("github:commits", this.displayCommits.bind(this));
             },
