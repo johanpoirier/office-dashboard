@@ -15,7 +15,7 @@ define([ "jquery", "socket-io", "handlebars", "hbs!modules/trello/template"],
 
             displayActivities: function(activities) {
                 if(_el === undefined) {
-                    _rootEl.append($("<div/>", { "id": _config["id"], "class": "pure-u-1-5 module" }));
+                    _rootEl.append($("<div/>", { "id": _config["id"], "class": "module" }));
                     _el = _rootEl.find("div#" + _config["id"]);
                 }
                 console.info("[trello] " + activities.length + " activities to display - " + new Date());

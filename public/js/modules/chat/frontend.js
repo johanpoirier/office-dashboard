@@ -4,7 +4,7 @@
 define([ "jquery", "socket-io", "handlebars", "hbs!modules/chat/template", "hbs!modules/chat/message-template"],
     function($, socketio, Handlebars, template, messageTemplate) {
 
-        var _config, _socket, _el;
+        var _config, _socket, _rootEl, _el;
 
         var sendMessage = function() {
             var text = _el.find("textarea");
@@ -42,11 +42,16 @@ define([ "jquery", "socket-io", "handlebars", "hbs!modules/chat/template", "hbs!
         };
 
         return {
-            start: function(config) {
+            start: function(config, rootEl) {
                 console.info("[chat] module started");
 
                 _config = config;
-                _el = $("div#chat");
+                _rootEl = rootEl;
+
+                if(_el === undefined) {
+                    _rootEl.append($("<div/>", { "id": _config["id"], "class": "module" }));
+                    _el = _rootEl.find("div#" + _config["id"]);
+                }
 
                 // socket init & listen
                 _socket = socketio.connect("http://10.40.244.6:8080", { "force new connection": true });

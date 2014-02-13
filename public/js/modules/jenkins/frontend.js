@@ -15,7 +15,7 @@ define([ "jquery", "socket-io", "handlebars", "hbs!modules/jenkins/template"],
 
             displayJobs: function(jobs) {
                 if(_el === undefined) {
-                    _rootEl.append($("<div/>", { "id": _config["id"], "class": "pure-u-1-5 module" }));
+                    _rootEl.append($("<div/>", { "id": _config["id"], "class": "module" }));
                     _el = _rootEl.find("div#" + _config["id"]);
                 }
                 console.info("[jenkins] " + jobs.length + " jobs in error - " + new Date());

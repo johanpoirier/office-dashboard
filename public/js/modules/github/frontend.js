@@ -15,7 +15,7 @@ define([ "jquery", "socket-io", "handlebars", "hbs!modules/github/template"],
 
             displayCommits: function(commits) {
                 if(_el === undefined) {
-                    _rootEl.append($("<div/>", { "id": _config["id"], "class": "pure-u-1-5 module" }));
+                    _rootEl.append($("<div/>", { "id": _config["id"], "class": "module" }));
                     _el = _rootEl.find("div#" + _config["id"]);
                 }
                 console.info("[github] " + commits.length + " commits to display - " + new Date());
