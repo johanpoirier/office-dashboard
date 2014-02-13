@@ -8,7 +8,7 @@ define([ "jquery", "socket-io", "handlebars", "hbs!modules/jenkins/template"],
                 console.info("[jenkins] module started");
                 _rootEl = rootEl;
                 _config = config;
-                _socket = socketio.connect("http://10.40.244.6:8080", { "force new connection": true });
+                _socket = socketio.connect(window.office.node_server_url, { "force new connection": true });
                 _socket.emit("jenkins:screen");
                 _socket.on("jenkins:jobs", this.displayJobs.bind(this));
             },

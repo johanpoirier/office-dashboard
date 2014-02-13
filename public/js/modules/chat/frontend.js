@@ -54,7 +54,7 @@ define([ "jquery", "socket-io", "handlebars", "hbs!modules/chat/template", "hbs!
                 }
 
                 // socket init & listen
-                _socket = socketio.connect("http://10.40.244.6:8080", { "force new connection": true });
+                _socket = socketio.connect(window.office.node_server_url, { "force new connection": true });
 
                 _socket.on('connect', function() {
                     _socket.emit('chat:adduser', prompt("What's your name?"));
