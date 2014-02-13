@@ -1,7 +1,7 @@
 var mysql = require('mysql');
 
-var config,iosockets;
-var options;
+var config, iosockets;
+var connection;
 
 exports.withConfig = function(cfg) {
     console.log("[mysql-errors] module loaded");
