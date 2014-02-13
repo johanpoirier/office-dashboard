@@ -1,8 +1,12 @@
 {
+    "NODE_ENV": "development",
+    "TEST_PORT": 8080,
+    "server": "http://localhost:8080",
     "modules": [
         {
             "id": "github",
             "host": "api.github.com",
+            "repo": "office-dashboard",
             "path": "/repos/johanpoirier/office-dashboard/commits",
             "token": "6661e628354e10a070761f7c8c93f8f370d229b3",
             "nb_commits_display": 5,

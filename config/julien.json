@@ -1,0 +1,10 @@
+{
+    "NODE_ENV": "development",
+    "TEST_PORT": 8085,
+    "server": "http://localhost:8085",
+    "modules": [
+        {
+            "id": "chat"
+        }
+    ]
+}
