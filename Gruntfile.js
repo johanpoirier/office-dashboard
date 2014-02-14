@@ -47,6 +47,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-string-replace');
 
     grunt.registerTask('default', ['env:dev', 'string-replace', 'nodemon']);
+    grunt.registerTask('julien', ['env:julien', 'string-replace', 'nodemon']);
     grunt.registerTask('prod', ['env:prod', 'string-replace', 'nodemon']);
 }
 ;
