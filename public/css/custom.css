@@ -54,9 +54,11 @@ a {
 }
 
 .module-item-detail {
+	overflow: hidden;
     padding: 6px 8px 6px;
     position: relative;
-    word-wrap: break-word;
+	text-overflow: ellipsis;
+    white-space: nowrap;
     z-index: 10;
 }
 
