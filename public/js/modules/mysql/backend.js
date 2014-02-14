@@ -4,7 +4,7 @@ var config, iosockets;
 var connection;
 
 exports.withConfig = function(cfg) {
-    console.log("[mysql-errors] module loaded");
+    console.log("[mysql] module loaded");
     config = cfg;
     connection = mysql.createConnection({
       host     : config['host'],
@@ -21,42 +21,42 @@ exports.start = function(socketio) {
         if (err) {
            throw err; 
        } else {
-            console.log("[mysql-errors] connection to mysql db established : " + config['host']);
+            console.log("[mysql] connection to mysql db established : " + config['host']);
        }
     });
     
-    var mysqlErrorsModule = this;
+    var mysqlModule = this;
     iosockets = socketio;
     iosockets.on('connection', function (socket) {
-        socket.on("mysqlErrors:screen", getData.bind(mysqlErrorsModule));
+        socket.on("mysql:screen", getData.bind(mysqlModule));
     });
     setInterval(getData.bind(this), config['refresh']);
 }
 
-exports.getLatestBusinessErrors = function(callback) {
+exports.getLatestBusinessMessages = function(callback) {
     if(config['database'] != '' && config['table'] != '') {
-        var businessErrors = [];
+        var businessMessages = [];
 
         connection.query('SELECT * FROM ' + config['table'] + " order by " + config['date_field'] + " desc limit " +  config['fetched_rows'] , function(err, results) {
             if(typeof err !== "undefined") {
-                businessErrors = results;
-                console.info("[mysql-errors] " + businessErrors.length + " business errors - " + new Date());
+                businessMessages = results;
+                console.info("[mysql] " + businessMessages.length + " business messages - " + new Date());
             } else {
-                console.error("[mysql-errors] error while fetching rows");
+                console.error("[mysql] error while fetching rows");
             }
             if(callback) {
-                callback(businessErrors);
+                callback(businessMessages);
             }
         });
     }
     else {
-        console.warn('[mysql-errors] module not configured');
+        console.warn('[mysql] module not configured');
         callback([]);
     }
 };
 
 var getData = function() {
-    this.getLatestBusinessErrors(function(businessErrors) {
-        iosockets.emit("mysqlErrors:businessErrors", businessErrors);
+    this.getLatestBusinessMessages(function(businessMessages) {
+        iosockets.emit("mysql:businessMessage", businessMessages);
     });
 };

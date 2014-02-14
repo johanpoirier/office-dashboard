@@ -13,7 +13,6 @@ var express = require('express')
  */
 var config = require(__dirname + '/config/' + app.get('env') + '.json');
 
-
 /**
  * Loading modules
  */

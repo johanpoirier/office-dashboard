@@ -1,10 +1,45 @@
 {
-    "NODE_ENV": "development",
+    "NODE_ENV": "julien",
     "TEST_PORT": 8085,
     "server": "http://10.40.244.51",
     "modules": [
         {
             "id": "chat"
+        },
+        {
+            "id": "mysql",
+            "host": "localhost",
+            "user": "root",
+            "password": "root",
+            "database": "mf3_ecommerce",
+            "table": "mf_log_error",
+            "refresh": 30000000,
+            "fetched_rows": 5, 
+            "fields": [
+                {
+            		"field_displayed_name" : "criticité",
+            		"field_table_name" : "SEVERITY"
+            	},
+            	{
+            		"field_displayed_name" : "date",
+            		"field_table_name" : "DATE_CREATED"
+            	},
+            	{
+            		"field_displayed_name" : "description",
+            		"field_table_name" : "LONG_DESCRIPTION"
+            	},
+            	{
+            		"field_displayed_name" : "serveur",
+            		"field_table_name" : "SERVER_NAME"
+            	}
+            ],
+            "id_field": "LOG_ERROR_ID",
+            "customer_id_field": "CUSTOMER_ID",
+            "date_field": "DATE_CREATED",
+            "description_field": "LONG_DESCRIPTION",
+            "sever_field": "SERVER_NAME",
+            "criticity_field": "SEVERITY",
+            "action_field" : "LOG_ACTION_ID"
         }
     ]
 }
