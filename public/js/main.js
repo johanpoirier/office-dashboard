@@ -12,7 +12,9 @@ require.config({
         'socket-io': 'libs/socket.io.min',
         'handlebars': 'libs/handlebars-v1.3.0',
         'hbs': 'libs/require-handlebars',
-        'text': 'libs/text'
+        'text': 'libs/text',
+        'helpers' : 'helpers',
+        'hbsCustomHelpers': 'handlebars-custom-helpers'
     }
 });
 

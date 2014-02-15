@@ -37,7 +37,7 @@ exports.getLatestBusinessMessages = function(callback) {
     if(config['database'] != '' && config['table'] != '') {
         var businessMessages = [];
 
-        connection.query('SELECT * FROM ' + config['table'] + " order by " + config['date_field'] + " desc limit " +  config['fetched_rows'] , function(err, results) {
+        connection.query('SELECT * FROM ' + config['table'] + " order by " + config['date_field'] + " desc limit " +  config['fetched_items'] , function(err, results) {
             if(typeof err !== "undefined") {
                 businessMessages = results;
                 console.info("[mysql] " + businessMessages.length + " business messages - " + new Date());

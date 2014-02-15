@@ -1,8 +1,17 @@
-<h2 class="module-title">Mysql messages</h2>
+<h2 class="module-title">{{title}}</h2>
 <div class="messages">
+
+<ul class="fields line">
+	{{#each fields}}
+	    	<li class="field-name line-element" title="{{this}}">{{truncate this 30 }}</li>
+	{{/each}}
+</ul>
+
 {{#each messages}}
-    <ul class="module-item">
-        <li class="module-item-detail">{{this.serveur}}</li>
+    <ul class="values line">
+    	{{#each this}}
+    		<li class="value line-element" title="{{this}}">{{truncate this 50 }}</li>
+		{{/each}}
     </ul>
 {{/each}}
 </div>

@@ -1,5 +1,5 @@
 define(function() {
     window.office = {
-        "node_server_url": "http://10.40.244.51"
+        "node_server_url": "http://192.168.0.16"
     }
 });

@@ -1,8 +1,14 @@
 {
     "NODE_ENV": "julien",
     "TEST_PORT": 8085,
-    "server": "http://10.40.244.51",
+    "server": "http://192.168.0.16",
     "modules": [
+        {
+            "id": "twitter",
+            "feed": "lyonjs",
+            "fetched_items": "5",
+            "refresh": 30000000 
+        },
         {
             "id": "chat"
         },
@@ -14,7 +20,8 @@
             "database": "mf3_ecommerce",
             "table": "mf_log_error",
             "refresh": 30000000,
-            "fetched_rows": 5, 
+            "fetched_items": 5,
+            "title" : "Spoolmess Cucchietti", 
             "fields": [
                 {
             		"field_displayed_name" : "criticité",
@@ -25,7 +32,7 @@
             		"field_table_name" : "DATE_CREATED"
             	},
             	{
-            		"field_displayed_name" : "description",
+            		"field_displayed_name" : "description très longue d'un champ",
             		"field_table_name" : "LONG_DESCRIPTION"
             	},
             	{

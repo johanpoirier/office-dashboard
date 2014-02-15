@@ -1,0 +1,26 @@
+/* Mysql module CSS */
+#mysql {
+    background: none repeat scroll 0 0 #4FB3DB;
+    flex: 2 1 500px;
+    max-width: 700px;
+}
+
+#mysql .line {
+	display: flex;
+	margin: 0;
+	padding: 0;
+	flex-wrap: nowrap;
+	justify-content: space-between;
+	align-items: center;
+	list-style: none outside none;
+}
+
+#mysql .field-name {
+    background: none repeat scroll 0 0 #EEEEEE;
+    outline: 1px solid #333333;
+}
+
+#mysql .line-element {
+/*flex: 1;*/
+}
+

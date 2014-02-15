@@ -1,11 +1,12 @@
-define([ "jquery", "socket-io", "handlebars", "hbs!modules/mysql/template"],
-    function($, socketio, Handlebars, template) {
+define([ "jquery", "socket-io", "handlebars", "hbs!modules/mysql/template", "helpers","hbsCustomHelpers"],
+    function($, socketio, Handlebars, template, helpers, hbsCustomHelpers) {
 
         var _rootEl, _config, _socket, _el;
 
         return {
             start: function(config, rootEl) {
                 console.info("[mysql] module started");
+                helpers.loadModuleCss("mysql");
                 _rootEl = rootEl;
                 _config = config;
                 _socket = socketio.connect(window.office.node_server_url, { "force new connection": true });
@@ -19,6 +20,12 @@ define([ "jquery", "socket-io", "handlebars", "hbs!modules/mysql/template"],
                     _el = _rootEl.find("div#" + _config["id"]);
                 }
 
+                // Gather fields names
+                var fields = [];
+                _config['fields'].forEach(function(field) {
+                    fields.push(field.field_displayed_name);
+                });
+                
                 // Format messages
                 var formattedMessages = [];
                 messages.forEach(function(message) {
@@ -29,7 +36,7 @@ define([ "jquery", "socket-io", "handlebars", "hbs!modules/mysql/template"],
                     formattedMessages.push(formattedMessage);
                 });
 
-                _el.html(template({ "messages": formattedMessages }));
+                _el.html(template({ "title" : _config["title"], "messages": formattedMessages, "fields" : fields }));
             }
         }
     }
