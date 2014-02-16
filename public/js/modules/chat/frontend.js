@@ -1,54 +1,56 @@
 /**
  * Chat frontend controller
  */
-define([ "jquery", "socket-io", "handlebars", "hbs!modules/chat/template", "hbs!modules/chat/message-template"],
-    function($, socketio, Handlebars, template, messageTemplate) {
+define([ "jquery", "socket-io", "handlebars", "hbs!modules/chat/template", "hbs!modules/chat/message-template", "helpers"],
+    function ($, socketio, Handlebars, template, messageTemplate, helpers) {
 
         var _config, _socket, _rootEl, _el;
 
-        var sendMessage = function() {
+        var sendMessage = function () {
             var text = _el.find("textarea");
-            if(text.val().length > 0) {
+            if (text.val().length > 0) {
                 _socket.emit("chat:message", text.val());
                 text.val("");
             }
             return false;
         };
 
-        var updateMesages = function(messages) {
+        var updateMesages = function (messages) {
             var text = _el.find(".chat-messages");
-            if(!(messages instanceof Array)) {
+            if (!(messages instanceof Array)) {
                 messages = [ messages ];
             }
-            messages.forEach(function(message) {
+            messages.forEach(function (message) {
                 text.append(messageTemplate(message));
             });
             text.scrollTop(text.prop("scrollHeight"));
         };
 
-        var updateUsers = function(users) {
+        var updateUsers = function (users) {
             var usersEl = _el.find(".chat-users");
             usersEl.html("");
-            users.forEach(function(user) {
+            users.forEach(function (user) {
                 usersEl.append(user + "<br>");
             });
         };
 
-        var handleKeyPress = function(event) {
-            if(event.keyCode == 13) {
+        var handleKeyPress = function (event) {
+            if (event.keyCode == 13) {
                 sendMessage();
                 return false;
             }
         };
 
         return {
-            start: function(config, rootEl) {
+            start: function (config, rootEl) {
                 console.info("[chat] module started");
 
                 _config = config;
                 _rootEl = rootEl;
 
-                if(_el === undefined) {
+                helpers.loadModuleCss(_config["id"]);
+
+                if (_el === undefined) {
                     _rootEl.append($("<div/>", { "id": _config["id"], "class": "module" }));
                     _el = _rootEl.find("div#" + _config["id"]);
                 }
@@ -56,7 +58,7 @@ define([ "jquery", "socket-io", "handlebars", "hbs!modules/chat/template", "hbs!
                 // socket init & listen
                 _socket = socketio.connect(window.office.node_server_url, { "force new connection": true });
 
-                _socket.on('connect', function() {
+                _socket.on('connect', function () {
                     _socket.emit('chat:adduser', prompt("What's your name?"));
                 });
 

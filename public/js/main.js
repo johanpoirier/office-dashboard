@@ -13,8 +13,8 @@ require.config({
         'handlebars': 'libs/handlebars-v1.3.0',
         'hbs': 'libs/require-handlebars',
         'text': 'libs/text',
-        'helpers' : 'helpers',
-        'hbsCustomHelpers': 'handlebars-custom-helpers'
+        'helpers' : 'libs/helpers',
+        'hbsCustomHelpers': 'libs/handlebars-custom-helpers'
     }
 });
 
