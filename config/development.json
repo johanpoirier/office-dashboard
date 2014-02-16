@@ -4,6 +4,9 @@
     "server": "http://localhost:8080",
     "modules": [
         {
+            "id": "chat"
+        },
+        {
             "id": "github",
             "host": "api.github.com",
             "repo": "office-dashboard",
@@ -12,9 +15,6 @@
             "nb_commits_display": 5,
             "branch": "master",
             "refresh": 300000
-        },
-        {
-            "id": "chat"
         }
     ]
 }

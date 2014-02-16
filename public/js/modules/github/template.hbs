@@ -2,7 +2,7 @@
 <div class="commits">
 {{#each commits}}
     <div class="module-item">
-        <div class="module-item-detail">{{this.committer.login}} : {{this.commit.message}}</div>
+        <div class="module-item-detail">{{this.commit.committer.name}} : {{this.commit.message}}</div>
     </div>
 {{/each}}
 </div>
