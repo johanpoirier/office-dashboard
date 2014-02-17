@@ -2,7 +2,10 @@
 <div class="tweets">
 {{#each tweets}}
     <div class="module-item">
-        <div class="module-item-detail">{{this.text}}</div>
+    	<div class="module-item-image-wrapper">
+    		<img class="module-item-image" src="{{this.user.profile_image_url_https}}">
+    	</div>
+        <div class="module-item-detail"><strong>{{this.user.name}}: </strong>{{this.text}}</div>
     </div>
 {{/each}}
 </div>

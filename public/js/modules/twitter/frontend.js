@@ -36,12 +36,14 @@ define([ "jquery", "socket-io", "handlebars", "hbs!modules/twitter/template","he
 
             /* Display new streamed tweet */
             displayStreamedTweet: function(tweet) {
+console.log(tweet);
+
                 // Refresh tweets list
                 displayedTweets.pop();
                 displayedTweets.unshift(tweet);
 
                 // Refresh view
-                _el.html(template({ "tweets": displayedTweets }));
+                _el.html(template({ "tweets": displayedTweets, "topics": _config["topics"] }));
             }
         }
 

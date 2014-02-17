@@ -26,7 +26,6 @@ exports.start = function(socketio) {
     /* On run - Stream new tweets */
     twitterApi.stream('statuses/filter', { track : config["topics"]}, function(stream) {
         stream.on('data', function(tweet) {
-            console.log(tweet.text);
             iosockets.emit("twitter:stream", tweet);
         });
     });
