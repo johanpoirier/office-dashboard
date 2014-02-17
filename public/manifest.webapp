@@ -1,0 +1,13 @@
+{
+  "name": "Office Dashboard",
+  "description": "Office Dashboard",
+  "launch_path": "/index.html",
+  "developer": {
+    "name": "Johan Poirier",
+    "url": "http://johanpoirier.jops-dev.com"
+  },
+  "default_locale": "fr",
+  "permissions": {
+    "desktop-notification":{}
+  }
+}
