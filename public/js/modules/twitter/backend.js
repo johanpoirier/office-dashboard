@@ -1,4 +1,4 @@
-var twitter = require('ntwitter');
+var twitter = require('twitter');
 
 var config, iosockets;
 var twitterApi;
@@ -24,8 +24,7 @@ exports.start = function(socketio) {
 }
 
 exports.getTweets = function(callback) {
-    twitterApi.search('#nodejs', {}, function(err, data) {
-        console.log("[twitter] errors : " + err);
+    twitterApi.search('#nodejs', function(data) {
         console.log("[twitter] tweets : " + data);
         callback(data);
     });
