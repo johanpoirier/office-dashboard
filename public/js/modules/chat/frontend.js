@@ -45,7 +45,7 @@ define([ "jquery", "socket-io", "handlebars", "hbs!modules/chat/template", "hbs!
         };
 
         var notify = function(message) {
-            if(message) {
+            if(message && (document.webkitHidden || document.hidden)) {
                 var notification;
                 var text = message.author + " : " + message.content;
 
