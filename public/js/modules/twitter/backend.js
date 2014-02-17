@@ -18,14 +18,23 @@ exports.withConfig = function(cfg) {
 exports.start = function(socketio) {
     var twitterModule = this;
     iosockets = socketio;
+    /* On start - fetch N first tweets */
     iosockets.on('connection', function (socket) {
         socket.on("twitter:screen", getData.bind(twitterModule));
+    });
+
+    /* On run - Stream new tweets */
+    twitterApi.stream('statuses/filter', { track : config["topics"]}, function(stream) {
+        stream.on('data', function(tweet) {
+            console.log(tweet.text);
+            iosockets.emit("twitter:stream", tweet);
+        });
     });
 }
 
 exports.getTweets = function(callback) {
-    twitterApi.search(config["topic"], function(data) {
-        callback(data.statuses.slice(0, 6));
+    twitterApi.search(config["topics"][0], function(data) {
+        callback(data.statuses.slice(0, config["fetched_items"]));
     });
 };
 

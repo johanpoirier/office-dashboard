@@ -1,5 +1,4 @@
 body {
-	background-image: url(../images/cream_pixels.png);
     font: 18px "Helvetica Neue",Arial,Helvetica,sans-serif;
 }
 
@@ -29,6 +28,11 @@ a {
     max-width: 400px;
     padding: 4px 6px 3px;
     position: relative;
+    -moz-box-shadow: 5px 5px 5px 0px #656565;
+    -webkit-box-shadow: 5px 5px 5px 0px #656565;
+    -o-box-shadow: 5px 5px 5px 0px #656565;
+    box-shadow: 5px 5px 5px 0px #656565;
+    filter:progid:DXImageTransform.Microsoft.Shadow(color=#656565, Direction=134, Strength=5);
 }
 
 .module-title {

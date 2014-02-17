@@ -1,17 +1,8 @@
 {
     "NODE_ENV": "julien",
     "TEST_PORT": 8085,
-    "server": "http://192.168.0.16",
+    "server": "http://127.0.0.1",
     "modules": [
-        {
-            "id": "twitter",
-            "feed": "lyonjs",
-            "fetched_items": "5",
-            "refresh": 30000000 
-        },
-        {
-            "id": "chat"
-        },
         {
             "id": "mysql",
             "host": "localhost",
@@ -19,34 +10,39 @@
             "password": "root",
             "database": "mf3_ecommerce",
             "table": "mf_log_error",
-            "refresh": 30000000,
+            "refresh": 20000,
             "fetched_items": 5,
-            "title" : "Spoolmess Cucchietti", 
+            "title": "Spoolmess Cucchietti",
             "fields": [
                 {
-            		"field_displayed_name" : "criticité",
-            		"field_table_name" : "SEVERITY"
-            	},
-            	{
-            		"field_displayed_name" : "date",
-            		"field_table_name" : "DATE_CREATED"
-            	},
-            	{
-            		"field_displayed_name" : "description très longue d'un champ",
-            		"field_table_name" : "LONG_DESCRIPTION"
-            	},
-            	{
-            		"field_displayed_name" : "serveur",
-            		"field_table_name" : "SERVER_NAME"
-            	}
+                    "field_displayed_name": "criticité",
+                    "field_table_name": "SEVERITY"
+                },
+                {
+                    "field_displayed_name": "date",
+                    "field_table_name": "DATE_CREATED"
+                },
+                {
+                    "field_displayed_name": "description très longue d'un champ",
+                    "field_table_name": "LONG_DESCRIPTION"
+                },
+                {
+                    "field_displayed_name": "serveur",
+                    "field_table_name": "SERVER_NAME"
+                }
             ],
-            "id_field": "LOG_ERROR_ID",
-            "customer_id_field": "CUSTOMER_ID",
-            "date_field": "DATE_CREATED",
-            "description_field": "LONG_DESCRIPTION",
-            "sever_field": "SERVER_NAME",
-            "criticity_field": "SEVERITY",
-            "action_field" : "LOG_ACTION_ID"
+            "date_field": "DATE_CREATED"
+        },
+        {
+            "id": "twitter",
+            "fetched_items": 6,
+            "topics": [
+                "meteo"
+            ],
+            "consumer_key": "gf54WunibhBcWHPcjslXBw",
+            "consumer_secret": "vecV3r4EjlGybJHmAUJ1oOA5kJwREruGg73jO8VZs",
+            "access_token_key": "24525165-9wbIlSgLwl5FshcCI8H5avt8yGvZN4bwXw7X2Noyg",
+            "access_token_secret": "mHbUeQjA7CW2CqI7MjElVOB7SIMTTN6bH4qwMuyyyFotr"
         }
     ]
 }
