@@ -14,12 +14,17 @@ define([ "jquery", "socket-io", "handlebars", "hbs!modules/twitter/template"],
             },
 
             displayTweets: function(tweets) {
-                if(_el === undefined) {
-                    _rootEl.append($("<div/>", { "id": _config["id"], "class": "module" }));
-                    _el = _rootEl.find("div#" + _config["id"]);
+                if(tweets) {
+                    if(_el === undefined) {
+                        _rootEl.append($("<div/>", { "id": _config["id"], "class": "module" }));
+                        _el = _rootEl.find("div#" + _config["id"]);
+                    }
+                    console.info("[twitter] " + tweets.length + " tweets fetched - " + new Date());
+                    _el.html(template({ "tweets": tweets }));
                 }
-                console.info("[twitter] " + tweets.length + " tweets fetched - " + new Date());
-                _el.html(template({ "tweets": tweets }));
+                else {
+                    console.warn("no tweets to display");
+                }
             }
         }
     }
