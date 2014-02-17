@@ -4,10 +4,16 @@
     "server": "http://localhost:8080",
     "modules": [
         {
-            "id": "chat"
+            "id": "mfv3-chat",
+            "type": "chat"
         },
         {
-            "id": "github",
+            "id": "office-chat",
+            "type": "chat"
+        },
+        {
+            "id": "od-github",
+            "type": "github",
             "host": "api.github.com",
             "repo": "office-dashboard",
             "path": "/repos/johanpoirier/office-dashboard/commits",

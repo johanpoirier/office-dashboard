@@ -18,7 +18,7 @@ var config = require(__dirname + '/config/' + app.get('env') + '.json');
  */
 var modules = [];
 config['modules'].forEach(function(moduleConfig) {
-    modules.push(require('./public/js/modules/' + moduleConfig['id'] + '/backend').withConfig(moduleConfig));
+    modules.push(require('./public/js/modules/' + moduleConfig['type'] + '/backend').withConfig(moduleConfig));
 });
 
 

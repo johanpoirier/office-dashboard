@@ -1,5 +1,5 @@
 /* Chat module CSS */
-#chat {
+.chat {
     background: #4fb3db;
     flex: 2 500px;
     max-width: 700px;
