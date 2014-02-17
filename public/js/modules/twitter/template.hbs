@@ -1,8 +1,8 @@
-<h2 class="module-title">Jenkins jobs in error</h2>
-<div class="jobs">
-{{#each jobs}}
+<h2 class="module-title">Tweets</h2>
+<div class="tweets">
+{{#each tweets}}
     <div class="module-item">
-        <div class="module-item-detail red"><a href="{{this.url}}" target="_blank">{{this.name}}</a></div>
+        <div class="module-item-detail">{{this.text}}</div>
     </div>
 {{/each}}
 </div>

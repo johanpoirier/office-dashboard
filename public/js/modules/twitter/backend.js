@@ -24,9 +24,8 @@ exports.start = function(socketio) {
 }
 
 exports.getTweets = function(callback) {
-    twitterApi.search('#nodejs', function(data) {
-        console.log("[twitter] tweets : " + data);
-        callback(data);
+    twitterApi.search(config["topic"], function(data) {
+        callback(data.statuses.slice(0, 6));
     });
 };
 
