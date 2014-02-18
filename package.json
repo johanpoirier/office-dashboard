@@ -10,7 +10,7 @@
         "jade": "*",
         "socket.io": "0.9.15",
 	    "mysql": "~2.0",
-        "ptwitter": "~0.0.2",
+        "ptwitter": "~0.0.3",
         "grunt": "~0.4.2",
         "grunt-env": "~0.4.1",
         "grunt-nodemon": "~0.1.2",

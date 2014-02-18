@@ -32,9 +32,9 @@ exports.start = function (socketio) {
     var twitterModule = this;
     iosockets = socketio;
     /* On start - fetch N first tweets */
-    /*iosockets.on('connection', function (socket) {
+    iosockets.on('connection', function (socket) {
         socket.on("twitter:screen", getData.bind(twitterModule));
-    });*/
+    });
 
     /* On run - Stream new tweets */
     twitterApi.stream('statuses/filter', { track: config["topics"]}, function (stream) {
@@ -45,7 +45,7 @@ exports.start = function (socketio) {
 }
 
 exports.getTweets = function (callback) {
-    twitterApi.search("#lyonjs", function (data) {
+    twitterApi.search(config["topics"][0], function (data) {
         if(data.statuses) {
             callback(data.statuses.slice(0, config["fetched_items"]));
         }

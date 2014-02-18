@@ -15,7 +15,7 @@ define([ "jquery", "socket-io", "handlebars", "hbs!modules/twitter/template","he
 
                 _socket = socketio.connect(window.office.node_server_url, { "force new connection": true });
                 _socket.emit("twitter:screen");
-                //_socket.on("twitter:tweets", this.displayTweets.bind(this));
+                _socket.on("twitter:tweets", this.displayTweets.bind(this));
                 _socket.on("twitter:stream", this.displayStreamedTweet.bind(this));
             },
 
