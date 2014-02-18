@@ -6,15 +6,16 @@ define([ "jquery", "socket-io", "handlebars", "hbs!modules/twitter/template","he
 
         return {
             start: function(config, rootEl) {
-                console.info("[twitter] module started");
                 _rootEl = rootEl;
                 _config = config;
 
-                helpers.loadModuleCss(_config["id"]);
+                console.info("[twitter] module started");
+
+                this.init();
 
                 _socket = socketio.connect(window.office.node_server_url, { "force new connection": true });
                 _socket.emit("twitter:screen");
-                _socket.on("twitter:tweets", this.displayTweets.bind(this));
+                //_socket.on("twitter:tweets", this.displayTweets.bind(this));
                 _socket.on("twitter:stream", this.displayStreamedTweet.bind(this));
             },
 
@@ -22,10 +23,6 @@ define([ "jquery", "socket-io", "handlebars", "hbs!modules/twitter/template","he
             displayTweets: function(tweets) {
                 if(tweets) {
                     displayedTweets = tweets;
-                    if(_el === undefined) {
-                        _rootEl.append($("<div/>", { "id": _config["id"], "class": "module" }));
-                        _el = _rootEl.find("div#" + _config["id"]);
-                    }
                     console.info("[twitter] " + displayedTweets.length + " tweets fetched - " + new Date());
                     _el.html(template({ "tweets": displayedTweets }));
                 }
@@ -36,14 +33,20 @@ define([ "jquery", "socket-io", "handlebars", "hbs!modules/twitter/template","he
 
             /* Display new streamed tweet */
             displayStreamedTweet: function(tweet) {
-console.log(tweet);
-
                 // Refresh tweets list
                 displayedTweets.pop();
                 displayedTweets.unshift(tweet);
 
                 // Refresh view
                 _el.html(template({ "tweets": displayedTweets, "topics": _config["topics"] }));
+            },
+
+            init: function() {
+                helpers.loadModuleCss(_config["id"]);
+                if(_el === undefined) {
+                    _rootEl.append($("<div/>", { "id": _config["id"], "class": "module" }));
+                    _el = _rootEl.find("div#" + _config["id"]);
+                }
             }
         }
 

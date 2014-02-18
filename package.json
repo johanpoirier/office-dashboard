@@ -1,6 +1,6 @@
 {
     "name": "Office-Dashboard",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "private": true,
     "scripts": {
         "start": "node app.js"
@@ -10,7 +10,7 @@
         "jade": "*",
         "socket.io": "0.9.15",
 	    "mysql": "~2.0",
-        "twitter": "~0.2.5",
+        "ptwitter": "~0.0.2",
         "grunt": "~0.4.2",
         "grunt-env": "~0.4.1",
         "grunt-nodemon": "~0.1.2",
