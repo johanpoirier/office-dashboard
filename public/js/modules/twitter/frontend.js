@@ -34,7 +34,9 @@ define([ "jquery", "socket-io", "handlebars", "hbs!modules/twitter/template","he
             /* Display new streamed tweet */
             displayStreamedTweet: function(tweet) {
                 // Refresh tweets list
-                displayedTweets.pop();
+                if(displayedTweets.length >= 6) {
+                    displayedTweets.pop();
+                }
                 displayedTweets.unshift(tweet);
 
                 // Refresh view
