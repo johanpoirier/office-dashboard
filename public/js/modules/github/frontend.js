@@ -1,29 +1,26 @@
-define([ "jquery", "socket-io", "handlebars", "hbs!modules/github/template"],
-    function ($, socketio, Handlebars, template) {
+define([ "office", "jquery", "socket-io", "handlebars", "hbs!modules/github/template"],
+    function (Office, $, socketio, Handlebars, template) {
 
-        var _rootEl, _config, _socket, _el;
+        var githubModule = Office.Module.extend({
 
-        return {
-            start: function (config, rootEl) {
-                console.info("[github] module started");
-                _rootEl = rootEl;
-                _config = config;
-                _socket = socketio.connect(window.office.node_server_url, { "force new connection": true });
-                _socket.emit("github:screen");
-                _socket.on("github:commits", this.displayCommits.bind(this));
+            listen: function () {
+                this.socket.emit(this.config["id"] + ":screen");
+                this.socket.on(this.config["id"] + ":commits", this.displayCommits.bind(this));
             },
 
             displayCommits: function (commits) {
-                if (_el === undefined) {
-                    _rootEl.append($("<div/>", { "id": _config["id"], "class": "module" }));
-                    _el = _rootEl.find("div#" + _config["id"]);
+                if (this.el === undefined) {
+                    this.rootEl.append($("<div/>", { "id": this.config["id"], "class": "module" }));
+                    this.el = this.rootEl.find("div#" + this.config["id"]);
                 }
-                console.info("[github] " + commits.length + " commits to display - " + new Date());
-                _el.html(template({
-                    "repo": _config["repo"],
+                console.info("[" + this.config["type"] + "] " + commits.length + " commits to display - " + new Date());
+                this.el.html(template({
+                    "repo": this.config["repo"],
                     "commits": commits
                 }));
             }
-        }
+        });
+
+        return githubModule;
     }
 );
