@@ -1,27 +1,28 @@
 /* Twitter module CSS */
 #twitter {
-	font: 15px;
-    background: none repeat scroll 0 0 #4FB3DB;
+	height: 100%;
+	font-size: 12px;
+    background: none repeat scroll 0 0 #00ACEE;
     flex: 2 1 500px;
-    max-width: 700px;
 }
 
-#twitter .line {
-	display: flex;
-	margin: 0;
-	padding: 0;
-	flex-wrap: nowrap;
-	justify-content: space-between;
-	align-items: center;
-	list-style: none outside none;
+#twitter .module-item {
+	min-height: 60px;
 }
 
-#twitter .field-name {
-    background: none repeat scroll 0 0 #EEEEEE;
-    outline: 1px solid #333333;
+#twitter .module-item-detail {
+	overflow: hidden;
+    padding: 6px 8px 6px;
+    position: relative;
+	text-overflow: none;
+    white-space: normal;
 }
 
-#twitter .line-element {
-/*flex: 1;*/
+#twitter .module-item-image-wrapper {
+	float: left;
+}
+
+#twitter .module-item-image {
+    padding: 5px;
 }
 
