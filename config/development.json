@@ -15,6 +15,12 @@
             "nb_commits_display": 5,
             "branch": "master",
             "refresh": 300000
+        },
+        {
+            "id": "iframe",
+            "pages": [],
+            "fullscreen": false,
+            "refresh": 20000
         }
     ]
 }
