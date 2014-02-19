@@ -22,17 +22,13 @@ a {
 .module {
     background: #dbdbdb;
     border-radius: 5px;
+    box-shadow: 5px 5px 5px 0px #656565;
     flex: 1 300px;
     height: 300px;
     margin: 12px;
     max-width: 400px;
     padding: 4px 6px 3px;
     position: relative;
-    -moz-box-shadow: 5px 5px 5px 0px #656565;
-    -webkit-box-shadow: 5px 5px 5px 0px #656565;
-    -o-box-shadow: 5px 5px 5px 0px #656565;
-    box-shadow: 5px 5px 5px 0px #656565;
-    filter:progid:DXImageTransform.Microsoft.Shadow(color=#656565, Direction=134, Strength=5);
 }
 
 .module-title {
@@ -69,4 +65,14 @@ a {
 .red {
     background-color: #ff3d46;
     color: white;
+}
+
+.fullscreen {
+    border-radius: 0;
+    box-shadow: 0 0 0 0;
+    height: 100%;
+    margin: 0;
+    max-width: none;
+    padding: 0;
+    width: 100%;
 }

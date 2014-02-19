@@ -1,5 +1,5 @@
-define([ "jquery", "socket-io", "handlebars", "hbs!modules/trello/template"],
-    function($, socketio, Handlebars, template) {
+define([ "jquery", "socket-io", "hbs!modules/trello/template"],
+    function($, socketio, template) {
 
         var _rootEl, _config, _socket, _el;
 

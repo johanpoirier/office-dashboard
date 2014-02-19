@@ -1,8 +1,8 @@
 /**
  * MySQL frontend controller
  */
-define([ "jquery", "socket-io", "handlebars", "hbs!modules/mysql/template", "helpers", "hbsCustomHelpers"],
-    function ($, socketio, Handlebars, template, helpers) {
+define([ "jquery", "socket-io", "hbs!modules/mysql/template", "helpers", "hbsCustomHelpers"],
+    function ($, socketio, template, helpers) {
 
         var _rootEl, _config, _socket, _el;
 

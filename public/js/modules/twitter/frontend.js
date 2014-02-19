@@ -1,5 +1,5 @@
-define([ "jquery", "socket-io", "handlebars", "hbs!modules/twitter/template","helpers"],
-    function($, socketio, Handlebars, template, helpers) {
+define([ "jquery", "socket-io", "hbs!modules/twitter/template","helpers"],
+    function($, socketio, template, helpers) {
 
         var _rootEl, _config, _socket, _el;
         var displayedTweets = [];
