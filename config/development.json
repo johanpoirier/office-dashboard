@@ -10,6 +10,12 @@
         {
             "id": "office-chat",
             "type": "chat"
+        },
+        {
+            "id": "iframe",
+            "pages": [],
+            "fullscreen": false,
+            "refresh": 20000
         }
     ]
 }

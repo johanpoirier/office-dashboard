@@ -1,5 +1,5 @@
-define([ "jquery", "socket-io", "handlebars", "hbs!modules/jenkins/template"],
-    function($, socketio, Handlebars, template) {
+define([ "jquery", "socket-io", "hbs!modules/jenkins/template"],
+    function($, socketio, template) {
 
         var _rootEl, _config, _socket, _el;
 

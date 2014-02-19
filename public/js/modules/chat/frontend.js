@@ -1,8 +1,8 @@
 /**
  * Chat frontend controller
  */
-define([ "jquery", "socket-io", "handlebars", "hbs!modules/chat/template", "hbs!modules/chat/message-template", "helpers"],
-    function ($, socketio, Handlebars, template, messageTemplate, helpers) {
+define([ "jquery", "socket-io", "hbs!modules/chat/template", "hbs!modules/chat/message-template", "helpers"],
+    function ($, socketio, template, messageTemplate, helpers) {
 
         var chat = {
             _config: {},

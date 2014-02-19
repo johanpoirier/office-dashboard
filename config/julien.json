@@ -31,7 +31,10 @@
                     "field_table_name": "SERVER_NAME"
                 }
             ],
-            "date_field": "DATE_CREATED"
+            "query" : {
+                "orderBy_fields" : ["DATE_CREATED"],
+                "orderBy_sort" : "DESC"
+            }
         },
         {
             "id": "twitter",
