@@ -39,14 +39,14 @@ var TwitterModule = OfficeModule.extend({
     },
 
     getTweets: function (callback) {
-        this.twitterApi.search(this.config["topics"][0], function (data) {
+        this.twitterApi.search(this.config["topics"][0], (function (data) {
             if(data.statuses) {
                 callback(data.statuses.slice(0, this.config["fetched_items"]));
             }
             else {
                 console.log("[" + this.config["id"] + "] " + data);
             }
-        });
+        }).bind(this));
     }
 });
 

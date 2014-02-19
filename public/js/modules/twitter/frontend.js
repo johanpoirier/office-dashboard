@@ -9,8 +9,9 @@ define([ "office", "hbs!modules/twitter/template" ],
             displayedTweets: [],
 
             listen: function () {
-                this.socket.on("twitter:tweets", this.displayTweets.bind(this));
-                this.socket.on("twitter:stream", this.displayStreamedTweet.bind(this));
+                this.socket.emit(this.config["id"] + ":screen");
+                this.socket.on(this.config["id"] + ":tweets", this.displayTweets.bind(this));
+                this.socket.on(this.config["id"] + ":stream", this.displayStreamedTweet.bind(this));
             },
 
             /* Display N first tweets */

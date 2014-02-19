@@ -27,7 +27,7 @@ var MySqlModule = OfficeModule.extend({
 
     getData: function () {
         this.getLatestBusinessMessages((function (businessMessages) {
-            this.iosockets.emit("mysql:businessMessage", businessMessages);
+            this.iosockets.emit(this.config['id'] + ":businessMessage", businessMessages);
         }).bind(this));
     },
 

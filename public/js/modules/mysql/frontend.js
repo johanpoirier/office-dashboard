@@ -7,8 +7,8 @@ define([ "office", "hbs!modules/mysql/template", "hbsCustomHelpers"],
         var mysqlModule = Office.Module.extend({
 
             listen: function() {
-                this.socket.emit("mysql:screen");
-                this.socket.on("mysql:businessMessage", this.displayMessages.bind(this));
+                this.socket.emit(this.config["id"] + ":screen");
+                this.socket.on(this.config["id"] + ":businessMessage", this.displayMessages.bind(this));
             },
 
             displayMessages: function (messages) {
