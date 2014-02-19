@@ -31,18 +31,10 @@
                     "field_table_name": "SERVER_NAME"
                 }
             ],
-            "date_field": "DATE_CREATED"
-        },
-        {
-            "id": "twitter",
-            "fetched_items": 6,
-            "topics": [
-                "hollande"
-            ],
-            "consumer_key": "gf54WunibhBcWHPcjslXBw",
-            "consumer_secret": "vecV3r4EjlGybJHmAUJ1oOA5kJwREruGg73jO8VZs",
-            "access_token_key": "24525165-9wbIlSgLwl5FshcCI8H5avt8yGvZN4bwXw7X2Noyg",
-            "access_token_secret": "mHbUeQjA7CW2CqI7MjElVOB7SIMTTN6bH4qwMuyyyFotr"
+            "query" : {
+                "orderBy_fields" : ["DATE_CREATED"],
+                "orderBy_sort" : "DESC"
+            }
         }
     ]
 }
