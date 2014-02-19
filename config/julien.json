@@ -35,6 +35,17 @@
                 "orderBy_fields" : ["DATE_CREATED"],
                 "orderBy_sort" : "DESC"
             }
+        },
+        {
+            "id": "twitter",
+            "fetched_items": 6,
+            "topics": [
+                "hollande"
+            ],
+            "consumer_key": "",
+            "consumer_secret": "",
+            "access_token_key": "",
+            "access_token_secret": ""
         }
     ]
 }
