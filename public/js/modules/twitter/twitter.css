@@ -1,16 +1,19 @@
+@import url('http://fonts.googleapis.com/css?family=Lato');
+
 /* Twitter module CSS */
-#twitter {
+.twitter {
 	height: 100%;
 	font-size: 12px;
+	font-family: Lato;
     background: none repeat scroll 0 0 #00ACEE;
     flex: 2 1 500px;
 }
 
-#twitter .module-item {
+.twitter .module-item {
 	min-height: 60px;
 }
 
-#twitter .module-item-detail {
+.twitter .module-item-detail {
 	overflow: hidden;
     padding: 6px 8px 6px;
     position: relative;
@@ -18,11 +21,11 @@
     white-space: normal;
 }
 
-#twitter .module-item-image-wrapper {
+.twitter .module-item-image-wrapper {
 	float: left;
 }
 
-#twitter .module-item-image {
+.twitter .module-item-image {
     padding: 5px;
 }
 

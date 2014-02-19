@@ -26,7 +26,7 @@ define([ "office", "hbs!modules/mysql/template", "hbsCustomHelpers"],
                         formattedMessage[field.field_displayed_name] = message[field.field_table_name];
                     });
                     formattedMessages.push(formattedMessage);
-                });
+                },this);
 
                 this.el.html(template({ "title": this.config["title"], "messages": formattedMessages, "fields": fields }));
             }

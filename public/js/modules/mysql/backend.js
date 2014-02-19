@@ -18,7 +18,7 @@ var MySqlModule = OfficeModule.extend({
             if (err) {
                 throw err;
             } else {
-                console.log("[mysql] connection to mysql db established : " + this.config['host']);
+                //console.log("[mysql] connection to mysql db established : " + this.config['host']);
             }
         });
 
@@ -41,7 +41,7 @@ var MySqlModule = OfficeModule.extend({
             });
 
             // Construct select query
-            var queryString = 'SELECT ' + fields.join(',') + ' FROM ' + _config['table'];
+            var queryString = 'SELECT ' + fields.join(',') + ' FROM ' + this.config['table'];
             if (this.config['query']) {
                 if (this.config['query']['orderBy_fields']) queryString += ' ORDER BY ' + this.config['query']['orderBy_fields'].join(',');
                 if (this.config['query']['orderBy_fields'] && this.config['query']['orderBy_sort']) queryString += ' ' + this.config['query']['orderBy_sort'];
