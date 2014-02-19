@@ -4,8 +4,10 @@ var config, iosockets;
 var options;
 
 exports.withConfig = function(cfg) {
-    console.log("[jenkins] module loaded");
     config = cfg;
+
+    console.log("[jenkins] module loaded");
+
     options = {
         host: config['url'],
         port: 80,
@@ -16,6 +18,14 @@ exports.withConfig = function(cfg) {
             'Authorization': 'Basic ' + new Buffer(config['username'] + ':' + config['apiToken']).toString('base64')
         }
     }
+
+    // proxy conf
+    if(config['proxy_host'] && config['proxy_port']) {
+        options.hostname = config['proxy_host'];
+        options.port = config['proxy_port'];
+        options.path = 'http://' + config['url'] + options.path;
+    }
+
     return this;
 }
 
