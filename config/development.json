@@ -1,17 +1,13 @@
 {
     "NODE_ENV": "development",
-    "TEST_PORT": 8080,
-    "server": "http://localhost:8080",
+    "TEST_PORT": 8085,
+    "server": "http://localhost:8085",
     "modules": [
-        {
-            "id": "mfv3-chat",
-            "type": "chat"
-        },
         {
             "id": "iframe",
             "type": "iframe",
-            "pages": [],
-            "fullscreen": false,
+            "pages": ["http://preprod.meteo-integration.aw.atos.net/view/Dashboard/"],
+            "fullscreen": true,
             "refresh": 20000
         }
     ]

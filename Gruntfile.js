@@ -14,11 +14,27 @@ module.exports = function (grunt) {
                     src: "config/production.json"
                 }
             },
+            concurrent : {
+                dev : {
+                    tasks: ["nodemon","node-inspector"],
+                    options: { logConcurrentOutput: true }
+                }
+            },
+            "node-inspector": {
+              custom: {
+                options: {
+                  'web-port': 8088,
+                  'web-host': 'localhost',
+                  'debug-port': 5857,
+                  'save-live-edit': true
+                }
+              }
+            },
             nodemon: {
                 dev: {
                     options: {
                         file: "src/app.js",
-                        nodeArgs: ['--debug']
+                        nodeArgs: ['--debug=5857']
                     }
                 }
             },
@@ -43,11 +59,14 @@ module.exports = function (grunt) {
     );
 
     grunt.loadNpmTasks('grunt-env');
+    grunt.loadNpmTasks('grunt-concurrent');
+    grunt.loadNpmTasks('grunt-node-inspector');
     grunt.loadNpmTasks('grunt-nodemon');
     grunt.loadNpmTasks('grunt-string-replace');
-
     grunt.registerTask('default', ['env:dev', 'string-replace', 'nodemon']);
+    grunt.registerTask('debug', ['env:dev', 'string-replace', 'concurrent']);
     grunt.registerTask('julien', ['env:julien', 'string-replace', 'nodemon']);
+    grunt.registerTask('julien-debug', ['env:julien', 'string-replace', 'concurrent']);
     grunt.registerTask('prod', ['env:prod', 'string-replace', 'nodemon']);
 }
 ;
