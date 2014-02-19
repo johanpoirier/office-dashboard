@@ -1,55 +1,52 @@
-var config, iosockets;
-var messages = [], usernames = [];
-var id;
+var OfficeModule = require(__dirname + "/../../../../src/office-module");
 
-exports.withConfig = function (cfg) {
-    config = cfg;
-    id = config["id"];
-    console.log("[" + id + "] module loaded");
-    return this;
-}
+var ChatModule = OfficeModule.extend({
+    messages: [],
+    usernames: [],
 
-exports.start = function (socketio) {
-    iosockets = socketio;
+    start: function () {
+        var self = this;
+        self.iosockets.on('connection', function (socket) {
+            socket.on(self.config["id"] + ":message", function (content) {
+                var message = { "author": socket.username, "content": content };
+                self.messages.push(message);
+                if (self.messages.length > 100) {
+                    self.messages = self.messages.slice(self.messages.length - 100);
+                }
+                self.iosockets.emit(self.config["id"] + ":dispatch", message);
+                console.log("[" + self.config["id"] + "] dispatching new message from " + socket.username + " : " + content);
+            });
 
-    iosockets.on('connection', function (socket) {
-        socket.on(id + ":message", function (content) {
-            var message = { "author": socket.username , "content": content };
-            messages.push(message);
-            if(messages.length > 100) {
-                messages = messages.slice(messages.length - 100);
-            }
-            iosockets.emit(id + ":dispatch", message);
-            console.log("[" + id + "] dispatching new message from " + socket.username + " : " + content);
+            socket.on(self.config["id"] + ":adduser", function (username) {
+                if (username && username.length > 0) {
+                    // we store the username in the socket session for this client
+                    socket.username = username;
+                    self.usernames.push(username);
+                    console.log("[" + self.config["id"] + "] new user " + username);
+
+                    // send all past messages to the user
+                    socket.emit(self.config["id"] + ":dispatch", self.messages);
+
+                    // update user list on all clients
+                    self.iosockets.emit(self.config["id"] + ":users", self.usernames);
+                }
+            });
+
+            socket.on("disconnect", function () {
+                if (socket.username) {
+                    // remove the username from global usernames list
+                    self.usernames = self.usernames.filter(function (username) {
+                        return socket.username !== username;
+                    });
+
+                    // update list of users in chat, client-side
+                    self.iosockets.emit(self.config["id"] + ":users", self.usernames);
+
+                    console.log("[" + self.config["id"] + "] user " + socket.username + " just left");
+                }
+            });
         });
+    }
+});
 
-        socket.on(id + ":adduser", function (username) {
-            if(username && username.length > 0) {
-                // we store the username in the socket session for this client
-                socket.username = username;
-                usernames.push(username);
-                console.log("[" + id + "] new user " + username);
-
-                // send all past messages to the user
-                socket.emit(id + ":dispatch", messages);
-
-                // update user list on all clients
-                iosockets.emit(id + ":users", usernames);
-            }
-        });
-
-        socket.on("disconnect", function () {
-            if (socket.username) {
-                // remove the username from global usernames list
-                usernames = usernames.filter(function(username) {
-                    return socket.username !== username;
-                });
-
-                // update list of users in chat, client-side
-                iosockets.emit(id + ":users", usernames);
-
-                console.log("[" + config["id"] + "] user " + socket.username + " just left");
-            }
-        });
-    });
-}
+module.exports = ChatModule;

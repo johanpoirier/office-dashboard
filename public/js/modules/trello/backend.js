@@ -1,59 +1,54 @@
-var http = require('http');
-var https = require('https');
+var OfficeModule = require(__dirname + "/../../../../src/office-module"),
+    http = require('http'),
+    https = require('https');
 
-var config, iosockets;
+var TrelloModule = OfficeModule.extend({
 
-exports.withConfig = function(cfg) {
-    console.log("[trello] module loaded");
-    config = cfg;
-    return this;
-}
+    option: null,
 
-exports.start = function(socketio) {
-    var trelloModule = this;
-    iosockets = socketio;
-    iosockets.on('connection', function (socket) {
-        socket.on("trello:screen", getData.bind(trelloModule));
-    });
-    setInterval(getData.bind(this), config['refresh']);
-}
+    start: function () {
+        this.options = {
+            hostname: this.config['host'],
+            port: 443,
+            path: this.config['path'] + "&key=" + this.config['key'] + "&token=" + this.config['token'],
+            method: 'GET'
+        };
 
-exports.getActivity = function(callback) {
-    var options = {
-        hostname: config['host'],
-        port: 443,
-        path: config['path'] + "&key=" + config['key'] + "&token=" + config['token'],
-        method: 'GET'
-    };
+        // proxy conf
+        if (this.config['proxy_host'] && this.config['proxy_port']) {
+            this.options.hostname = this.config['proxy_host'];
+            this.options.port = this.config['proxy_port'];
+            this.options.path = 'https://' + this.config['host'] + this.config['path'] + "&key=" + this.config['key'] + "&token=" + this.config['token'];
+            https = http;
+        }
 
-    // proxy conf
-    if(config['proxy_host'] && config['proxy_port']) {
-        options.hostname = config['proxy_host'];
-        options.port = config['proxy_port'];
-        options.path = 'https://' + config['host'] + config['path'] + "&key=" + config['key'] + "&token=" + config['token'];
-        https = http;
+        setInterval(this.getData.bind(this), this.config['refresh']);
+    },
+
+    getData: function () {
+        this.getActivity((function (activities) {
+            this.iosockets.emit(this.config["id"] + ":activities", activities);
+        }).bind(this));
+    },
+
+    getActivity: function (callback) {
+        var req = https.request(this.options, function (res) {
+            var data = "";
+            res.on('data', function (d) {
+                data += d;
+            });
+            res.on('end', function () {
+                if (callback) {
+                    var activities = JSON.parse(data);
+                    callback(activities);
+                }
+            });
+        });
+        req.on('error', function (e) {
+            console.error(e);
+        });
+        req.end();
     }
+});
 
-    var req = https.request(options, function (res) {
-        var data = "";
-        res.on('data', function(d) {
-            data += d;
-        });
-        res.on('end', function() {
-            if(callback) {
-                var activities = JSON.parse(data);
-                callback(activities);
-            }
-        });
-    });
-    req.on('error', function(e) {
-        console.error(e);
-    });
-    req.end();
-}
-
-var getData = function() {
-    this.getActivity(function(activities) {
-        iosockets.emit("trello:activities", activities);
-    });
-};
+module.exports = TrelloModule;

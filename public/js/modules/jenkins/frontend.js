@@ -1,26 +1,22 @@
-define([ "jquery", "socket-io", "hbs!modules/jenkins/template"],
-    function($, socketio, template) {
+/**
+ * Jenkins frontend controller
+ */
+define([ "office",  "hbs!modules/jenkins/template"],
+    function(Office, template) {
 
-        var _rootEl, _config, _socket, _el;
+        var jenkinsModule = Office.Module.extend({
 
-        return {
-            start: function(config, rootEl) {
-                console.info("[jenkins] module started");
-                _rootEl = rootEl;
-                _config = config;
-                _socket = socketio.connect(window.office.node_server_url, { "force new connection": true });
-                _socket.emit("jenkins:screen");
-                _socket.on("jenkins:jobs", this.displayJobs.bind(this));
+            listen: function() {
+                this.socket.emit(this.config["id"] + ":screen");
+                this.socket.on(this.config["id"] + ":jobs", this.displayJobs.bind(this));
             },
 
             displayJobs: function(jobs) {
-                if(_el === undefined) {
-                    _rootEl.append($("<div/>", { "id": _config["id"], "class": "module" }));
-                    _el = _rootEl.find("div#" + _config["id"]);
-                }
-                console.info("[jenkins] " + jobs.length + " jobs in error - " + new Date());
-                _el.html(template({ "jobs": jobs }));
+                console.info("[" + this.config["id"] + "] " + jobs.length + " jobs in error - " + new Date());
+                this.el.html(template({ "jobs": jobs }));
             }
-        }
+        });
+
+        return jenkinsModule;
     }
 );

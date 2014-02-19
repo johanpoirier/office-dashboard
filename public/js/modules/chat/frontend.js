@@ -1,26 +1,45 @@
 /**
  * Chat frontend controller
  */
-define([ "jquery", "socket-io", "hbs!modules/chat/template", "hbs!modules/chat/message-template", "helpers"],
-    function ($, socketio, template, messageTemplate, helpers) {
+define([ "office", "hbs!modules/chat/template", "hbs!modules/chat/message-template" ],
+    function (Office, template, messageTemplate) {
 
-        var chat = {
-            _config: {},
-            _socket: null,
-            _rootEl: null,
-            _el: null,
+        var chatModule = Office.Module.extend({
 
+            listen: function() {
+                this.socket.on('connect', (function () {
+                    this.socket.emit(this.config["id"] + ":adduser", prompt("What's your name?"));
+                }).bind(this));
+
+                this.socket.emit(this.config["id"] + ":screen");
+                this.socket.on(this.config["id"] + ":dispatch", this.updateMesages.bind(this));
+                this.socket.on(this.config["id"] + ":users", this.updateUsers.bind(this));
+
+                // render
+                this.el.html(template());
+                this.el.find("textarea").focus();
+
+                // input watch
+                this.el.find("textarea").on("keypress", this.handleKeyPress.bind(this));
+                this.el.find("button.btn").on("click", this.sendMessage.bind(this));
+            },
+
+            dispose: function() {
+                this.el.find("textarea").off("keypress");
+                this.el.find("textarea").off("click");
+            },
+            
             sendMessage: function () {
-                var text = this._el.find("textarea");
+                var text = this.el.find("textarea");
                 if (text.val().length > 0) {
-                    this._socket.emit(this._config["id"] + ":message", text.val());
+                    this.socket.emit(this.config["id"] + ":message", text.val());
                     text.val("");
                 }
                 return false;
             },
 
             updateMesages: function (messages) {
-                var text = this._el.find(".chat-messages");
+                var text = this.el.find(".chat-messages");
                 if (!(messages instanceof Array)) {
                     messages = [ messages ];
                 }
@@ -34,7 +53,7 @@ define([ "jquery", "socket-io", "hbs!modules/chat/template", "hbs!modules/chat/m
             },
 
             updateUsers: function (users) {
-                var usersEl = this._el.find(".chat-users");
+                var usersEl = this.el.find(".chat-users");
                 usersEl.html("");
                 users.forEach(function (user) {
                     usersEl.append(user + "<br>");
@@ -88,42 +107,9 @@ define([ "jquery", "socket-io", "hbs!modules/chat/template", "hbs!modules/chat/m
                         }, 5000);
                     }
                 }
-            },
-
-            start: function (config, rootEl) {
-                this._config = config;
-                this._rootEl = rootEl;
-
-                console.info("[" + this._config["id"] + "] module started");
-
-                helpers.loadModuleCss(this._config["type"]);
-
-                if (this._el === null) {
-                    this._rootEl.append($("<div/>", { "id": this._config["id"], "class": "module " + this._config["type"] }));
-                    this._el = this._rootEl.find("div#" + this._config["id"]);
-                }
-
-                // socket init & listen
-                this._socket = socketio.connect(window.office.node_server_url, { "force new connection": true });
-
-                this._socket.on('connect', (function () {
-                    this._socket.emit(this._config["id"] + ":adduser", prompt("What's your name?"));
-                }).bind(this));
-
-                this._socket.emit(this._config["id"] + ":screen");
-                this._socket.on(this._config["id"] + ":dispatch", this.updateMesages.bind(this));
-                this._socket.on(this._config["id"] + ":users", this.updateUsers.bind(this));
-
-                // render
-                this._el.html(template());
-                this._el.find("textarea").focus();
-
-                // input watch
-                this._el.find("textarea").on("keypress", this.handleKeyPress.bind(this));
-                this._el.find("button.btn").on("click", this.sendMessage.bind(this));
             }
-        };
+        });
 
-        return chat;
+        return chatModule;
     }
 );

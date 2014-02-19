@@ -8,8 +8,8 @@ define(["jquery", "socket-io", "constants"], function($, io) {
         console.debug('Config', config);
 
         config['modules'].forEach(function(moduleConfig) {
-            require(["modules/" + moduleConfig['type'] + "/frontend"], function(controller) {
-                controller.start(moduleConfig, $("#modules"));
+            require(["modules/" + moduleConfig['type'] + "/frontend"], function(Module) {
+                new Module(moduleConfig, $("#modules"));
             });
         });
     });

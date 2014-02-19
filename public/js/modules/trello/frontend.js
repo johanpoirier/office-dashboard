@@ -1,29 +1,25 @@
-define([ "jquery", "socket-io", "hbs!modules/trello/template"],
-    function($, socketio, template) {
+/**
+ * Trello frontend controller
+ */
+define([ "office", "hbs!modules/trello/template"],
+    function(Office, template) {
 
-        var _rootEl, _config, _socket, _el;
+        var trelloModule = Office.Module.extend({
 
-        return {
-            start: function(config, rootEl) {
-                console.info("[trello] module started");
-                _rootEl = rootEl;
-                _config = config;
-                _socket = socketio.connect(window.office.node_server_url, { "force new connection": true });
-                _socket.emit("trello:screen");
-                _socket.on("trello:activities", this.displayActivities.bind(this));
+            listen: function () {
+                this.socket.emit(this.config["id"] + ":screen");
+                this.socket.on(this.config["id"] + ":activities", this.displayActivities.bind(this));
             },
 
             displayActivities: function(activities) {
-                if(_el === undefined) {
-                    _rootEl.append($("<div/>", { "id": _config["id"], "class": "module" }));
-                    _el = _rootEl.find("div#" + _config["id"]);
-                }
-                console.info("[trello] " + activities.length + " activities to display - " + new Date());
-                _el.html(template({
-                    "board": _config["board"],
+                console.info("[" + this.config["id"] + "]" + activities.length + " activities to display - " + new Date());
+                this.el.html(template({
+                    "board": this.config["board"],
                     "activities": activities
                 }));
             }
-        }
+        });
+
+        return trelloModule;
     }
 );

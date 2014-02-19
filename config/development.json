@@ -8,11 +8,8 @@
             "type": "chat"
         },
         {
-            "id": "office-chat",
-            "type": "chat"
-        },
-        {
             "id": "iframe",
+            "type": "iframe",
             "pages": [],
             "fullscreen": false,
             "refresh": 20000

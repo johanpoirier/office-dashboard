@@ -1,33 +1,30 @@
-var config, iosockets;
+var OfficeModule = require(__dirname + "/../../../../src/office-module");
 
-var index = 0;
-var pages = [];
+var IframeModule = OfficeModule.extend({
 
-exports.withConfig = function(cfg) {
-    console.log("[iframe] module loaded");
-    config = cfg;
-    pages = config["pages"];
-    return this;
-}
+    index: 0,
+    pages: [],
 
-exports.start = function(socketio) {
-    var iframeModule = this;
-    iosockets = socketio;
-    if(pages.length > 0) {
-        iosockets.on('connection', function (socket) {
-            socket.on("iframe:screen", getNextPage.bind(iframeModule));
-        });
-        if(pages.length > 1) {
-            setInterval(getNextPage.bind(this), config['refresh']);
+    start: function () {
+        this.pages = this.config["pages"];
+        if (this.pages.length > 0) {
+            this.iosockets.on('connection', (function (socket) {
+                socket.on(this.config["id"] + ":screen", this.getNextPage.bind(this));
+            }).bind(this));
+            if (this.pages.length > 1) {
+                setInterval(this.getNextPage.bind(this), this.config["refresh"]);
+            }
+        }
+    },
+
+    getNextPage: function () {
+        console.log("[" + this.config["id"] + "] next page : " + this.pages[this.index]);
+        this.iosockets.emit(this.config["id"] + ":page", this.pages[this.index]);
+        this.index++;
+        if (this.index >= this.pages.length) {
+            this.index = 0;
         }
     }
-}
+});
 
-var getNextPage = function() {
-    console.log("[iframe] next page : " + pages[index]);
-    iosockets.emit("iframe:page", pages[index]);
-    index++;
-    if(index >= pages.length) {
-        index = 0;
-    }
-};
+module.exports = IframeModule;

@@ -1,87 +1,79 @@
-var http = require('http');
+var OfficeModule = require(__dirname + "/../../../../src/office-module"),
+    http = require('http');
 
-var config, iosockets;
-var options;
+var JenkinsModule = OfficeModule.extend({
 
-exports.withConfig = function(cfg) {
-    config = cfg;
+    options: null,
 
-    console.log("[jenkins] module loaded");
-
-    options = {
-        host: config['url'],
-        port: 80,
-        path: '/api/json?tree=jobs[name,color]',
-        method: 'GET',
-        headers: {
-            'Host': config['url'],
-            'Authorization': 'Basic ' + new Buffer(config['username'] + ':' + config['apiToken']).toString('base64')
+    start: function () {
+        this.options = {
+            host: this.config['url'],
+            port: 80,
+            path: '/api/json?tree=jobs[name,color]',
+            method: 'GET',
+            headers: {
+                'Host': this.config['url'],
+                'Authorization': 'Basic ' + new Buffer(this.config['username'] + ':' + this.config['apiToken']).toString('base64')
+            }
         }
-    }
 
-    // proxy conf
-    if(config['proxy_host'] && config['proxy_port']) {
-        options.hostname = config['proxy_host'];
-        options.port = config['proxy_port'];
-        options.path = 'http://' + config['url'] + options.path;
-    }
+        // proxy conf
+        if (this.config['proxy_host'] && this.config['proxy_port']) {
+            this.options.hostname = this.config['proxy_host'];
+            this.options.port = this.config['proxy_port'];
+            this.options.path = 'http://' + this.config['url'] + this.options.path;
+        }
 
-    return this;
-}
+        setInterval(this.getData.bind(this), this.config['refresh']);
+    },
 
-exports.start = function(socketio) {
-    var jenkinsModule = this;
-    iosockets = socketio;
-    iosockets.on('connection', function (socket) {
-        socket.on("jenkins:screen", getData.bind(jenkinsModule));
-    });
-    setInterval(getData.bind(this), config['refresh']);
-}
+    getJobsInError: function (callback) {
+        if (this.config['username'] != '') {
+            var jobs = [];
+            var reqGet = http.request(this.options, (function (res) {
+                var data = "";
 
-exports.getJobsInError = function(callback) {
-    if(config['username'] != '') {
-        var jobs = [];
-        var reqGet = http.request(options, function (res) {
-            var data = "";
-
-            res.on('data', function (d) {
-                data += d;
-            });
-
-            res.on('end', function () {
-                jobs = JSON.parse(data);
-
-                // get only jobs in error
-                jobs = jobs['jobs'].filter(function (job) {
-                    return job.color == "red";
+                res.on('data', function (d) {
+                    data += d;
                 });
 
-                // set url to jenkins
-                jobs.forEach(function(job) {
-                    job.url = "http://" + config["url"] + "/job/" + job.name;
-                });
+                res.on('end', (function () {
+                    jobs = JSON.parse(data);
 
-                console.log("[jenkins] number of jobs in error : " + jobs.length);
-                if(callback) {
-                    callback(jobs);
-                }
+                    // get only jobs in error
+                    jobs = jobs['jobs'].filter(function (job) {
+                        return job.color == "red";
+                    });
+
+                    // set url to jenkins
+                    jobs.forEach((function (job) {
+                        job.url = "http://" + this.config["url"] + "/job/" + job.name;
+                    }).bind(this));
+
+                    console.log("[" + this.config["id"] + "] number of jobs in error : " + jobs.length);
+                    if (callback) {
+                        callback(jobs);
+                    }
+                }).bind(this));
+            }).bind(this));
+
+            reqGet.on('error', function (e) {
+                console.error(e);
             });
-        });
 
-        reqGet.on('error', function (e) {
-            console.error(e);
-        });
+            reqGet.end();
+        }
+        else {
+            console.warn("[" + this.config["id"] + "] module not configured");
+            callback([]);
+        }
+    },
 
-        reqGet.end();
+    getData: function () {
+        this.getJobsInError((function (jobs) {
+            this.iosockets.emit(this.config["id"] + ":jobs", jobs);
+        }).bind(this));
     }
-    else {
-        console.warn('[jenkins] module not configured');
-        callback([]);
-    }
-};
+});
 
-var getData = function() {
-    this.getJobsInError(function(jobs) {
-        iosockets.emit("jenkins:jobs", jobs);
-    });
-};
+module.exports = JenkinsModule;

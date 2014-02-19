@@ -5,21 +5,12 @@ var express = require('express')
     , app = express()
     , server = require('http').createServer(app)
     , path = require('path')
-    , io = require('socket.io').listen(server)
-    , mysql = require('mysql');
+    , io = require('socket.io').listen(server);
 
 /**
  * Config
  */
-var config = require(__dirname + '/config/' + app.get('env') + '.json');
-
-/**
- * Loading modules
- */
-var modules = [];
-config['modules'].forEach(function(moduleConfig) {
-    modules.push(require('./public/js/modules/' + moduleConfig['type'] + '/backend').withConfig(moduleConfig));
-});
+var config = require(__dirname + '/../config/' + app.get('env') + '.json');
 
 // CORS middleware
 var allowCrossDomain = function(req, res, next) {
@@ -35,7 +26,7 @@ app.use(express.logger('dev'));
 app.use(express.bodyParser());
 app.use(express.methodOverride());
 app.use(allowCrossDomain);
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, '../public')));
 
 // development only
 if ('development' == app.get('env')) {
@@ -44,7 +35,7 @@ if ('development' == app.get('env')) {
 
 //Routes
 app.get('/', function (req, res) {
-    res.sendfile(__dirname + '/public/index.html');
+    res.sendfile('index.html');
 });
 
 //Socket.io Config
@@ -54,8 +45,14 @@ server.listen(app.get('port'), function () {
     console.log('Express server listening on port ' + app.get('port'));
 });
 
+// Loading modules
+var modules = [];
+config['modules'].forEach(function(moduleConfig) {
+    var OfficeModule = require('../public/js/modules/' + moduleConfig['type'] + '/backend');
+    modules.push(new OfficeModule(moduleConfig, io.sockets));
+});
+
 //Socket.io Server
-modules.forEach(function(module) { module.start(io.sockets); });
 io.sockets.on('connection', function (socket) {
     socket.on('get-config', function () {
         console.log("Client requested config");

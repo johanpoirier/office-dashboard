@@ -1,21 +1,20 @@
-define(["underscore", "socket-io", "helpers"], function(_, socketio, helpers) {
+define(["underscore", "socket-io", "helpers"], function (_, socketio, helpers) {
     var Office = {};
 
-    var Module = Office.Module = function() {
+    var Module = Office.Module = function () {
         this.initialize.apply(this, arguments);
     };
 
-    _.extend(Module, {
+    _.extend(Module.prototype, {
         socket: null,
         rootEl: null,
         el: null,
 
-        initialize: function() {
+        initialize: function (config, rootEl) {
             // socket init & listen
             this.socket = socketio.connect(window.office.node_server_url, { "force new connection": true });
-        },
+            this.socket.on('disconnect', this.disconnect.bind(this));
 
-        start: function(config, rootEl) {
             this.rootEl = rootEl;
             this.config = config;
 
@@ -31,20 +30,29 @@ define(["underscore", "socket-io", "helpers"], function(_, socketio, helpers) {
             this.listen.apply(this);
         },
 
-        listen: function() {}
+        disconnect: function () {
+            this.dispose.apply(this);
+            if (this.el) {
+                this.el.remove();
+            }
+        },
+
+        listen: function () {}
     });
 
-    var extend = function(protoProps, staticProps) {
+    var extend = function (protoProps, staticProps) {
         var parent = this;
         var child;
 
         // The constructor function for the new subclass is either defined by you
         // (the "constructor" property in your `extend` definition), or defaulted
         // by us to simply call the parent's constructor.
-        if (protoProps && _.has(protoProps, 'constructor')) {
+        if (protoProps && protoProps.hasOwnProperty('constructor')) {
             child = protoProps.constructor;
         } else {
-            child = function(){ return parent.apply(this, arguments); };
+            child = function () {
+                return parent.apply(this, arguments);
+            };
         }
 
         // Add static properties to the constructor function, if supplied.
@@ -52,7 +60,9 @@ define(["underscore", "socket-io", "helpers"], function(_, socketio, helpers) {
 
         // Set the prototype chain to inherit from `parent`, without calling
         // `parent`'s constructor function.
-        var Surrogate = function(){ this.constructor = child; };
+        var Surrogate = function () {
+            this.constructor = child;
+        };
         Surrogate.prototype = parent.prototype;
         child.prototype = new Surrogate;
 

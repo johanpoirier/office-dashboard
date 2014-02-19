@@ -1,35 +1,27 @@
-define([ "jquery", "socket-io", "hbs!modules/iframe/template", "helpers"],
-    function ($, socketio, template, helpers) {
+ /**
+ * iFrame frontend controller
+ */
+define([ "office", "hbs!modules/iframe/template"],
+    function (Office, template) {
 
-        var _rootEl, _config, _socket, _el;
+        var iframeModule = Office.Module.extend({
 
-        return {
-            start: function (config, rootEl) {
-                console.info("[iframe] module started");
-                _rootEl = rootEl;
-                _config = config;
-
-                helpers.loadModuleCss(_config["id"]);
-
-                _socket = socketio.connect(window.office.node_server_url, { "force new connection": true });
-                _socket.emit("iframe:screen");
-                _socket.on("iframe:page", this.displayPage.bind(this));
+            listen: function () {
+                if(this.config["fullscreen"]) {
+                    this.el.addClass("fullscreen");
+                }
+                this.socket.emit(this.config["id"] + ":screen");
+                this.socket.on(this.config["id"] + ":page", this.displayPage.bind(this));
             },
 
             displayPage: function (page) {
-                if (_el === undefined) {
-                    var cssClasses = "module";
-                    if(_config["fullscreen"]) {
-                        cssClasses += " fullscreen";
-                    }
-                    _rootEl.append($("<div/>", { "id": _config["id"], "class": cssClasses }));
-                    _el = _rootEl.find("div#" + _config["id"]);
-                }
-                console.info("[iframe] page to display : " + page);
-                _el.html(template({
+                console.info("[" + this.config["id"] + "] page to display : " + page);
+                this.el.html(template({
                     "url": page
                 }));
             }
-        }
+        });
+
+        return iframeModule;
     }
 );

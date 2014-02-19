@@ -1,64 +1,58 @@
-var http = require('http');
-var https = require('https');
+var OfficeModule = require(__dirname + "/../../../../src/office-module"),
+    http = require('http'),
+    https = require('https');
 
-var config, iosockets;
+var GithubModule = OfficeModule.extend({
 
-exports.withConfig = function(cfg) {
-    config = cfg;
-    console.log("[" + config["id"] + "] module loaded");
-    return this;
-}
+    start: function () {
+        console.log("[" + this.config["id"] + "] refreshing commits every " + (this.config['refresh'] / 1000) + " seconds");
+        setInterval(this.getData.bind(this), this.config['refresh']);
+    },
 
-exports.start = function(socketio) {
-    var githubModule = this;
-    iosockets = socketio;
-    iosockets.on('connection', function (socket) {
-        socket.on(config["id"] + ":screen", getData.bind(githubModule));
-    });
-    setInterval(getData.bind(this), config['refresh']);
-}
+    getData: function () {
+        this.getLastCommits((function (commits) {
+            this.iosockets.emit(this.config["id"] + ":commits", commits);
+        }).bind(this));
+    },
 
-exports.getLastCommits = function(callback) {
-    var options = {
-        hostname: config['host'],
-        port: 443,
-        path: config['path'],
-        method: 'GET',
-        headers: {
-            'Accept': 'application/vnd.github.beta+json',
-            'User-Agent': 'Office-Dashboard-app',
-            'Authorization': 'token ' + config['token']
-        }
-    };
-
-    // proxy conf
-    if(config['proxy_host'] && config['proxy_port']) {
-        options.hostname = config['proxy_host'];
-        options.port = config['proxy_port'];
-        options.path = 'https://' + config['host'] + config['path'];
-        https = http;
-    }
-
-    var req = https.request(options, function (res) {
-        var data = "";
-        res.on('data', function(d) {
-            data += d;
-        });
-        res.on('end', function() {
-            if(callback) {
-                var commits = JSON.parse(data);
-                callback(commits.slice(0, config['nb_commits_display']));
+    getLastCommits: function (callback) {
+        var options = {
+            hostname: this.config['host'],
+            port: 443,
+            path: this.config['path'],
+            method: 'GET',
+            headers: {
+                'Accept': 'application/vnd.github.beta+json',
+                'User-Agent': 'Office-Dashboard-app',
+                'Authorization': 'token ' + this.config['token']
             }
-        });
-    });
-    req.on('error', function(e) {
-        console.error(e);
-    });
-    req.end();
-}
+        };
 
-var getData = function() {
-    this.getLastCommits(function(commits) {
-        iosockets.emit(config["id"] + ":commits", commits);
-    });
-};
+        // proxy conf
+        if (this.config['proxy_host'] && this.config['proxy_port']) {
+            options.hostname = this.config['proxy_host'];
+            options.port = this.config['proxy_port'];
+            options.path = 'https://' + this.config['host'] + this.config['path'];
+            https = http;
+        }
+
+        var req = https.request(options, (function (res) {
+            var data = "";
+            res.on('data', function (d) {
+                data += d;
+            });
+            res.on('end', (function () {
+                if (callback) {
+                    var commits = JSON.parse(data);
+                    callback(commits.slice(0, this.config['nb_commits_display']));
+                }
+            }).bind(this));
+        }).bind(this));
+        req.on('error', function (e) {
+            console.error(e);
+        });
+        req.end();
+    }
+});
+
+module.exports = GithubModule;
