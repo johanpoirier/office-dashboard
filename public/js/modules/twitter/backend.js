@@ -1,62 +1,54 @@
-var twitter = require('ptwitter');
+var OfficeModule = require(__dirname + "/../../../../src/office-module"),
+    twitter = require('ptwitter');
 
-var config, iosockets;
-var twitterApi;
+var TwitterModule = OfficeModule.extend({
 
-exports.withConfig = function (cfg) {
-    console.log("[twitter] module loaded");
-    config = cfg;
+    twitterApi: null,
 
-    var proxy = null;
-    if (config["proxy_host"] && config["proxy_port"]) {
-        proxy = {
-            "proxy": {
-                "host": config["proxy_host"],
-                "port": config["proxy_port"]
-            }
-        };
-    }
+    start: function () {
+        var proxy = null;
+        if (this.config["proxy_host"] && this.config["proxy_port"]) {
+            proxy = {
+                "proxy": {
+                    "host": this.config["proxy_host"],
+                    "port": this.config["proxy_port"]
+                }
+            };
+        }
 
-    twitterApi = new twitter({
-        "consumer_key": config["consumer_key"],
-        "consumer_secret": config["consumer_secret"],
-        "access_token_key": config["access_token_key"],
-        "access_token_secret": config["access_token_secret"],
-        "proxy": proxy
-    });
-
-    return this;
-}
-
-exports.start = function (socketio) {
-    var twitterModule = this;
-    iosockets = socketio;
-    /* On start - fetch N first tweets */
-    iosockets.on('connection', function (socket) {
-        socket.on("twitter:screen", getData.bind(twitterModule));
-    });
-
-    /* On run - Stream new tweets */
-    twitterApi.stream('statuses/filter', { track: config["topics"]}, function (stream) {
-        stream.on('data', function (tweet) {
-            iosockets.emit("twitter:stream", tweet);
+        this.twitterApi = new twitter({
+            "consumer_key": this.config["consumer_key"],
+            "consumer_secret": this.config["consumer_secret"],
+            "access_token_key": this.config["access_token_key"],
+            "access_token_secret": this.config["access_token_secret"],
+            "proxy": proxy
         });
-    });
-}
 
-exports.getTweets = function (callback) {
-    twitterApi.search(config["topics"][0], function (data) {
-        if(data.statuses) {
-            callback(data.statuses.slice(0, config["fetched_items"]));
-        }
-        else {
-            console.log("[twitter] " + data);
-        }
-    });
-};
+        /* On run - Stream new tweets */
+        this.twitterApi.stream('statuses/filter', { track: this.config["topics"]}, (function (stream) {
+            stream.on('data', (function (tweet) {
+                this.iosockets.emit(this.config["id"] + ":stream", tweet);
+            }).bind(this));
+        }).bind(this));
+    },
 
-var getData = function () {
-    this.getTweets(function (tweets) {
-        iosockets.emit("twitter:tweets", tweets);
-    });
-};
+    getData: function () {
+        this.getTweets((function (tweets) {
+            this.iosockets.emit(this.config["id"] + ":tweets", tweets);
+        }).bind(this));
+    },
+
+    getTweets: function (callback) {
+        this.twitterApi.search(this.config["topics"][0], function (data) {
+            if(data.statuses) {
+                callback(data.statuses.slice(0, this.config["fetched_items"]));
+            }
+            else {
+                console.log("[" + this.config["id"] + "] " + data);
+            }
+        });
+    }
+});
+
+
+module.exports = TwitterModule;

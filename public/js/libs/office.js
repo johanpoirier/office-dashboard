@@ -37,7 +37,8 @@ define(["underscore", "socket-io", "helpers"], function (_, socketio, helpers) {
             }
         },
 
-        listen: function () {}
+        listen: function () {},
+        dispose: function () {}
     });
 
     var extend = function (protoProps, staticProps) {

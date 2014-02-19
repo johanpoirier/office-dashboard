@@ -1,30 +1,24 @@
-define([ "jquery", "socket-io", "hbs!modules/twitter/template","helpers"],
-    function($, socketio, template, helpers) {
+/**
+ * Twitter frontend controller
+ */
+define([ "office", "hbs!modules/twitter/template" ],
+    function (Office, template) {
 
-        var _rootEl, _config, _socket, _el;
-        var displayedTweets = [];
+        var twitterModule = Office.Module.extend({
 
-        return {
-            start: function(config, rootEl) {
-                _rootEl = rootEl;
-                _config = config;
+            displayedTweets: [],
 
-                console.info("[twitter] module started");
-
-                this.init();
-
-                _socket = socketio.connect(window.office.node_server_url, { "force new connection": true });
-                _socket.emit("twitter:screen");
-                _socket.on("twitter:tweets", this.displayTweets.bind(this));
-                _socket.on("twitter:stream", this.displayStreamedTweet.bind(this));
+            listen: function () {
+                this.socket.on("twitter:tweets", this.displayTweets.bind(this));
+                this.socket.on("twitter:stream", this.displayStreamedTweet.bind(this));
             },
 
             /* Display N first tweets */
-            displayTweets: function(tweets) {
-                if(tweets) {
-                    displayedTweets = tweets;
-                    console.info("[twitter] " + displayedTweets.length + " tweets fetched - " + new Date());
-                    _el.html(template({ "tweets": displayedTweets }));
+            displayTweets: function (tweets) {
+                if (tweets) {
+                    this.displayedTweets = tweets;
+                    console.info("[twitter] " + this.displayedTweets.length + " tweets fetched - " + new Date());
+                    this.el.html(template({ "tweets": this.displayedTweets }));
                 }
                 else {
                     console.warn("no tweets to display");
@@ -32,25 +26,18 @@ define([ "jquery", "socket-io", "hbs!modules/twitter/template","helpers"],
             },
 
             /* Display new streamed tweet */
-            displayStreamedTweet: function(tweet) {
+            displayStreamedTweet: function (tweet) {
                 // Refresh tweets list
-                if(displayedTweets.length >= 6) {
-                    displayedTweets.pop();
+                if (this.displayedTweets.length >= 6) {
+                    this.displayedTweets.pop();
                 }
-                displayedTweets.unshift(tweet);
+                this.displayedTweets.unshift(tweet);
 
                 // Refresh view
-                _el.html(template({ "tweets": displayedTweets, "topics": _config["topics"] }));
-            },
-
-            init: function() {
-                helpers.loadModuleCss(_config["id"]);
-                if(_el === undefined) {
-                    _rootEl.append($("<div/>", { "id": _config["id"], "class": "module" }));
-                    _el = _rootEl.find("div#" + _config["id"]);
-                }
+                this.el.html(template({ "tweets": this.displayedTweets, "topics": this.config["topics"] }));
             }
-        }
+        });
 
+        return twitterModule;
     }
 );
