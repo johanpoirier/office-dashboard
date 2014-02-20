@@ -29,7 +29,7 @@ define([ "office", "hbs!modules/twitter/template" ],
             /* Display new streamed tweet */
             displayStreamedTweet: function (tweet) {
                 // Refresh tweets list
-                if (this.displayedTweets.length >= 6) {
+                if (this.displayedTweets.length >= this.config["fetched_items"]) {
                     this.displayedTweets.pop();
                 }
                 this.displayedTweets.unshift(tweet);

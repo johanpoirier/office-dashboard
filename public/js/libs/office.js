@@ -11,10 +11,12 @@ define(["underscore", "socket-io", "helpers"], function (_, socketio, helpers) {
         el: null,
 
         initialize: function (config, rootEl) {
-            // socket init & listen
-            this.socket = socketio.connect(window.office.node_server_url, { "force new connection": true });
             this.rootEl = rootEl;
             this.config = config;
+
+            // socket init & listen
+            this.socket = socketio.connect(window.office.node_server_url, { "force new connection": true });
+            this.socket.on('disconnect', this.disconnect.bind(this));
 
             console.info("[" + this.config["id"] + "] module started");
 
@@ -26,6 +28,10 @@ define(["underscore", "socket-io", "helpers"], function (_, socketio, helpers) {
             }
 
             this.listen.apply(this);
+        },
+
+        disconnect: function () {
+           this.dispose.apply(this);
         },
 
         listen: function () {},

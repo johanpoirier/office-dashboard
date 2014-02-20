@@ -63,6 +63,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-node-inspector');
     grunt.loadNpmTasks('grunt-nodemon');
     grunt.loadNpmTasks('grunt-string-replace');
+
     grunt.registerTask('default', ['env:dev', 'string-replace', 'nodemon']);
     grunt.registerTask('debug', ['env:dev', 'string-replace', 'concurrent']);
     grunt.registerTask('julien', ['env:julien', 'string-replace', 'nodemon']);
