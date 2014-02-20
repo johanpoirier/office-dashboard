@@ -4,10 +4,8 @@
     "server": "http://localhost:8085",
     "modules": [
         {
-            "id": "iframe",
-            "type": "iframe",
-            "pages": ["http://preprod.meteo-integration.aw.atos.net/view/Dashboard/"],
-            "fullscreen": true,
+            "id": "git",
+            "type": "git",
             "refresh": 20000
         }
     ]
