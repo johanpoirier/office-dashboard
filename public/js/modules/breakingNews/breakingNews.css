@@ -1,0 +1,10 @@
+/* breaking-news module CSS */
+
+/* Override */
+
+.breakingNews {
+    border: 0;
+    height: 100%;
+    overflow: hidden;
+    width: 100%;
+}

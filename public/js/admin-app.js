@@ -7,7 +7,6 @@ define(["jquery", "underscore", "socket-io", "constants"], function($, _, io) {
     });
 
     socket.on('config', function (config) {
-        console.debug('Config', config);
         config['modules'].forEach(function(moduleConfig) {
             // Instanciate the module if it hasn't been yet
             var exist = false;
@@ -18,16 +17,11 @@ define(["jquery", "underscore", "socket-io", "constants"], function($, _, io) {
             }
 
             if(!exist){
-                // Instanciate front module
-                require(["modules/" + moduleConfig['type'] + "/frontend"], function(Module) {
-                    var module= new Module(moduleConfig, $("#modules"));
-                    modules.push(module);
-                });
-
                 // Instanciate admin module
-                if(! typeof moduleConfig['admin'] === "undefined") {
-                    require(["modules/" + moduleConfig['type'] + "/admin"], function(Admin) {
-                        new Admin(moduleConfig, $("#admin-modules"));
+                if(typeof moduleConfig['admin'] !== "undefined") {
+                    require(["modules/" + moduleConfig['type'] + "/admin"], function(AdminModule) {
+                        var module = new AdminModule(moduleConfig, $("#admin-modules"));
+                        modules.push(module);
                     });
                 }
             }
