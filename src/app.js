@@ -21,7 +21,7 @@ var allowCrossDomain = function(req, res, next) {
 
 // all environments
 app.set('port', process.env.TEST_PORT || 8080);
-app.use(express.favicon());
+app.use(express.favicon(path.join(__dirname, '../public/images/favicon.ico')));
 app.use(express.logger('dev'));
 app.use(express.bodyParser());
 app.use(express.methodOverride());
@@ -35,7 +35,10 @@ if ('development' == app.get('env')) {
 
 //Routes
 app.get('/', function (req, res) {
-    res.sendfile('index.html');
+    res.sendfile(path.join(__dirname, '/../public/index.html'));
+});
+app.get('/admin', function (req, res) {
+    res.sendfile(path.join(__dirname, '/../public/index.html'));
 });
 
 //Socket.io Config

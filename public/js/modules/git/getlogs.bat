@@ -1,8 +1,11 @@
-g:
-cd /Temp
-IF NOT EXIST gitest mkdir gitest
-cd gitest
+@ECHO OFF
+set TERM=msys
+CD %1
+IF NOT EXIST %2 mkdir %2
+CD %2
 IF NOT EXIST .git git init
-git remote add origin https://github.com/johanpoirier/office-dashboard.git
-git fetch --depth=2 -n
-git log origin/master
+IF NOT %4=="" git config http.proxy %4
+git remote add origin %3
+git fetch --depth=5 -n
+git log --pretty=format:"%%an;%%s" --all > logs
+CD %1

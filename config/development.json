@@ -6,6 +6,9 @@
         {
             "id": "git",
             "type": "git",
+            "repo": "office-dashboard",
+            "url": "https://github.com/johanpoirier/office-dashboard.git",
+            "proxy": "http://proxy.priv.atos.fr:3128",
             "refresh": 20000
         }
     ]
