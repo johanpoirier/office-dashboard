@@ -9,16 +9,7 @@
             "repo": "office-dashboard",
             "branch": "origin/master",
             "url": "https://github.com/johanpoirier/office-dashboard.git",
-            "nb_commits_display": 6,
-            "refresh": 20000
-        },
-        {
-            "id": "github-od",
-            "type": "github",
-            "host": "api.github.com",
-            "repo": "office-dashboard",
-            "path": "/repos/johanpoirier/office-dashboard/commits",
-            "token": "6661e628354e10a070761f7c8c93f8f370d229b3",
+            "tmp": "g:/Temp",
             "nb_commits_display": 6,
             "refresh": 300000
         }

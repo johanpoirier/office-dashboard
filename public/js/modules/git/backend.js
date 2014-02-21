@@ -13,16 +13,16 @@ var GitModule = OfficeModule.extend({
     },
 
     getData: function () {
-        var cmd = [ __dirname, '/getlogs.', (this.isWin ? 'bat' : 'sh' ), ' "', __dirname, '" "', this.config["repo"],
+        var cmd = [ __dirname, '/getlogs.', (this.isWin ? 'bat' : 'sh' ), ' "', this.config["tmp"], '" "', this.config["repo"],
             '" ', this.config["url"], ' "', (this.config["proxy"] ? this.config["proxy"] : ""), '" ',
             this.config["branch"], ' ', this.config["nb_commits_display"] ];
-        console.log(cmd.join(""));
+
         exec(cmd.join(""),
             (function (error, stdout, stderr) {
                 if (stderr !== null) {
                     console.log("[" + this.config["id"] + "] " + stderr);
                 }
-                fs.readFile(path.join(__dirname,  this.config["repo"], "/logs"), this.sendData.bind(this));
+                fs.readFile(path.join(this.config["tmp"], this.config["repo"], "/logs"), this.sendData.bind(this));
             }).bind(this)
         );
     },
