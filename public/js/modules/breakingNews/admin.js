@@ -5,9 +5,9 @@ define([ "jquery","office", "hbs!modules/breakingNews/admin"],
     function ($,Office, template) {
         var breakingNewsAdminModule = Office.AdminModule.extend({
             events: function() {
-                $("input[type='button']").bind( "click", $.proxy(function(event) {
+                $(this.el).find("input[type='button']").bind( "click", $.proxy(function(event) {
                     event.stopPropagation(); 
-                    this.newMessage($("input[type='text']").val());
+                    this.newMessage($(this.el).find("input[type='text']").val());
                 },this));
             },
             render: function () {
