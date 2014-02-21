@@ -13,10 +13,14 @@ var GitModule = OfficeModule.extend({
     },
 
     getData: function () {
-        exec(__dirname + '/getlogs.' + (this.isWin ? 'bat' : 'sh' ) + ' "' + __dirname + '" "' + this.config["repo"] + '" "' + this.config["url"] + '" "' + this.config["proxy"] + '"',
+        var cmd = [ __dirname, '/getlogs.', (this.isWin ? 'bat' : 'sh' ), ' "', __dirname, '" "', this.config["repo"],
+            '" ', this.config["url"], ' "', (this.config["proxy"] ? this.config["proxy"] : ""), '" ',
+            this.config["branch"], ' ', this.config["nb_commits_display"] ];
+        console.log(cmd.join(""));
+        exec(cmd.join(""),
             (function (error, stdout, stderr) {
                 if (stderr !== null) {
-                    console.log("[" + this.config["id"] + "] error : " + error);
+                    console.log("[" + this.config["id"] + "] " + stderr);
                 }
                 fs.readFile(path.join(__dirname,  this.config["repo"], "/logs"), this.sendData.bind(this));
             }).bind(this)
@@ -24,7 +28,13 @@ var GitModule = OfficeModule.extend({
     },
 
     sendData: function(err, data) {
-        this.iosockets.emit(this.config["id"] + ":data", data.toString('utf8'));
+        var commitsRaw = data.toString('utf8').match(/[^\r\n]+/g);
+        var commits = [];
+        for(var i=0; i<commitsRaw.length; i++) {
+            var commitData = commitsRaw[i].split(";");
+            commits.push({ "author": commitData[0], "message": commitData[1] });
+        }
+        this.iosockets.emit(this.config["id"] + ":commits", commits.slice(0, this.config["nb_commits_display"]));
     }
 });
 

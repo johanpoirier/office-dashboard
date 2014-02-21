@@ -13,7 +13,7 @@ if [ ! $4 = "" ]; then
 fi
 
 git remote add origin %3
-git fetch --depth=5 -n
-git log --pretty=format:"%%an;%%s" --all > logs
+git fetch --depth=$6 -n
+git log --pretty=format:"%%an;%%s" --no-merges $5 > logs
 
 cd $1
