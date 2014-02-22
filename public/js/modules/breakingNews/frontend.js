@@ -7,13 +7,14 @@ define([ "office", "hbs!modules/breakingNews/template"],
         var breakingNewsModule = Office.Module.extend({
 
             listen: function () {
-                this.socket.emit(this.config["id"] + ":screen");
                 this.socket.on(this.config["id"] + ":message", this.displayMessage.bind(this));
             },
 
             displayMessage: function (message) {
+                var display = (message === null) ? "hide" : "show";
                 this.el.html(template({
-                    "message": message
+                    "message": message,
+                    "display": display
                 }));
             }
         });

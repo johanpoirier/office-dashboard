@@ -19,7 +19,8 @@ require.config({
         'office': 'libs/office',
         'hbs': 'libs/require-handlebars',
         'hbsCustomHelpers': 'libs/handlebars-custom-helpers',
-        'helpers' : 'libs/helpers'
+        'helpers' : 'libs/helpers',
+        'storage' : 'libs/storage'
     }
 });
 

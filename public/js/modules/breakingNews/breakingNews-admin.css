@@ -3,6 +3,7 @@
 
 /* Override */
 .breakingNews {
+	color: #ffffff;
 	font-size: 12px;
 	font-family: Lato;
     border: 0;
@@ -13,4 +14,23 @@
 
 .breakingNews .new-message {
 	margin: 10px 0;
+}
+
+.breakingNews .messages-list ul {
+	padding: 0;
+}
+.breakingNews .messages-list li {
+	float : left;
+}
+
+.breakingNews .message {
+	list-style: none;
+	height: 30px;
+}
+
+.breakingNews input[type="button"].remove-message {
+	border-radius: 5px;
+	height: 17px;
+	float: left;
+	margin-left: 10px;
 }

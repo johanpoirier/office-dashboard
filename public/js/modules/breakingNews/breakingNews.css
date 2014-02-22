@@ -1,10 +1,30 @@
 /* breaking-news module CSS */
 
 /* Override */
-
-.breakingNews {
-    border: 0;
-    height: 100%;
-    overflow: hidden;
+.module.breakingNews {
+	text-align: center;
+	background: black;
+	border-radius: 0px;
+    border : none;
+    box-shadow: none;
+    flex: none;
+    height: 30px;
     width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+    position: relative;
+}
+.breakingNews span {
+	color: #ffffff;
+}
+.breakingNews span.hide {
+	display: none;
+}
+.breakingNews span.show {
+	display: block;
+	-webkit-animation: slideInLeft 2s;
+	-moz-animation: slideInLeft 2s;
+	-ms-animation: slideInLeft 2s;
+	animation: slideInLeft 2s;
 }

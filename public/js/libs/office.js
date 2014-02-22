@@ -1,4 +1,4 @@
-define(["underscore", "socket-io", "helpers"], function (_, socketio, helpers) {
+define(["underscore", "socket-io", "storage", "helpers"], function (_, socketio, Storage, helpers) {
     var Office = {};
     
     // Extend function - Backbone style
@@ -90,11 +90,12 @@ define(["underscore", "socket-io", "helpers"], function (_, socketio, helpers) {
             this.rootEl = rootEl;
             this.config = config;
 
-            // socket init & listen
+            // Socket init & listen
             this.socket = socketio.connect(window.office.node_server_url, { "force new connection": true });
             this.socket.on('disconnect', this.disconnect.bind(this));
 
-            console.info("[" + this.config["id"] + "] Admin module started");
+            // Init module local storage
+            this.storage = new Storage(this.config["id"]);
 
             // load css
             helpers.loadAdminModuleCss(this.config["type"]);
@@ -104,14 +105,16 @@ define(["underscore", "socket-io", "helpers"], function (_, socketio, helpers) {
                 this.el = this.rootEl.find("div#" + this.config["id"] + "Admin");
             }
 
-            // render
+            // Render
             this.render();
 
             // Register SocketIO events
-            this.listen();
+            this.listen.apply(this);
 
             // Register DOM events
             this.events();
+
+            console.info("[" + this.config["id"] + "] Admin module started");
         },
 
         disconnect: function () {

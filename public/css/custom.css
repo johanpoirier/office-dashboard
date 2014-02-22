@@ -84,7 +84,6 @@ a {
 .module-admin {
     flex: 1 300px;
     height: 300px;
-    margin: 12px;
     max-width: 400px;
     padding: 4px 6px 3px;
     position: relative;
@@ -126,7 +125,6 @@ a {
     font-weight:bold;
     height:24px;
     line-height:40px;
-    width:80px;
     text-decoration:none;
     text-align:center;
     text-shadow:1px 1px 0px #ffffff;
