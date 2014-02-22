@@ -1,6 +1,7 @@
 define(["jquery", "underscore", "socket-io", "constants"], function($, _, io) {
 
-    var modules= [];
+    var moduleIds= [];
+    var moduleTypes= [];
     var socket = io.connect(window.office.node_server_url);
     socket.on('connect', function () {
         socket.emit('get-config');
@@ -8,22 +9,21 @@ define(["jquery", "underscore", "socket-io", "constants"], function($, _, io) {
 
     socket.on('config', function (config) {
         config['modules'].forEach(function(moduleConfig) {
-            // Instanciate the module if it hasn't been yet
-            var exist = false;
-            if(modules.length > 0) {
-                exist = _.filter(modules.config,function(config) {
-                    return (config.id === moduleConfig.id);
-                }); 
-            }
+            /* Instanciate the module if it hasn't been yet 
+            *  Only non-singleton modules with different ids can be instanciated several times
+            */ 
+            var exist = _.contains(moduleTypes,moduleConfig.type);
+            var instanciated = _.contains(moduleIds,moduleConfig.id);
+            var singleton = (typeof moduleConfig.singleton !== "undefined") ? moduleConfig.singleton : false;
 
-            if(!exist){
+            if(!instanciated && !(exist && singleton) && typeof moduleConfig['admin'] !== "undefined"){
+                // Reference module instance
+                moduleIds.push(moduleConfig['id']);
+                moduleTypes.push(moduleConfig['type']);
                 // Instanciate admin module
-                if(typeof moduleConfig['admin'] !== "undefined") {
-                    require(["modules/" + moduleConfig['type'] + "/admin"], function(AdminModule) {
-                        var module = new AdminModule(moduleConfig, $("#admin-modules"));
-                        modules.push(module);
-                    });
-                }
+                require(["modules/" + moduleConfig['type'] + "/admin"], function(AdminModule) {
+                    var module = new AdminModule(moduleConfig, $("#admin-modules"));
+                });
             }
         });
     });

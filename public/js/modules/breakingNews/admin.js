@@ -6,6 +6,13 @@ define([ "jquery","office", "hbs!modules/breakingNews/admin"],
 
         var breakingNewsAdminModule = Office.AdminModule.extend({
 
+            // SocketIO events
+            listen: function(){
+                this.socket.emit(this.config["id"] + "Admin" + ":screen");
+                this.socket.on(this.config["id"] + ":list", this.getMessageList.bind(this));
+            },
+
+            // DOM events
             events: function() {
                 this.el.find("input[type='button']").click((function(event) {
                     event.stopPropagation(); 
@@ -13,8 +20,12 @@ define([ "jquery","office", "hbs!modules/breakingNews/admin"],
                 }).bind(this));
             },
 
-            render: function () {
-                this.el.html(template());
+            render: function (messages) {
+                this.el.html(template({ 'messages' : messages }));
+            },
+
+            getMessageList: function(messages) {
+                this.render(messages);
             },
 
             newMessage: function(message) {

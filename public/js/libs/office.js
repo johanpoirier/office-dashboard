@@ -107,6 +107,9 @@ define(["underscore", "socket-io", "helpers"], function (_, socketio, helpers) {
             // render
             this.render();
 
+            // Register SocketIO events
+            this.listen();
+
             // Register DOM events
             this.events();
         },
@@ -114,6 +117,7 @@ define(["underscore", "socket-io", "helpers"], function (_, socketio, helpers) {
         disconnect: function () {
            this.dispose.apply(this);
         },
+        listen: function() {},
         events: function() {},
         render: function() {},
         dispose: function () {}

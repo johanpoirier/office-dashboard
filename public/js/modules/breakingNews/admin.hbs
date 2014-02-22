@@ -3,4 +3,8 @@
 	<input type="text">
 	<input type="button" value="Send">
 </div>
-
+<ul>
+{{#each messages}}
+	<li>{{this.text}}</li>
+{{/each}}
+</ul>
