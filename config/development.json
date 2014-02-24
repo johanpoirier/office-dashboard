@@ -6,7 +6,12 @@
         {
             "id": "git",
             "type": "git",
-            "refresh": 20000
+            "repo": "office-dashboard",
+            "branch": "origin/master",
+            "url": "https://github.com/johanpoirier/office-dashboard.git",
+            "tmp": "g:/Temp",
+            "nb_commits_display": 6,
+            "refresh": 300000
         }
     ]
 }

@@ -1,7 +1,7 @@
 /**
  * Git frontend controller
  */
-define([ "office", "hbs!modules/github/template"],
+define([ "office", "hbs!modules/git/template"],
     function (Office, template) {
 
         var gitModule = Office.Module.extend({
@@ -12,7 +12,7 @@ define([ "office", "hbs!modules/github/template"],
             },
 
             displayCommits: function (commits) {
-                console.info("[" + this.config["id"] + "] " + commits.length + " commits to display - " + new Date());
+                console.info("[" + this.config["id"] + "] commits : ", commits);
                 this.el.html(template({
                     "repo": this.config["repo"],
                     "commits": commits

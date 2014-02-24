@@ -48,12 +48,11 @@ define(["underscore", "socket-io", "storage", "helpers"], function (_, socketio,
         rootEl: null,
         el: null,
 
-        initialize: function (config, rootEl) {
+        initialize: function (config, rootEl, socket) {
             this.rootEl = rootEl;
             this.config = config;
+            this.socket = socket;
 
-            // socket init & listen
-            this.socket = socketio.connect(window.office.node_server_url, { "force new connection": true });
             this.socket.on('disconnect', this.disconnect.bind(this));
 
             console.info("[" + this.config["id"] + "] module started");

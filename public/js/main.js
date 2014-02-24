@@ -1,5 +1,4 @@
 require.config({
-
     shim: {
         'underscore': {
             exports: '_'
