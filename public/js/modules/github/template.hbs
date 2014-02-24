@@ -1,8 +1,10 @@
-<h2 class="module-title">{{repo}} : last commits</h2>
-<div class="commits">
+<h2 class="module-title">Github &gt; {{repo}}</h2>
+<div>
 {{#each commits}}
-    <div class="module-item">
-        <div class="module-item-detail">{{this.commit.committer.name}} : {{this.commit.message}}</div>
+    <div class="github-commit">
+        <img width="32" src="{{this.committer.avatar_url}}" alt="{{this.commit.committer.name}}" />
+        <div class="github-commit-message"><a href="{{this.commit.url}}" target="_blank">{{this.commit.message}}</a></div>
+        <div class="github-commit-author"><span class="github-commit-author-name">{{this.commit.committer.name}}</span> authored {{this.commit.author.date}}</div>
     </div>
 {{/each}}
 </div>

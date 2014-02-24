@@ -32,7 +32,7 @@ var GitModule = OfficeModule.extend({
         var commits = [];
         for(var i=0; i<commitsRaw.length; i++) {
             var commitData = commitsRaw[i].split(";");
-            commits.push({ "author": commitData[0], "message": commitData[1] });
+            commits.push({ "author": commitData[0], "message": commitData[1], "date": commitData[2] });
         }
         this.iosockets.emit(this.config["id"] + ":commits", commits.slice(0, this.config["nb_commits_display"]));
     }

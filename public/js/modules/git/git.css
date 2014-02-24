@@ -1,0 +1,24 @@
+.git {
+    background-color: #e0e3e4;
+}
+.git-commit {
+    background-color: white;
+    display: flew;
+    flex-flow: col wrap;
+    margin: 1px 0;
+    padding: 5px 8px;
+}
+.git-commit-message {
+    font-size: 14px;
+    font-weight: bold;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.git-commit-author-name {
+    color: #444;
+}
+.git-commit-author {
+    color: #888;
+    font-size: 12px;
+}

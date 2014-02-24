@@ -1,8 +1,8 @@
 /**
  * Github frontend controller
  */
-define([ "office", "hbs!modules/github/template"],
-    function (Office, template) {
+define([ "office", "hbs!modules/github/template", "moment"],
+    function (Office, template, moment) {
 
         var githubModule = Office.Module.extend({
 
@@ -13,6 +13,10 @@ define([ "office", "hbs!modules/github/template"],
 
             displayCommits: function (commits) {
                 console.info("[" + this.config["id"] + "] " + commits.length + " commits to display - " + new Date());
+                commits.forEach(function(data) {
+                   var commitDate = moment(data.commit.author.date);
+                   data.commit.author.date = commitDate.fromNow();
+                });
                 this.el.html(template({
                     "repo": this.config["repo"],
                     "commits": commits

@@ -16,6 +16,6 @@ else
     git fetch
 fi
 
-git log --pretty=format:"%an;%s" --no-merges $5 > logs
+git log --pretty=format:"%an;%s;%ar" --no-merges $5 > logs
 
 cd $1
