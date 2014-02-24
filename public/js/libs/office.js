@@ -14,6 +14,7 @@ define(["underscore", "socket-io", "helpers"], function (_, socketio, helpers) {
             this.rootEl = rootEl;
             this.config = config;
             this.socket = socket;
+            this.updateFormat = "HH:mm:ss";
 
             this.socket.on('disconnect', this.disconnect.bind(this));
 

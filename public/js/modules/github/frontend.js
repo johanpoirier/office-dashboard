@@ -19,6 +19,7 @@ define([ "office", "hbs!modules/github/template", "moment"],
                 });
                 this.el.html(template({
                     "repo": this.config["repo"],
+                    "update": moment().format(this.updateFormat),
                     "commits": commits
                 }));
             }

@@ -61,6 +61,15 @@ a {
     z-index: 10;
 }
 
+.module-update {
+    color: grey;
+    font-size: 9px;
+    padding: 1px 2px 0 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
 .red {
     background-color: #ff3d46;
     color: white;
