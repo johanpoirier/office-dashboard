@@ -19,7 +19,7 @@ define(["jquery", "underscore", "socket-io", "constants"], function($, _, io) {
 
             if(!exist){
                 require(["modules/" + moduleConfig['type'] + "/frontend"], function(Module) {
-                    var module = new Module(moduleConfig, $("#modules"));
+                    var module = new Module(moduleConfig, $("#modules"), socket);
                     modules.push(module);
                 });
             }

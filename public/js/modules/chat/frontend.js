@@ -7,9 +7,7 @@ define([ "office", "hbs!modules/chat/template", "hbs!modules/chat/message-templa
         var chatModule = Office.Module.extend({
 
             listen: function() {
-                this.socket.on('connect', (function () {
-                    this.socket.emit(this.config["id"] + ":adduser", prompt("What's your name?"));
-                }).bind(this));
+                this.socket.emit(this.config["id"] + ":adduser", prompt("What's your name?"));
 
                 this.socket.emit(this.config["id"] + ":screen");
                 this.socket.on(this.config["id"] + ":dispatch", this.updateMesages.bind(this));
