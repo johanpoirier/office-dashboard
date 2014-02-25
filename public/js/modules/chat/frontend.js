@@ -19,7 +19,6 @@ define([ "office", "hbs!modules/chat/template", "hbs!modules/chat/message-templa
 
                 // input watch
                 this.el.find("textarea").on("keypress", this.handleKeyPress.bind(this));
-                this.el.find("button.btn").on("click", this.sendMessage.bind(this));
             },
 
             dispose: function() {

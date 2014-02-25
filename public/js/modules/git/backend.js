@@ -19,7 +19,7 @@ var GitModule = OfficeModule.extend({
 
         exec(cmd.join(""),
             (function (error, stdout, stderr) {
-                if (stderr !== null) {
+                if (stderr !== null && stderr.length > 0) {
                     console.log("[" + this.config["id"] + "] " + stderr);
                 }
                 fs.readFile(path.join(this.config["tmp"], this.config["repo"], "/logs"), this.sendData.bind(this));

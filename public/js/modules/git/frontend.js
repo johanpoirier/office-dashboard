@@ -12,7 +12,6 @@ define([ "office", "hbs!modules/git/template", "moment"],
             },
 
             displayCommits: function (commits) {
-                console.info("[" + this.config["id"] + "] commits : ", commits);
                 this.el.html(template({
                     "repo": this.config["repo"],
                     "branch": this.config["branch"],
