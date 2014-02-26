@@ -1,31 +1,33 @@
-define(["jquery", "underscore", "socket-io", "constants"], function ($, _, io) {
+define(["jquery",
+    "underscore",
+    "socket-io",
+    "hbs!templates/modules-list",
+    "hbs!templates/modules-dashboard",
+    "constants"],
 
-    var moduleIds = [];
-    var moduleTypes = [];
+    function ($, _, io, modulesListTemplate, modulesDashboardTemplate) {
+        var el = $("#admin");
+        var modulesList = [];
 
-    var socket = io.connect(window.office.node_server_url);
-    socket.on('connect', function () {
-        socket.emit('get-config');
-    });
-
-    socket.on('config', function (config) {
-        config['modules'].forEach(function (moduleConfig) {
-            // Instanciate the module if it hasn't been yet
-            // Only non-singleton modules with different ids can be instanciated several times
-            var exist = _.contains(moduleTypes, moduleConfig.type);
-            var instanciated = _.contains(moduleIds, moduleConfig.id);
-            var singleton = (typeof moduleConfig.singleton !== "undefined") ? moduleConfig.singleton : false;
-
-            if (!instanciated && !(exist && singleton) && typeof moduleConfig['admin'] !== "undefined") {
-                // Reference module instance
-                moduleIds.push(moduleConfig['id']);
-                moduleTypes.push(moduleConfig['type']);
-
-                // Instanciate admin module
-                require(["modules/" + moduleConfig['type'] + "/admin"], function (AdminModule) {
-                    var module = new AdminModule(moduleConfig, $("#admin-modules"));
-                });
-            }
+        var socket = io.connect(window.office.node_server_url);
+        socket.on('connect', function () {
+            socket.emit('get-modules-list');
+            socket.emit('get-modules-instances');
         });
-    });
-});
+
+        socket.on('modules-list', function (modules) {
+            modulesList = modules;
+            el.find(".admin-modules").html(modulesListTemplate({ "modules": modulesList }));
+
+            el.find(".admin-modules li").click(function() {
+                var type = $(this).html();
+                console.log("type : " + type);
+                socket.emit('add-module-instance', { "id": type + "-" + Math.round(Math.random() * 1000), "type": type });
+            });
+        });
+
+        socket.on('modules-instances', function (modules) {
+            el.find(".admin-dashboard").html(modulesDashboardTemplate({ "modules": modules }));
+        });
+    }
+);

@@ -1,0 +1,12 @@
+{
+    "type": "trello",
+    "host": "api.trello.com",
+    "board": "",
+    "path": "",
+    "key": "",
+    "token": "",
+    "secret": "",
+    "refresh": 30000000,
+    "proxy_host": "",
+    "proxy_port": ""
+}

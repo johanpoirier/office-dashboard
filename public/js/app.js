@@ -5,11 +5,11 @@ define(["jquery", "underscore", "socket-io", "constants"], function ($, _, io) {
 
     var socket = io.connect(window.office.node_server_url);
     socket.on('connect', function () {
-        socket.emit('get-config');
+        socket.emit('get-modules');
     });
 
-    socket.on('config', function (config) {
-        config['modules'].forEach(function (moduleConfig) {
+    socket.on('modules', function (modules) {
+        modules.forEach(function (moduleConfig) {
             // Instanciate the module if it hasn't been yet
             // Only non-singleton modules with different ids can be instanciated several times
             var exist = _.contains(moduleTypes, moduleConfig.type);
