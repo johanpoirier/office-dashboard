@@ -1,8 +1,10 @@
-<h2 class="module-title">{{repo}} : last commits</h2>
-<div class="commits">
+<h2 class="module-title">{{repo}} : {{branch}}</h2>
+<span class="module-update">{{update}}</span>
+<div>
 {{#each commits}}
-    <div class="module-item">
-        <div class="module-item-detail">{{this.author}} : {{this.message}}</div>
+    <div class="git-commit">
+        <div class="git-commit-message">{{this.message}}</div>
+        <div class="git-commit-author"><span class="git-commit-author-name">{{this.author}}</span> authored {{this.date}}</div>
     </div>
 {{/each}}
 </div>

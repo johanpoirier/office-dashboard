@@ -1,8 +1,8 @@
 /**
  * Jenkins frontend controller
  */
-define([ "office",  "hbs!modules/jenkins/template"],
-    function(Office, template) {
+define([ "office",  "hbs!modules/jenkins/template", "moment"],
+    function(Office, template, moment) {
 
         var jenkinsModule = Office.Module.extend({
 
@@ -13,7 +13,10 @@ define([ "office",  "hbs!modules/jenkins/template"],
 
             displayJobs: function(jobs) {
                 console.info("[" + this.config["id"] + "] " + jobs.length + " jobs in error - " + new Date());
-                this.el.html(template({ "jobs": jobs }));
+                this.el.html(template({
+                    "jobs": jobs,
+                    "update": moment().format(this.updateFormat)
+                }));
             }
         });
 

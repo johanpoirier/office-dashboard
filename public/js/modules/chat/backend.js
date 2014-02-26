@@ -14,7 +14,6 @@ var ChatModule = OfficeModule.extend({
                     self.messages = self.messages.slice(self.messages.length - 100);
                 }
                 self.iosockets.emit(self.config["id"] + ":dispatch", message);
-                console.log("[" + self.config["id"] + "] dispatching new message from " + socket.username + " : " + content);
             });
 
             socket.on(self.config["id"] + ":adduser", function (username) {

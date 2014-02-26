@@ -1,24 +1,29 @@
 {
-  "name": "Office-Dashboard",
-  "version": "0.0.2",
-  "private": true,
-  "scripts": {
-    "start": "node src/app.js"
-  },
-  "dependencies": {
-    "express": "3.1.1",
-    "jade": "*",
-    "socket.io": "0.9.15",
-    "mysql": "~2.0",
-    "ptwitter": "~0.0.3",
-    "grunt": "~0.4.2",
-    "grunt-env": "~0.4.1",
-    "grunt-nodemon": "~0.1.2",
-    "grunt-string-replace": "~0.2.7",
-    "grunt-contrib-nodeunit": "~0.2.0"
-  },
-  "devDependencies": {
-    "grunt-concurrent": "~0.4.3",
-    "grunt-node-inspector": "~0.1.2"
-  }
+    "name": "Office-Dashboard",
+    "version": "0.0.2",
+    "repository": "https://github.com/johanpoirier/office-dashboard",
+    "private": true,
+    "scripts": {
+        "start": "node src/app.js",
+        "test": "mocha"
+    },
+    "dependencies": {
+        "express": "3.1.1",
+        "jade": "*",
+        "socket.io": "0.9.15",
+        "mysql": "~2.0",
+        "ptwitter": "~0.0.3",
+        "shelf.js": "~0.5.0",
+        "grunt": "~0.4.2",
+        "grunt-env": "~0.4.1",
+        "grunt-nodemon": "~0.1.2",
+        "grunt-string-replace": "~0.2.7",
+        "grunt-contrib-nodeunit": "~0.2.0"
+    },
+    "devDependencies": {
+        "grunt-concurrent": "~0.4.3",
+        "grunt-node-inspector": "~0.1.2",
+        "mocha": "~1.17.1",
+        "should": "~3.1.3"
+    }
 }

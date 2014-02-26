@@ -19,7 +19,7 @@ var GitModule = OfficeModule.extend({
 
         exec(cmd.join(""),
             (function (error, stdout, stderr) {
-                if (stderr !== null) {
+                if (stderr !== null && stderr.length > 0) {
                     console.log("[" + this.config["id"] + "] " + stderr);
                 }
                 fs.readFile(path.join(this.config["tmp"], this.config["repo"], "/logs"), this.sendData.bind(this));
@@ -32,7 +32,7 @@ var GitModule = OfficeModule.extend({
         var commits = [];
         for(var i=0; i<commitsRaw.length; i++) {
             var commitData = commitsRaw[i].split(";");
-            commits.push({ "author": commitData[0], "message": commitData[1] });
+            commits.push({ "author": commitData[0], "message": commitData[1], "date": commitData[2] });
         }
         this.iosockets.emit(this.config["id"] + ":commits", commits.slice(0, this.config["nb_commits_display"]));
     }

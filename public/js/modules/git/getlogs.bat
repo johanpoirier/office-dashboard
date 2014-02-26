@@ -13,6 +13,6 @@ IF NOT EXIST .git (
 ) ELSE (
     git fetch
 )
-git log --pretty=format:"%%an;%%s" --no-merges %5 > logs
+git log --pretty=format:"%%an;%%s;%%ar" --no-merges %5 > logs
 
 CD %1

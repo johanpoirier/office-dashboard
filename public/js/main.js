@@ -14,6 +14,7 @@ require.config({
         'socket-io': 'libs/vendor/socket.io.min',
         'handlebars': 'libs/vendor/handlebars-v1.3.0',
         'text': 'libs/vendor/text',
+        'moment': 'libs/vendor/moment.min',
         'office': 'libs/office',
         'hbs': 'libs/require-handlebars',
         'hbsCustomHelpers': 'libs/handlebars-custom-helpers',
