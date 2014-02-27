@@ -14,26 +14,26 @@ module.exports = function (grunt) {
                     src: "config/production.json"
                 }
             },
-            concurrent : {
-                dev : {
-                    tasks: ["nodemon","node-inspector"],
+            concurrent: {
+                dev: {
+                    tasks: ["nodemon", "node-inspector"],
                     options: { logConcurrentOutput: true }
                 }
             },
             "node-inspector": {
-              custom: {
-                options: {
-                  'web-port': 8088,
-                  'web-host': 'localhost',
-                  'debug-port': 5857,
-                  'save-live-edit': true
+                custom: {
+                    options: {
+                        'web-port': 8088,
+                        'web-host': 'localhost',
+                        'debug-port': 5857,
+                        'save-live-edit': true
+                    }
                 }
-              }
             },
             nodemon: {
                 dev: {
                     options: {
-                        file: "src/app.js",
+                        file: "src/server.js",
                         nodeArgs: ['--debug=5857']
                     }
                 }
@@ -47,7 +47,7 @@ module.exports = function (grunt) {
                         replacements: [
                             {
                                 pattern: /"node_server_url": "(.*)"/,
-                                replacement: function() {
+                                replacement: function () {
                                     return '"node_server_url": "' + process.env.server + '"'
                                 }
                             }

@@ -1,16 +1,29 @@
 var fs = require('fs'),
     path = require('path'),
-    store = require('shelf.js').store;
+    storage = require('node-persist');
+
+storage.initSync();
 
 var DashboardConfig = {
 
     instances: [],
 
+    init: function(tempDir) {
+        if(tempDir) {
+            storage.initSync({
+                "dir": path.join(__dirname, "..", tempDir, "persist")
+            });
+        }
+        else {
+            storage.initSync();
+        }
+    },
+
     listAvailableModules: function() {
         var modules = [];
-        var modulesNames = fs.readdirSync(path.join(__dirname, "/../public/js/modules"));
+        var modulesNames = fs.readdirSync(path.join(__dirname, "../public/js/modules"));
         modulesNames.forEach(function(moduleName) {
-            var configRaw = fs.readFileSync(path.join(__dirname, "/../public/js/modules", moduleName, "config.json"));
+            var configRaw = fs.readFileSync(path.join(__dirname, "../public/js/modules", moduleName, "config.json"));
             configRaw = configRaw.toString('utf8');
             modules.push(JSON.parse(configRaw));
         });
@@ -18,10 +31,10 @@ var DashboardConfig = {
     },
 
     getModulesConf: function() {
-        var modules = store("modules");
+        var modules = storage.getItem("modules");
         if(!modules) {
             modules = [];
-            store("modules", modules);
+            storage.setItem("modules", modules);
         }
         return modules;
     },
@@ -29,7 +42,7 @@ var DashboardConfig = {
     addModule: function(config) {
         var modules = this.getModulesConf();
         modules.push(config);
-        store("modules", modules);
+        storage.setItem("modules", modules);
         return modules;
     },
 

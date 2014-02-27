@@ -17,5 +17,6 @@ node_modules
 *.iml
 .idea
 
-config/production.json
 config/julien.json
+work
+persist
