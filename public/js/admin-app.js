@@ -1,11 +1,12 @@
 define(["jquery",
     "underscore",
     "socket-io",
+    "libs/module-config",
     "hbs!templates/modules-list",
     "hbs!templates/modules-dashboard",
     "constants"],
 
-    function ($, _, io, modulesListTemplate, modulesDashboardTemplate) {
+    function ($, _, io, ModuleConfig, modulesListTemplate, modulesDashboardTemplate, moduleConfTemplate) {
         var el = $("#admin");
         var modulesList = [];
 
@@ -19,10 +20,19 @@ define(["jquery",
             modulesList = modules;
             el.find(".admin-modules").html(modulesListTemplate({ "modules": modulesList }));
 
-            el.find(".admin-modules li").click(function() {
+            el.find(".admin-modules li").click(function () {
                 var type = $(this).html();
-                console.log("type : " + type);
-                socket.emit('add-module-instance', { "id": type + "-" + Math.round(Math.random() * 1000), "type": type });
+                var moduleConfigPattern = modulesList.filter(function (mod) {
+                    return mod.type === type;
+                });
+
+                if (moduleConfigPattern.length > 0) {
+                    el.addClass("fade");
+                    var moduleConfig = new ModuleConfig($("body"), moduleConfigPattern[0], socket);
+                    moduleConfig.displayModuleConfForm(function() {
+                        el.removeClass("fade");
+                    });
+                }
             });
         });
 

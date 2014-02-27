@@ -156,3 +156,29 @@ a {
     margin-right: 10px;
     color: #ffffff;
 }
+
+
+/** Modals **/
+.modal {
+    background: #fff;
+    border-radius: 2px;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.6);
+    left: 50%;
+    margin-left: -325px;
+    min-height: 200px;
+    overflow-x: hidden;
+    position: absolute;
+    top: 50px;
+    width: 650px;
+    z-index: 100;
+}
+.fade {
+    background-color: black;
+    height: 100%;
+    left: 0;
+    opacity: .50;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: 90;
+}

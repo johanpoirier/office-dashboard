@@ -1,0 +1,12 @@
+<div class="modal">
+    <div class="modal-title">{{title}}</div>
+    <form>
+        <input type="text" name="id" value="" placeholder="id" /><br/>
+    {{#each fields}}
+        <label for="{{this.name}}">{{this.name}}</label>
+        <input type="text" name="{{this.name}}" value="{{this.value}}" placeholder="{{this.name}}" /><br/>
+    {{/each}}
+        <button type="submit">Save</button>
+        <button type="button">Cancel</button>
+    </form>
+</div>
