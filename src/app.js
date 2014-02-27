@@ -50,11 +50,9 @@ server.listen(app.get('port'), function () {
 });
 
 // Loading modules
-var modules = [];
 var modulesConf = DashboardConfig.getModulesConf();
 modulesConf.forEach(function(moduleConfig) {
-    var OfficeModule = require('../public/js/modules/' + moduleConfig['type'] + '/backend');
-    modules.push(new OfficeModule(moduleConfig, io.sockets));
+    DashboardConfig.loadModule(moduleConfig, io.sockets);
 });
 
 // Socket.io Server
@@ -62,12 +60,12 @@ io.sockets.on('connection', function (socket) {
 
     socket.on('get-modules', function () {
         console.log("Client requested modules");
-        socket.emit('modules', modulesConf);
+        socket.emit('modules', DashboardConfig.getModulesConf());
     });
 
     socket.on('get-modules-instances', function () {
         console.log("Admin requested modules instances");
-        socket.emit('modules-instances', modules);
+        socket.emit('modules-instances', DashboardConfig.getModulesConf());
     });
 
     socket.on('get-modules-list', function () {
@@ -77,7 +75,8 @@ io.sockets.on('connection', function (socket) {
 
     socket.on('add-module-instance', function (moduleConfig) {
         console.log("Admin added a module instance");
-        modules = DashboardConfig.addModule(moduleConfig);
+        DashboardConfig.addModule(moduleConfig);
+        DashboardConfig.loadModule(moduleConfig, io.sockets);
         modulesConf = DashboardConfig.getModulesConf();
     });
 

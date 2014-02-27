@@ -4,6 +4,8 @@ var fs = require('fs'),
 
 var DashboardConfig = {
 
+    instances: [],
+
     listAvailableModules: function() {
         var modules = [];
         var modulesNames = fs.readdirSync(path.join(__dirname, "/../public/js/modules"));
@@ -19,7 +21,7 @@ var DashboardConfig = {
         var modules = store("modules");
         if(!modules) {
             modules = [];
-            store("modules", modules, null, "fs");
+            store("modules", modules);
         }
         return modules;
     },
@@ -27,9 +29,13 @@ var DashboardConfig = {
     addModule: function(config) {
         var modules = this.getModulesConf();
         modules.push(config);
-        store("modules", modules, null, "fs");
-        console.log("storing modules : " + modules);
+        store("modules", modules);
         return modules;
+    },
+
+    loadModule: function(config, iosockets) {
+        var OfficeModule = require('../public/js/modules/' + config['type'] + '/backend');
+        this.instances.push(new OfficeModule(config, iosockets));
     }
 }
 
