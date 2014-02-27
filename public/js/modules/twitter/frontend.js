@@ -1,7 +1,7 @@
 /**
  * Twitter frontend controller
  */
-define([ "office", "hbs!modules/twitter/template" ],
+define([ "office", "hbs!modules/twitter/template", "hbsCustomHelpers" ],
     function (Office, template) {
 
         var twitterModule = Office.Module.extend({

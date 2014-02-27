@@ -5,12 +5,12 @@
 	height: 100%;
 	font-size: 12px;
 	font-family: Lato;
-    background: none repeat scroll 0 0 #00ACEE;
     flex: 2 1 500px;
 }
 
 .twitter .module-item {
 	min-height: 60px;
+	margin: 1px 0;
 }
 
 .twitter .module-item-detail {

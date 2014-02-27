@@ -21,6 +21,7 @@ a {
 }
 
 .module {
+    z-index: 5;
     background: #555454;
     border: 1px solid #404040;
     flex: 1 300px;

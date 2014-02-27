@@ -1,7 +1,7 @@
 <h2 class="module-title">Tweets</h2>
 <div class="tweets">
 {{#each tweets}}
-    <div class="module-item">
+    <div class="module-item {{#ifequalsinline @index 0 'animated fadeInDown'}}{{/ifequalsinline}}">
     	<div class="module-item-image-wrapper">
     		<img class="module-item-image" src="{{this.user.profile_image_url_https}}">
     	</div>
