@@ -1,0 +1,36 @@
+@import url('http://fonts.googleapis.com/css?family=Lato');
+/* breaking-news module CSS */
+
+/* Override */
+.breakingNews {
+	color: #ffffff;
+	font-size: 12px;
+	font-family: Lato;
+    border: 0;
+    height: 100%;
+    overflow: hidden;
+    width: 100%;
+}
+
+.breakingNews .new-message {
+	margin: 10px 0;
+}
+
+.breakingNews .messages-list ul {
+	padding: 0;
+}
+.breakingNews .messages-list li {
+	float : left;
+}
+
+.breakingNews .message {
+	list-style: none;
+	height: 30px;
+}
+
+.breakingNews input[type="button"].remove-message {
+	border-radius: 5px;
+	height: 17px;
+	float: left;
+	margin-left: 10px;
+}

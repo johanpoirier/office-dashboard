@@ -7,6 +7,7 @@ var OfficeModule = function(config, socketio) {
     this.iosockets = socketio;
     this.iosockets.on('connection', (function (socket) {
         socket.on(this.config["id"] + ":screen", this.getData.bind(this));
+        socket.on(this.config["id"] + "Admin" + ":screen", this.getAdminData.bind(this));
     }).bind(this));
 
     this.start.apply(this);
@@ -14,6 +15,7 @@ var OfficeModule = function(config, socketio) {
 
 OfficeModule.prototype.start = function() {};
 OfficeModule.prototype.getData = function() {};
+OfficeModule.prototype.getAdminData = function() {};
 
 var copyProps = function(obj) {
     for(var index in arguments) {

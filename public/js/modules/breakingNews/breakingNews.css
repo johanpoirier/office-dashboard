@@ -1,0 +1,26 @@
+@import url('http://fonts.googleapis.com/css?family=Lato');
+/* breaking-news module CSS */
+
+/* Override */
+.module.breakingNews {
+    font-size: 40px;
+    font-family: Lato;
+	text-align: center;
+	background: black;
+	border-radius: 0px;
+    border : none;
+    box-shadow: none;
+    flex: none;
+    height: auto;
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+    position: relative;
+}
+.breakingNews span {
+	color: #ffffff;
+}
+.breakingNews span.animated {
+    display: block;
+}
