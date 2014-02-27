@@ -62,7 +62,7 @@ io.sockets.on('connection', function (socket) {
 
     socket.on('get-modules', function () {
         console.log("Client requested modules");
-        socket.emit('modules', modules);
+        socket.emit('modules', modulesConf);
     });
 
     socket.on('get-modules-instances', function () {
@@ -78,6 +78,8 @@ io.sockets.on('connection', function (socket) {
     socket.on('add-module-instance', function (moduleConfig) {
         console.log("Admin added a module instance");
         modules = DashboardConfig.addModule(moduleConfig);
+        modulesConf = DashboardConfig.getModulesConf();
     });
+
 });
 
