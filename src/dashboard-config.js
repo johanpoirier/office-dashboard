@@ -2,8 +2,6 @@ var fs = require('fs'),
     path = require('path'),
     storage = require('node-persist');
 
-storage.initSync();
-
 var DashboardConfig = {
 
     instances: [],
