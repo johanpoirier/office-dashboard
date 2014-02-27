@@ -1,7 +1,9 @@
 var util = require('util');
 
-var OfficeModule = function(config, socketio) {
-    this.config = config;
+var OfficeModule = function(globalConfig, moduleConfig, socketio, proxy) {
+    this.proxy = proxy;
+    this.globalConfig = globalConfig;
+    this.config = moduleConfig;
     console.log("[" + this.config["id"] + "] module loaded");
 
     this.iosockets = socketio;

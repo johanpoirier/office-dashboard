@@ -50,10 +50,10 @@ server.listen(app.get('port'), function () {
 });
 
 // Loading modules
-DashboardConfig.init(config["tempDir"]);
+DashboardConfig.init(config);
 var modulesConf = DashboardConfig.getModulesConf();
 modulesConf.forEach(function(moduleConfig) {
-    DashboardConfig.loadModule(moduleConfig, io.sockets);
+    DashboardConfig.loadModule(config, moduleConfig, io.sockets);
 });
 
 // Socket.io Server
@@ -77,7 +77,7 @@ io.sockets.on('connection', function (socket) {
     socket.on('add-module-instance', function (moduleConfig) {
         console.log("Admin added a module instance");
         DashboardConfig.addModule(moduleConfig);
-        DashboardConfig.loadModule(moduleConfig, io.sockets);
+        DashboardConfig.loadModule(config, moduleConfig, io.sockets);
         socket.emit('modules-instances', DashboardConfig.getModulesConf());
     });
 

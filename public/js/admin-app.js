@@ -38,6 +38,23 @@ define(["jquery",
 
         socket.on('modules-instances', function (modules) {
             el.find(".admin-dashboard").html(modulesDashboardTemplate({ "modules": modules }));
+
+            el.find(".admin-dashboard .module-instance").click(function() {
+                var type = $(this).data("type");
+                var id = $(this).attr("id");
+
+                var moduleConfig = modules.filter(function (mod) {
+                    return mod.id === id;
+                });
+                if (moduleConfig.length > 0 && moduleConfig[0].admin !== undefined) {
+                    require(["modules/" + type + "/admin"], function (AdminModule) {
+                        new AdminModule(moduleConfig[0], $("body"));
+                    });
+                }
+                else {
+                    console.warn("no admin for " + type + " module")
+                };
+            });
         });
     }
 );

@@ -1,5 +1,6 @@
-<ul>
 {{#each modules}}
-    <li>{{this.id}}</li>
+    <div class="module-instance" data-type="{{this.type}}" id="{{this.id}}">
+        [{{this.type}}]<br/>
+        {{this.id}}
+    </div>
 {{/each}}
-</ul>

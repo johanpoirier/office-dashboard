@@ -1,6 +1,5 @@
 {
     "type": "iframe",
-    "pages": [],
     "refresh": 10000,
     "fullscreen": true
 }

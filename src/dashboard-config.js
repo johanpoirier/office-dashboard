@@ -5,15 +5,26 @@ var fs = require('fs'),
 var DashboardConfig = {
 
     instances: [],
+    config: {},
 
-    init: function(tempDir) {
-        if(tempDir) {
+    init: function(config) {
+        this.config = config;
+        if(config && config["tempDir"]) {
+            this.config["tempDir"] = path.join(__dirname, "..", config["tempDir"]);
             storage.initSync({
-                "dir": path.join(__dirname, "..", tempDir, "persist")
+                "dir": path.join(this.config["tempDir"], "persist")
             });
         }
         else {
             storage.initSync();
+        }
+
+        if(config["proxy_host"] && config["proxy_host"].length > 0 && config["proxy_port"]) {
+            this.proxy = {
+                "host": config["proxy_host"],
+                "port": config["proxy_port"],
+                "url": "http://" + config["proxy_host"] + ":" + config["proxy_port"]
+            }
         }
     },
 
@@ -44,9 +55,9 @@ var DashboardConfig = {
         return modules;
     },
 
-    loadModule: function(config, iosockets) {
-        var OfficeModule = require('../public/js/modules/' + config['type'] + '/backend');
-        this.instances.push(new OfficeModule(config, iosockets));
+    loadModule: function(globalConfig, moduleConfig, iosockets) {
+        var OfficeModule = require('../public/js/modules/' + moduleConfig['type'] + '/backend');
+        this.instances.push(new OfficeModule(globalConfig, moduleConfig, iosockets, this.proxy));
     }
 }
 

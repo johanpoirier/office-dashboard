@@ -3,11 +3,10 @@
 
 /* Override */
 .breakingNews {
-	color: #ffffff;
+	color: black;
 	font-size: 12px;
 	font-family: Lato;
     border: 0;
-    height: 100%;
     overflow: hidden;
     width: 100%;
 }

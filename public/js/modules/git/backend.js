@@ -13,8 +13,8 @@ var GitModule = OfficeModule.extend({
     },
 
     getData: function () {
-        var cmd = [ __dirname, '/getlogs.', (this.isWin ? 'bat' : 'sh' ), ' "', this.config["tmp"], '" "', this.config["repo"],
-            '" ', this.config["url"], ' "', (this.config["proxy"] ? this.config["proxy"] : ""), '" ',
+        var cmd = [ __dirname, '/getlogs.', (this.isWin ? 'bat' : 'sh' ), ' "', this.globalConfig["tempDir"], '" "', this.config["repo"],
+            '" ', this.config["url"], ' "', (this.proxy ? this.proxy["url"] : ""), '" ',
             this.config["branch"], ' ', this.config["nb_commits_display"] ];
 
         exec(cmd.join(""),
@@ -22,7 +22,7 @@ var GitModule = OfficeModule.extend({
                 if (stderr !== null && stderr.length > 0) {
                     console.log("[" + this.config["id"] + "] " + stderr);
                 }
-                fs.readFile(path.join(this.config["tmp"], this.config["repo"], "/logs"), this.sendData.bind(this));
+                fs.readFile(path.join(this.globalConfig["tempDir"], this.config["repo"], "/logs"), this.sendData.bind(this));
             }).bind(this)
         );
     },

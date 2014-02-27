@@ -30,6 +30,7 @@ define(["jquery",
 
                 this.el = this.rootEl.find(".modal");
                 this.el.find("form").submit(this.createModule.bind(this));
+                this.el.find("button.button-cancel").click(this.remove.bind(this));
             },
 
             createModule: function () {
@@ -41,14 +42,20 @@ define(["jquery",
                 }
 
                 this.socket.emit('add-module-instance', newConf);
+
+                this.remove();
+
+                return false;
+            },
+
+            remove: function() {
+                this.el.find("button.button-cancel").unbind();
                 this.el.find("form").unbind();
                 this.el.remove();
 
                 if(this.doneCallback) {
                     this.doneCallback();
                 }
-
-                return false;
             }
         });
 

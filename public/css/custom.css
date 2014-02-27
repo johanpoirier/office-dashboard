@@ -106,7 +106,10 @@ a {
 .admin-dashboard {
     background: #555454;
     border: 1px solid #404040;
+    display: flex;
     flex: 4 600px;
+    flex-flow: row wrap;
+    justify-content: space-around;
 }
 
 .module-admin {
@@ -157,6 +160,20 @@ a {
     color: #ffffff;
 }
 
+.module-instance {
+    background: #cfcfcf;
+    border: 1px solid #404040;
+    box-shadow: inset 0px 1px 0px 0px #ffffff;
+    color: black;
+    flex: 1 250px;
+    height: 150px;
+    line-height: 40px;
+    margin: 12px;
+    max-width: 250px;
+    padding-top: 15px;
+    position: relative;
+    text-align: center;
+}
 
 /** Modals **/
 .modal {

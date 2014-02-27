@@ -86,6 +86,7 @@ define(["underscore", "socket-io", "storage", "helpers"], function (_, socketio,
         socket: null,
         rootEl: null,
         el: null,
+
         initialize: function (config, rootEl) {
             this.rootEl = rootEl;
             this.config = config;
@@ -101,7 +102,7 @@ define(["underscore", "socket-io", "storage", "helpers"], function (_, socketio,
             helpers.loadAdminModuleCss(this.config["type"]);
 
             if (this.el === null) {
-                this.rootEl.append($("<div/>", { "id": this.config["id"] + "Admin", "class": "module-admin " + this.config["type"] }));
+                this.rootEl.append($("<div/>", { "id": this.config["id"] + "Admin", "class": "modal module-admin " + this.config["type"] }));
                 this.el = this.rootEl.find("div#" + this.config["id"] + "Admin");
             }
 
