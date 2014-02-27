@@ -38,7 +38,7 @@ app.get('/', function (req, res) {
     res.sendfile(path.join(__dirname, '/../public/index.html'));
 });
 app.get('/admin', function (req, res) {
-    res.sendfile(path.join(__dirname, '/../public/index.html'));
+    res.sendfile(path.join(__dirname, '/../public/admin.html'));
 });
 
 //Socket.io Config

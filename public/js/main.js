@@ -8,7 +8,6 @@ require.config({
         }
     },
 
-    // Libraries
     paths: {
         'jquery': 'libs/vendor/jquery-2.1.0.min',
         'underscore': 'libs/vendor/underscore-min',
@@ -19,8 +18,17 @@ require.config({
         'office': 'libs/office',
         'hbs': 'libs/require-handlebars',
         'hbsCustomHelpers': 'libs/handlebars-custom-helpers',
-        'helpers' : 'libs/helpers'
+        'helpers' : 'libs/helpers',
+        'storage' : 'libs/storage'
     }
 });
 
-require(["app"]);
+// get context
+var bootstrapScript = document.querySelector("#bootstrap");
+var context = "";
+if(bootstrapScript.hasAttribute("data-context")) {
+    context = bootstrapScript.getAttribute("data-context") + "-";
+}
+
+// start app
+require([context + "app"]);
