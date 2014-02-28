@@ -7,11 +7,11 @@ var TwitterModule = OfficeModule.extend({
 
     start: function () {
         var proxy = null;
-        if (this.config["proxy_host"] && this.config["proxy_port"]) {
+        if (this.proxyHost && this.proxyPort) {
             proxy = {
                 "proxy": {
-                    "host": this.config["proxy_host"],
-                    "port": this.config["proxy_port"]
+                    "host": this.proxyHost,
+                    "port": this.proxyPort
                 }
             };
         }

@@ -12,6 +12,18 @@ var express = require('express')
  */
 var config = require(__dirname + '/../config/' + app.get('env') + '.json');
 
+/**
+ * Proxy settings
+ */
+var proxyOpt = process.argv.slice(2)[0];
+var proxyHost = null;
+var proxyPort = null;
+
+if(proxyOpt && proxyOpt === "true") {
+    proxyHost = config.proxy_host;
+    proxyPort = config.proxy_port;
+}
+
 // CORS middleware
 var allowCrossDomain = function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
@@ -52,7 +64,7 @@ server.listen(app.get('port'), function () {
 var modules = [];
 config['modules'].forEach(function(moduleConfig) {
     var OfficeModule = require('../public/js/modules/' + moduleConfig['type'] + '/backend');
-    modules.push(new OfficeModule(moduleConfig, io.sockets));
+    modules.push(new OfficeModule(moduleConfig, io.sockets, proxyHost, proxyPort));
 });
 
 //Socket.io Server

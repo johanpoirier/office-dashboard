@@ -1,7 +1,10 @@
 var util = require('util');
 
-var OfficeModule = function(config, socketio) {
+var OfficeModule = function(config, socketio, proxyHost, proxyPort) {
     this.config = config;
+    this.proxyHost = proxyHost;
+    this.proxyPort = proxyPort;
+
     console.log("[" + this.config["id"] + "] module loaded");
 
     this.iosockets = socketio;

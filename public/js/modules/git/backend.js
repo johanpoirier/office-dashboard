@@ -14,7 +14,7 @@ var GitModule = OfficeModule.extend({
 
     getData: function () {
         var cmd = [ __dirname, '/getlogs.', (this.isWin ? 'bat' : 'sh' ), ' "', this.config["tmp"], '" "', this.config["repo"],
-            '" ', this.config["url"], ' "', (this.config["proxy"] ? this.config["proxy"] : ""), '" ',
+            '" ', this.config["url"], ' "', (this.proxyHost && this.proxyPort ? "http://" + this.proxyHost + ":" + this.proxyPort : ""), '" ',
             this.config["branch"], ' ', this.config["nb_commits_display"] ];
 
         exec(cmd.join(""),
