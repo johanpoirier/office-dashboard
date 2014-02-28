@@ -4,15 +4,17 @@ if [ ! -d $2 ]; then
 fi
 cd $2
 
-if [ ! $4 = "" ]; then
-    git config http.proxy $4
-fi
-
 if [ ! -d .git ]; then
     git init
     git remote add origin $3
+    if [ ! $4 = "" ]; then
+        git config http.proxy $4
+    fi
     git fetch --depth=$6 -n
 else
+    if [ ! $4 = "" ]; then
+        git config http.proxy $4
+    fi
     git fetch
 fi
 
