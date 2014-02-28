@@ -1,11 +1,9 @@
-@import url('http://fonts.googleapis.com/css?family=Lato');
 /* breaking-news module CSS */
 
 /* Override */
 .module.breakingNews {
     z-index: 0;
     font-size: 40px;
-    font-family: Lato;
 	text-align: center;
 	background: #000000;
 	border-radius: 0px;

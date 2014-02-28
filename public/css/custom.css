@@ -1,6 +1,9 @@
+@import url('http://fonts.googleapis.com/css?family=Lato');
+
 body {
-    background-color: black;
-    font: 18px "Helvetica Neue",Arial,Helvetica,sans-serif;
+    background: url(/images/bg.jpg) no-repeat center fixed;
+    background-size: cover;
+    font: 18px Lato,"Helvetica Neue",Arial,Helvetica,sans-serif;
 }
 
 *, *:before, *:after {
@@ -32,10 +35,8 @@ a {
 }
 
 .module-title {
-    background-color: #111111;
-    color: #c1c1c1;
-    font-size: 22px;
-    line-height: 34px;
+    color: white;
+    background: linear-gradient(135deg, rgba(17,17,17,1) 0%,rgba(17,17,17,1) 10%,rgba(17,17,17,1) 13%,rgba(17,17,17,1) 15%,rgba(17,17,17,1) 27%,rgba(45,45,45,1) 53%,rgba(45,45,45,1) 67%,rgba(56,56,56,1) 100%,rgba(27,27,27,1) 100%);    
     margin: 0;
     min-height: 35px;
     overflow: hidden;
