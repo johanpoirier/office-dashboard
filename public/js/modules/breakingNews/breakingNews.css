@@ -3,10 +3,11 @@
 
 /* Override */
 .module.breakingNews {
+    z-index: 0;
     font-size: 40px;
     font-family: Lato;
 	text-align: center;
-	background: black;
+	background: #000000;
 	border-radius: 0px;
     border : none;
     box-shadow: none;
@@ -16,10 +17,12 @@
     max-width: 100%;
     margin: 0;
     padding: 0;
-    position: relative;
+    position: fixed;
+    top: 0;
+    left: 0;
 }
 .breakingNews span {
-	color: #ffffff;
+	color: #C1C1C1;
 }
 .breakingNews span.animated {
     display: block;
