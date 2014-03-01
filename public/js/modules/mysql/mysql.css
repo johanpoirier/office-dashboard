@@ -1,24 +1,17 @@
-@import url('http://fonts.googleapis.com/css?family=Lato');
-
 /* Mysql module CSS */
 .mysql {
 	font-size: 15px;
-	font-family: Lato;
-    background: none repeat scroll 0 0 #E48E00;
-    flex: 2 1 500px;
-    max-width: 700px;
+    flex: 2 1 600px;
+    max-width: 800px;
     height: 100%;
 }
 
 /* Table */
 .mysql table {
+	border-collapse: inherit;
 	overflow: hidden;
-	border-radius: 10px;
 	background: #fefefe;
 	width: 100%;
-	-moz-border-radius: 5px;
-	-webkit-border-radius: 5px;
-	border-radius: 5px;
 	-moz-box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
 	-webkit-box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
 }
@@ -34,7 +27,7 @@
 }
 
 .mysql table td {
-	border-top: 1px solid #e0e0e0;
+	border-top: 1px solid #555454;
 }
 
 

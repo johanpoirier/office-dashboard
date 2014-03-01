@@ -33,6 +33,7 @@ module.exports = function (grunt) {
             nodemon: {
                 dev: {
                     options: {
+                        args: [grunt.option("proxy") || false],
                         file: "src/server.js",
                         nodeArgs: ['--debug=5857']
                     }
@@ -64,7 +65,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-nodemon');
     grunt.loadNpmTasks('grunt-string-replace');
 
-    grunt.registerTask('default', ['env:dev', 'string-replace', 'nodemon']);
+    grunt.registerTask('default', [ 'env:dev', 'string-replace', 'nodemon']);
     grunt.registerTask('debug', ['env:dev', 'string-replace', 'concurrent']);
     grunt.registerTask('julien', ['env:julien', 'string-replace', 'nodemon']);
     grunt.registerTask('julien-debug', ['env:julien', 'string-replace', 'concurrent']);

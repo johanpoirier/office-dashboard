@@ -4,6 +4,7 @@ var OfficeModule = function(globalConfig, moduleConfig, socketio, proxy) {
     this.proxy = proxy;
     this.globalConfig = globalConfig;
     this.config = moduleConfig;
+
     console.log("[" + this.config["id"] + "] module loaded");
 
     this.iosockets = socketio;
