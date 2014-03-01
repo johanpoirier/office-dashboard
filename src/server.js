@@ -17,12 +17,9 @@ var config = require(__dirname + '/../config/' + app.get('env') + '.json');
  * Proxy settings
  */
 var proxyOpt = process.argv.slice(2)[0];
-var proxyHost = null;
-var proxyPort = null;
-
-if(proxyOpt && proxyOpt === "true") {
-    proxyHost = config.proxy_host;
-    proxyPort = config.proxy_port;
+if(!proxyOpt || proxyOpt === "false") {
+    delete config["proxy_host"];
+    delete config["proxy_port"];
 }
 
 // CORS middleware
@@ -94,4 +91,3 @@ io.sockets.on('connection', function (socket) {
     });
 
 });
-
