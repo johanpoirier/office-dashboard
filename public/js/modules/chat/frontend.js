@@ -19,6 +19,7 @@ define([ "office", "hbs!modules/chat/template", "hbs!modules/chat/message-templa
 
                 // input watch
                 this.el.find("textarea").on("keypress", this.handleKeyPress.bind(this));
+                this.el.find("input[type=button]").on("click", this.handleKeyPress.bind(this));
             },
 
             dispose: function() {
@@ -53,12 +54,12 @@ define([ "office", "hbs!modules/chat/template", "hbs!modules/chat/message-templa
                 var usersEl = this.el.find(".chat-users");
                 usersEl.html("");
                 users.forEach(function (user) {
-                    usersEl.append(user + "<br>");
+                    usersEl.append('<span class="user module-item">' + user + '</span>');
                 });
             },
 
             handleKeyPress: function (event) {
-                if (event.keyCode == 13) {
+                if (event.keyCode == 13 || event.currentTarget.type === "button") {
                     this.sendMessage();
                     return false;
                 }
