@@ -1,12 +1,13 @@
 define(["jquery",
     "underscore",
     "socket-io",
-    "libs/module-config",
+    "office",
     "hbs!templates/modules-list",
     "hbs!templates/modules-dashboard",
+    "hbs!templates/module-conf",
     "constants"],
 
-    function ($, _, io, ModuleConfig, modulesListTemplate, modulesDashboardTemplate, moduleConfTemplate) {
+    function ($, _, io, Office, modulesListTemplate, modulesDashboardTemplate, moduleconfigTemplate) {
         var el = $("#admin");
         var modulesList = [];
 
@@ -28,7 +29,7 @@ define(["jquery",
 
                 if (moduleConfigPattern.length > 0) {
                     el.addClass("fade");
-                    var moduleConfig = new ModuleConfig($("body"), moduleConfigPattern[0], socket);
+                    var moduleConfig = new Office.ModuleConfig($("body"), moduleConfigPattern[0], moduleconfigTemplate, socket);
                     moduleConfig.displayModuleConfForm(function() {
                         el.removeClass("fade");
                     });
