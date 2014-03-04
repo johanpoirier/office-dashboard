@@ -58,6 +58,12 @@ var DashboardConfig = {
     loadModule: function(globalConfig, moduleConfig, iosockets) {
         var OfficeModule = require('../public/js/modules/' + moduleConfig['type'] + '/backend');
         this.instances.push(new OfficeModule(globalConfig, moduleConfig, iosockets, this.proxy));
+    },
+
+    deleteModule: function(moduleId) {
+        // remove module from conf
+        var modules = this.getModulesConf();
+        console.log(modules);
     }
 }
 

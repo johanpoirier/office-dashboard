@@ -5,10 +5,11 @@ define(["jquery", "underscore", "socket-io", "constants"], function ($, _, io) {
 
     var socket = io.connect(window.office.node_server_url);
     socket.on('connect', function () {
-        socket.emit('get-modules');
+        socket.emit('front-get-modules-instances');
     });
 
-    socket.on('modules', function (modules) {
+    socket.on('front-send-modules-instances', function (modules) {
+        console.log("front received modules instances");
         modules.forEach(function (moduleConfig) {
             // Instanciate the module if it hasn't been yet
             // Only non-singleton modules with different ids can be instanciated several times

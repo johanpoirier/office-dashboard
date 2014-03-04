@@ -1,5 +1,7 @@
 {{#each modules}}
     <div class="module-instance" data-type="{{this.type}}" id="{{this.id}}">
+    	<input type="button" class="admin" title="Administrate" value="Administrate">
+	    <input type="button" class="delete" title="Delete" value="Delete">
         [{{this.type}}]<br/>
         {{this.id}}
     </div>
