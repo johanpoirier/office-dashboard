@@ -40,7 +40,10 @@ define(["underscore", "jquery", "socket-io", "storage", "helpers", "hbs!../js/te
             return child;
         };
 
-        // 1- front module prototype
+
+        /*
+         * front module prototype
+         */
         var Module = Office.Module = function () {
             this.initialize.apply(this, arguments);
         };
@@ -48,11 +51,13 @@ define(["underscore", "jquery", "socket-io", "storage", "helpers", "hbs!../js/te
             socket: null,
             rootEl: null,
             el: null,
+            id: null,
 
             initialize: function (config, rootEl, socket) {
                 this.rootEl = rootEl;
                 this.config = config;
                 this.socket = socket;
+                this.id = config["id"];
                 this.updateFormat = "HH:mm:ss";
 
                 this.socket.on('disconnect', this.disconnect.bind(this));
@@ -66,22 +71,32 @@ define(["underscore", "jquery", "socket-io", "storage", "helpers", "hbs!../js/te
                     // module container : cell of the grid
                     this.rootEl.append($("<div/>", {
                         "id": this.config["id"],
-                        "class": "module",
-                        "style": "grid-column-start:" + this.config["position"]["x"] + ";"
-                            + "grid-column-end:span " + this.config["size"]["w"] + ";"
-                            + "grid-row-start:" + this.config["position"]["y"] + ";"
-                            + "grid-row-end:span " + this.config["size"]["h"] + ";"
+                        "class": "module"
                     }));
-                    this.el = this.rootEl.find("div#" + this.config["id"]);
+                    var container = this.rootEl.find("div#" + this.config["id"]);
 
-                    //
-                    this.el.append($("<div/>", {
+                    // inner contains the real content
+                    container.append($("<div/>", {
                         "class": "module-inner " + this.config["type"]
                     }));
-                    this.el = this.el.find("div.module-inner");
+                    this.el = container.find("div.module-inner");
+                    this.updatePosition();
                 }
 
                 this.listen.apply(this);
+            },
+
+            updateConfig: function(config) {
+                this.config = config;
+                this.updatePosition();
+            },
+
+            updatePosition: function() {
+                var container = this.el.parent();
+                container.css("grid-column-start", String(this.config["position"]["x"]));
+                container.css("grid-column-end", "span " + this.config["size"]["w"]);
+                container.css("grid-row-start", String(this.config["position"]["y"]));
+                container.css("grid-row-end", "span " + this.config["size"]["h"]);
             },
 
             disconnect: function () {
@@ -90,12 +105,16 @@ define(["underscore", "jquery", "socket-io", "storage", "helpers", "hbs!../js/te
 
             listen: function () {
             },
+
             dispose: function () {
             }
         });
         Module.extend = extend;
 
-        // 2- module administration
+
+        /*
+         * administration module
+         */
         var AdminModule = Office.AdminModule = function () {
             this.initialize.apply(this, arguments);
         };
@@ -153,7 +172,9 @@ define(["underscore", "jquery", "socket-io", "storage", "helpers", "hbs!../js/te
         AdminModule.extend = extend;
 
 
-        // 3- module config
+        /*
+         * module config
+         */
         var ModuleConfig = Office.ModuleConfig = function (rootEl, configPattern, template, position, socket) {
             this.rootEl = rootEl;
             this.configPattern = configPattern;
@@ -219,7 +240,10 @@ define(["underscore", "jquery", "socket-io", "storage", "helpers", "hbs!../js/te
             }
         });
 
-        // 4- module delete
+
+        /*
+         * module delete
+         */
         var ModuleDelete = Office.ModuleDelete = function (rootEl, moduleId, template, socket) {
             this.rootEl = rootEl;
             this.moduleId = moduleId;
@@ -255,4 +279,5 @@ define(["underscore", "jquery", "socket-io", "storage", "helpers", "hbs!../js/te
         });
 
         return Office;
-    });
+    }
+);
