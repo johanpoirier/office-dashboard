@@ -67,27 +67,38 @@ modulesConf.forEach(function(moduleConfig) {
 
 // Socket.io Server
 io.sockets.on('connection', function (socket) {
-
-    socket.on('get-modules', function () {
+    // Client event listeners
+    socket.on('front-get-modules-instances', function () {
         console.log("Client requested modules");
-        socket.emit('modules', DashboardConfig.getModulesConf());
+        socket.emit('front-send-modules-instances', DashboardConfig.getModulesConf());
     });
 
-    socket.on('get-modules-instances', function () {
+    // Admin event listeners
+    socket.on('admin-get-modules-kinds', function () {
+        console.log("Admin requested modules kinds");
+        socket.emit('admin-send-modules-kinds', DashboardConfig.listAvailableModules());
+    });
+    socket.on('admin-get-modules-instances', function () {
         console.log("Admin requested modules instances");
-        socket.emit('modules-instances', DashboardConfig.getModulesConf());
+        socket.emit('admin-send-modules-instances', DashboardConfig.getModulesConf());
     });
-
-    socket.on('get-modules-list', function () {
-        console.log("Admin requested modules list");
-        socket.emit('modules-list', DashboardConfig.listAvailableModules());
-    });
-
-    socket.on('add-module-instance', function (moduleConfig) {
-        console.log("Admin added a module instance");
+    socket.on('admin-add-module-instance', function (moduleConfig) {
+        console.log("Admin added a module instance " + moduleConfig.id);
         DashboardConfig.addModule(moduleConfig);
         DashboardConfig.loadModule(config, moduleConfig, io.sockets);
-        socket.emit('modules-instances', DashboardConfig.getModulesConf());
-    });
 
+        // send back modules instances to admin
+        socket.emit('admin-send-modules-instances', DashboardConfig.getModulesConf());
+        // bradcast modules instances to front socket
+        socket.broadcast.emit('front-send-modules-instances', DashboardConfig.getModulesConf());
+    });
+    socket.on('admin-delete-module-instance', function (moduleId) {
+        console.log("Admin deleted a module instance " + moduleId);
+        DashboardConfig.deleteModule(moduleId);
+
+        // send back modules instances to admin
+        socket.emit('admin-send-modules-instances', DashboardConfig.getModulesConf());
+        // bradcast modules instances to front socket
+        socket.broadcast.emit('front-send-modules-instances', DashboardConfig.getModulesConf());
+    });
 });

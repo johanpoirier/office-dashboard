@@ -4,7 +4,6 @@
 /* Override */
 .breakingNews {
 	color: black;
-	font-size: 12px;
 	font-family: Lato;
     border: 0;
     overflow: hidden;
@@ -29,7 +28,6 @@
 
 .breakingNews input[type="button"].remove-message {
 	border-radius: 5px;
-	height: 17px;
 	float: left;
 	margin-left: 10px;
 }

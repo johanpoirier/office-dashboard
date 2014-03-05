@@ -1,4 +1,4 @@
-define(["underscore", "jquery", "socket-io", "storage", "helpers"], function (_, $, socketio, Storage, helpers) {
+define(["underscore", "jquery", "socket-io", "storage", "helpers","hbs!../js/templates/module-administration"], function (_, $, socketio, Storage, helpers, adminTemplate) {
     var Office = {};
     
     // Extend function - Backbone style
@@ -39,7 +39,7 @@ define(["underscore", "jquery", "socket-io", "storage", "helpers"], function (_,
         return child;
     };
 
-    // 1- Definition of module prototype
+    // 1- front module prototype
     var Module = Office.Module = function () {
         this.initialize.apply(this, arguments);
     };
@@ -78,7 +78,7 @@ define(["underscore", "jquery", "socket-io", "storage", "helpers"], function (_,
     });
     Module.extend = extend;
 
-    // 2- Definition of Admin prototype
+    // 2- module administration
     var AdminModule = Office.AdminModule = function () {
         this.initialize.apply(this, arguments);
     };
@@ -102,8 +102,8 @@ define(["underscore", "jquery", "socket-io", "storage", "helpers"], function (_,
             helpers.loadAdminModuleCss(this.config["type"]);
 
             if (this.el === null) {
-                this.rootEl.append($("<div/>", { "id": this.config["id"] + "Admin", "class": "modal module-admin " + this.config["type"] }));
-                this.el = this.rootEl.find("div#" + this.config["id"] + "Admin");
+                this.rootEl.append(adminTemplate({ "id" : this.config["id"], "type" : this.config["type"] }));
+                this.el = this.rootEl.find("div#" + this.config["id"] + "Admin div.admin-box");
             }
 
             // Render
@@ -117,26 +117,29 @@ define(["underscore", "jquery", "socket-io", "storage", "helpers"], function (_,
 
             console.info("[" + this.config["id"] + "] Admin module started");
         },
-
+        close: function() {
+            this.disconnect();
+        },
         disconnect: function () {
            this.dispose.apply(this);
         },
         listen: function() {},
         events: function() {},
         render: function() {},
-        dispose: function () {}
+        dispose: function () {
+            this.el.remove();
+        }
     });
     AdminModule.extend = extend;
 
 
-    //3-module config
+    // 3- module config
     var ModuleConfig = Office.ModuleConfig = function (rootEl, configPattern, template, socket) {
         this.rootEl = rootEl;
         this.configPattern = configPattern;
         this.template = template;
         this.socket = socket;
     }
-
     _.extend(ModuleConfig.prototype, {
         displayModuleConfForm: function (doneCallback) {
             this.doneCallback = doneCallback;
@@ -151,13 +154,13 @@ define(["underscore", "jquery", "socket-io", "storage", "helpers"], function (_,
             }
 
             this.rootEl.append(this.template({
-                "title": "Fill new " + this.configPattern.type + " module configuration :",
+                "title": "New " + this.configPattern.type + " module :",
                 "fields": fields
             }));
 
             this.el = this.rootEl.find(".modal");
             this.el.find("form").submit(this.createModule.bind(this));
-            this.el.find("button.button-cancel").click(this.remove.bind(this));
+            this.el.find("button.button-cancel").click(this.close.bind(this));
         },
 
         createModule: function () {
@@ -168,14 +171,14 @@ define(["underscore", "jquery", "socket-io", "storage", "helpers"], function (_,
                 newConf[input.attr("name")] = input.val();
             }
 
-            this.socket.emit('add-module-instance', newConf);
+            this.socket.emit('admin-add-module-instance', newConf);
 
-            this.remove();
+            this.close();
 
             return false;
         },
 
-        remove: function() {
+        close: function() {
             this.el.find("button.button-cancel").unbind();
             this.el.find("form").unbind();
             this.el.remove();
@@ -186,6 +189,39 @@ define(["underscore", "jquery", "socket-io", "storage", "helpers"], function (_,
         }
     });
 
+    // 4- module delete
+    var ModuleDelete = Office.ModuleDelete = function (rootEl, moduleId, template, socket) {
+        this.rootEl = rootEl;
+        this.moduleId = moduleId;
+        this.template = template;
+        this.socket = socket;
+    }
+    _.extend(ModuleDelete.prototype, {
+        displayModuleDeleteForm: function (doneCallback) {
+            this.doneCallback = doneCallback;
+            this.rootEl.append(this.template({
+                "title": "Delete " + this.moduleId + " module ?"
+            }));
+
+            this.el = this.rootEl.find(".modal");
+            this.el.find("button.button-confirm").click(this.confirm.bind(this));
+            this.el.find("button.button-cancel").click(this.close.bind(this));
+        },
+
+        confirm: function () {
+            this.socket.emit('admin-delete-module-instance', this.moduleId);
+            this.close();
+            return false;
+        },
+        close: function() {
+            this.el.find("button.button-confirm").unbind();
+            this.el.find("button.button-cancel").unbind();
+            this.el.remove();
+            if(this.doneCallback) {
+                this.doneCallback();
+            }
+        }
+    });
 
     return Office;
 });
