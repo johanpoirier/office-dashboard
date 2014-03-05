@@ -120,7 +120,7 @@ define(["underscore", "jquery", "socket-io", "storage", "helpers", "hbs!../js/te
 
                 if (this.el === null) {
                     this.rootEl.append(adminTemplate({ "id": this.config["id"], "type": this.config["type"] }));
-                    this.el = this.rootEl.find("div#" + this.config["id"] + "Admin div.admin-box");
+                    this.el = this.rootEl.find("div#" + this.config["id"] + "admin div.admin-box");
                 }
 
                 // Render
@@ -154,10 +154,11 @@ define(["underscore", "jquery", "socket-io", "storage", "helpers", "hbs!../js/te
 
 
         // 3- module config
-        var ModuleConfig = Office.ModuleConfig = function (rootEl, configPattern, template, socket) {
+        var ModuleConfig = Office.ModuleConfig = function (rootEl, configPattern, template, position, socket) {
             this.rootEl = rootEl;
             this.configPattern = configPattern;
             this.template = template;
+            this.position = position;
             this.socket = socket;
         }
         _.extend(ModuleConfig.prototype, {
@@ -190,14 +191,11 @@ define(["underscore", "jquery", "socket-io", "storage", "helpers", "hbs!../js/te
                     var input = $(inputs[i]);
 
                     // remove this if when drag & drop available
-                    if (input.attr("name").indexOf("position") !== 0 && input.attr("name").indexOf("size") !== 0) {
+                    if (input.attr("name").indexOf("size") !== 0) {
                         newConf[input.attr("name")] = input.val();
                     }
                 }
-                newConf.position = {
-                    "x": this.el.find("form input[name='positionX']").val(),
-                    "y": this.el.find("form input[name='positionY']").val()
-                }
+                newConf.position = this.position;
                 newConf.size = {
                     "w": this.el.find("form input[name='sizeW']").val(),
                     "h": this.el.find("form input[name='sizeH']").val()
@@ -245,6 +243,7 @@ define(["underscore", "jquery", "socket-io", "storage", "helpers", "hbs!../js/te
                 this.close();
                 return false;
             },
+
             close: function () {
                 this.el.find("button.button-confirm").unbind();
                 this.el.find("button.button-cancel").unbind();

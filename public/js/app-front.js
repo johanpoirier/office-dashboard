@@ -1,10 +1,24 @@
-define(["jquery", "underscore", "socket-io", "constants"], function ($, _, io) {
+define(["jquery", "underscore", "socket-io", "helpers", "constants"], function ($, _, io, Helpers) {
 
+    var globalConfig = {};
     var moduleIds = [];
     var moduleTypes = [];
 
     var socket = io.connect(window.office.node_server_url);
+
     socket.on('connect', function () {
+        socket.emit('front-get-global-conf');
+    });
+
+    socket.on('front-send-global-conf', function(config) {
+        console.log("front received global conf");
+        globalConfig = config;
+
+        // set up modules grid layout
+        var dashboardInstances = $("#modules");
+        dashboardInstances.css("grid-template-columns", Helpers.generateGridTemplateProperty(globalConfig["grid"]["columns"]));
+        dashboardInstances.css("grid-template-rows", Helpers.generateGridTemplateProperty(globalConfig["grid"]["rows"]));
+
         socket.emit('front-get-modules-instances');
     });
 

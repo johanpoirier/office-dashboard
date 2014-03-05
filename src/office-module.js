@@ -10,7 +10,7 @@ var OfficeModule = function(globalConfig, moduleConfig, socketio, proxy) {
     this.iosockets = socketio;
     this.iosockets.on('connection', (function (socket) {
         socket.on(this.config["id"] + ":screen", this.getData.bind(this));
-        socket.on(this.config["id"] + "Admin" + ":screen", this.getAdminData.bind(this));
+        socket.on(this.config["id"] + "admin" + ":screen", this.getAdminData.bind(this));
     }).bind(this));
 
     this.start.apply(this);

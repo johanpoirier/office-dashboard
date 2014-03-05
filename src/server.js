@@ -72,8 +72,23 @@ io.sockets.on('connection', function (socket) {
         console.log("Client requested modules");
         socket.emit('front-send-modules-instances', DashboardConfig.getModulesConf());
     });
+    socket.on('front-get-global-conf', function () {
+        console.log("Client requested global conf");
+        socket.emit('front-send-global-conf', DashboardConfig.getGlobalConf());
+    });
 
     // Admin event listeners
+    socket.on('admin-get-global-conf', function () {
+        console.log("Admin requested global conf");
+        socket.emit('admin-send-global-conf', DashboardConfig.getGlobalConf());
+    });
+    socket.on('admin-save-global-conf', function (config) {
+        console.log("Admin pushed global conf");
+        DashboardConfig.saveGlobalConf(config);
+
+        // bradcast global conf to front clients
+        socket.broadcast.emit('front-send-global-conf', config);
+    });
     socket.on('admin-get-modules-kinds', function () {
         console.log("Admin requested modules kinds");
         socket.emit('admin-send-modules-kinds', DashboardConfig.listAvailableModules());
@@ -98,6 +113,7 @@ io.sockets.on('connection', function (socket) {
 
         // send back modules instances to admin
         socket.emit('admin-send-modules-instances', DashboardConfig.getModulesConf());
+
         // bradcast modules instances to front socket
         socket.broadcast.emit('front-send-modules-instances', DashboardConfig.getModulesConf());
     });

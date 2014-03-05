@@ -1,5 +1,5 @@
 /* JS Helpers collection */
-define(function() {
+define(function () {
 
     function appendToHead(url) {
         var link = document.createElement("link");
@@ -9,13 +9,21 @@ define(function() {
         document.getElementsByTagName("head")[0].appendChild(link);
     }
 
-    var helpers = {
+    return {
         loadModuleCss: function (moduleName) {
             appendToHead("/js/modules/" + moduleName + "/" + moduleName + ".css");
         },
+
         loadAdminModuleCss: function (moduleName) {
-            appendToHead("/js/modules/" + moduleName + "/" + moduleName + "-admin" +  ".css");
+            appendToHead("/js/modules/" + moduleName + "/" + moduleName + "-admin" + ".css");
+        },
+
+        generateGridTemplateProperty: function (nb) {
+            var cssLine = [];
+            for (var i = 0; i < nb; i++) {
+                cssLine.push("1fr");
+            }
+            return cssLine.join(" ");
         }
-    };
-    return helpers;
+    }
 });

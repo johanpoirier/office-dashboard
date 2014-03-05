@@ -48,6 +48,24 @@ var DashboardConfig = {
         return modules;
     },
 
+    getGlobalConf: function() {
+        var config = storage.getItem("config");
+        if(!config) {
+            config = {
+                "grid": {
+                    "columns": 3,
+                    "rows": 3
+                }
+            };
+            storage.setItem("config", config);
+        }
+        return config;
+    },
+
+    saveGlobalConf: function(config) {
+        storage.setItem("config", config);
+    },
+
     addModule: function(config) {
         var modules = this.getModulesConf();
         modules.push(config);

@@ -10,8 +10,8 @@ var BreakingNewsModule = OfficeModule.extend({
 
     start: function () {
         this.iosockets.on('connection', (function (socket) {
-            socket.on(this.config["id"] + "Admin" + ":message", this.getNewMessage.bind(this));
-            socket.on(this.config["id"] + "Admin" + ":remove", this.removeMessage.bind(this));
+            socket.on(this.config["id"] + "admin" + ":message", this.getNewMessage.bind(this));
+            socket.on(this.config["id"] + "admin" + ":remove", this.removeMessage.bind(this));
         }).bind(this));
 
         setInterval(this.displayMessage.bind(this), this.config["refresh"]);
@@ -27,7 +27,9 @@ var BreakingNewsModule = OfficeModule.extend({
             }
         }
         // void
-        if(this.messages.length === 0)this.iosockets.emit(this.config["id"] + ":message", null);
+        if(this.messages.length === 0) {
+            this.iosockets.emit(this.config["id"] + ":message", null);
+        }
     },
 
     // Receive messages from admin local storage

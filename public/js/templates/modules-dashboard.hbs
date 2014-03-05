@@ -1,9 +1,8 @@
 {{#each modules}}
     <div class="module-instance" data-type="{{this.type}}" id="{{this.id}}"
-        style="grid-column-start:{{this.position.x}}; grid-column-end:span {{this.size.x}}; grid-row-start:{{this.position.y}}; grid-row-end:span {{this.size.y}};">
+        style="grid-column-start:{{this.position.x}}; grid-column-end:span {{this.size.w}}; grid-row-start:{{this.position.y}}; grid-row-end:span {{this.size.h}};">
+	    {{this.id}}<br/>
     	<input type="button" class="admin" title="Administrate" value="Administrate">
 	    <input type="button" class="delete" title="Delete" value="Delete">
-        [{{this.type}}]<br/>
-        {{this.id}}
     </div>
 {{/each}}

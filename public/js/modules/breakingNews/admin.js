@@ -8,7 +8,7 @@ define([ "jquery","office", "hbs!modules/breakingNews/admin", "hbs!modules/break
 
             // SocketIO events
             listen: function(){
-                this.socket.emit(this.config["id"] + "Admin" + ":screen",this.storage.get("messages"));
+                this.socket.emit(this.config["id"] + "admin" + ":screen",this.storage.get("messages"));
             },
 
             // DOM events
@@ -39,13 +39,13 @@ define([ "jquery","office", "hbs!modules/breakingNews/admin", "hbs!modules/break
 
             newMessage: function(message) {
                 this.storage.add("messages",message);
-                this.socket.emit(this.config["id"] + "Admin" + ":message", message);
+                this.socket.emit(this.config["id"] + "admin" + ":message", message);
                 this.refreshList();
             },
 
             removeMessage: function(message) {
                 this.storage.remove("messages", message);
-                this.socket.emit(this.config["id"] + "Admin" + ":remove", message);
+                this.socket.emit(this.config["id"] + "admin" + ":remove", message);
                 this.refreshList();
             }
 
