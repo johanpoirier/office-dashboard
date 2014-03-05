@@ -2,6 +2,10 @@
     <h2 class="module-title">{{title}}</h2>
     <form>
         <input type="text" name="id" value="" placeholder="id" /><br/>
+        <input type="number" name="positionX" value="1" placeholder="position x" />
+        <input type="number" name="positionY" value="1" placeholder="position y" /><br/>
+        <input type="number" name="sizeW" value="1" placeholder="size x" />
+        <input type="number" name="sizeH" value="1" placeholder="size y" /><br/>
     {{#each fields}}
         <label for="{{this.name}}">{{this.name}}</label>
         <input type="text" name="{{this.name}}" value="{{this.value}}" placeholder="{{this.name}}" /><br/>

@@ -1,12 +1,10 @@
 @import url('http://fonts.googleapis.com/css?family=Lato');
 
-
 /* General */
 body {
     background: url(/images/bg.jpg) no-repeat center fixed;
     background-size: cover;
-    font: 18px Lato,"Helvetica Neue",Arial,Helvetica,sans-serif;
-    overflow: hidden;
+    font: 18px Lato, "Helvetica Neue", Arial, Helvetica, sans-serif;
 }
 
 *, *:before, *:after {
@@ -20,18 +18,17 @@ a {
     text-decoration: none;
 }
 
-input[type="button"],button {
-    box-shadow:inset 0px 1px 0px 0px #ffffff;
-    background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #f9f9f9), color-stop(1, #e9e9e9) );
-    background:-moz-linear-gradient( center top, #f9f9f9 5%, #e9e9e9 100% );
-    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#f9f9f9', endColorstr='#e9e9e9');
+input[type="button"], button {
+    box-shadow: inset 0px 1px 0px 0px #ffffff;
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #f9f9f9), color-stop(1, #e9e9e9));
+    background: -moz-linear-gradient(center top, #f9f9f9 5%, #e9e9e9 100%);
     color: #7d7d7d;
-    border:1px solid #dcdcdc;
-    font-weight:bold;
-    line-height:40px;
-    text-decoration:none;
-    text-align:center;
-    text-shadow:1px 1px 0px #ffffff;
+    border: 1px solid #dcdcdc;
+    font-weight: bold;
+    line-height: 40px;
+    text-decoration: none;
+    text-align: center;
+    text-shadow: 1px 1px 0px #ffffff;
 }
 
 input[type="text"] {
@@ -43,29 +40,32 @@ input[type="text"] {
     color: #ffffff;
 }
 
-
 /* Modules frontend */
 #modules {
-    display: flex;
-    flex-flow: row wrap;
-    justify-content: space-around;
-    padding: 50px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    height: 100%;
+    width: 100%;
 }
 
 .module {
+    height: 100%;
+    padding: 5px;
+    position: relative;
     z-index: 5;
+}
+
+.module-inner {
     background: #555454;
     border: 1px solid #404040;
-    flex: 1 300px;
-    height: 300px;
-    margin: 12px;
-    max-width: 400px;
-    position: relative;
+    height: 100%;
+    overflow: hidden;
 }
 
 .module-title {
     color: #C1C1C1;
-    background: linear-gradient(135deg, rgba(17,17,17,1) 0%,rgba(17,17,17,1) 10%,rgba(17,17,17,1) 13%,rgba(17,17,17,1) 15%,rgba(17,17,17,1) 27%,rgba(45,45,45,1) 53%,rgba(45,45,45,1) 67%,rgba(56,56,56,1) 100%,rgba(27,27,27,1) 100%);    
+    background: linear-gradient(135deg, rgba(17, 17, 17, 1) 0%, rgba(17, 17, 17, 1) 10%, rgba(17, 17, 17, 1) 13%, rgba(17, 17, 17, 1) 15%, rgba(17, 17, 17, 1) 27%, rgba(45, 45, 45, 1) 53%, rgba(45, 45, 45, 1) 67%, rgba(56, 56, 56, 1) 100%, rgba(27, 27, 27, 1) 100%);
     margin: 0;
     min-height: 35px;
     overflow: hidden;
@@ -97,8 +97,8 @@ input[type="text"] {
     font-size: 9px;
     padding: 1px 2px 0 0;
     position: absolute;
-    right: 0;
-    top: 0;
+    right: 5px;
+    top: 5px;
 }
 
 .red {
@@ -123,6 +123,7 @@ input[type="text"] {
     flex-flow: row wrap;
     justify-content: space-around;
 }
+
 #admin > div {
     max-width: none;
 }
@@ -138,8 +139,26 @@ input[type="text"] {
     border: 1px solid #404040;
     display: flex;
     flex: 4 600px;
-    flex-flow: row wrap;
-    justify-content: space-around;
+    flex-flow: column wrap;
+    margin: 12px;
+}
+
+.admin-dashboard-grid-config > input {
+    width: 50px;
+}
+
+.admin-dashboard-instances {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    width: 100%;
+}
+
+.admin-dashboard-instances > module-instance {
+    height: 100%;
+    overflow: hidden;
+    grid-column: 1;
+    grid-row: 1;
 }
 
 .module-admin {
@@ -150,12 +169,11 @@ input[type="text"] {
     outline: 2px solid #BFBFBF;
     position: relative;
 }
+
 .module-admin .admin-box {
     padding: 10px;
     color: #C1C1C1;
 }
-
-
 
 .module-instance {
     background: #cfcfcf;
@@ -166,7 +184,6 @@ input[type="text"] {
     height: 150px;
     line-height: 40px;
     margin: 12px;
-    max-width: 250px;
     padding-top: 15px;
     position: relative;
     text-align: center;
@@ -181,10 +198,12 @@ div.modal {
     width: 650px;
     z-index: 100;
 }
+
 input[type="button"].close-modal {
     float: right;
     border-radius: 5px;
 }
+
 .fade {
     background-color: black;
     height: 100%;

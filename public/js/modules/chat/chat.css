@@ -1,18 +1,16 @@
 /* Chat module CSS */
 .chat {
-    flex: 2 500px;
-    max-width: 700px;
-    height: 313px;
+    display: flex;
+    flex-flow: column wrap;
 }
-
 .chat-window {
     display: flex;
+    flex: 1;
 }
 
 .chat-messages {
     background: white;
-    flex: 3 200px;
-    height: 240px;
+    flex: 3;
     overflow-y: auto;
 }
 
@@ -39,8 +37,7 @@
 
 .chat-users {
     background: linear-gradient(135deg, rgba(38,38,38,1) 0%,rgba(38,38,38,1) 10%,rgba(38,38,38,1) 13%,rgba(38,38,38,1) 15%,rgba(38,38,38,1) 27%,rgba(45,45,45,1) 53%,rgba(45,45,45,1) 67%,rgba(56,56,56,1) 100%,rgba(27,27,27,1) 100%);
-    flex: 1 100px;
-    height: 240px;
+    flex: 1;
     overflow-y: auto;
     overflow-x: hidden;
 }
@@ -56,6 +53,7 @@
 
 .chat-input {
     display: flex;
+    margin-top: auto;
 }
 
 .chat-input .send {

@@ -45,10 +45,10 @@ define(["jquery",
 
         socket.on('admin-send-modules-instances', function (modules) {
             console.log("admin received modules instances");
-            el.find(".admin-dashboard").html(modulesDashboardTemplate({ "modules": modules }));
+            el.find(".admin-dashboard-instances").html(modulesDashboardTemplate({ "modules": modules }));
 
             /* Listener - click on administrate button and display modal */
-            el.find(".admin-dashboard .module-instance input.admin").click(function() {
+            el.find(".admin-dashboard-instances .module-instance input.admin").click(function() {
                 if(!adminModule) {
                     var type = $(this).parent().data("type");
                     var id = $(this).parent().attr("id");
@@ -76,7 +76,7 @@ define(["jquery",
             });
 
             /* Listener - click on delete button */
-            el.find(".admin-dashboard .module-instance input.delete").click(function() {
+            el.find(".admin-dashboard-instances .module-instance input.delete").click(function() {
                 var id = $(this).parent().attr("id");
                 el.addClass("fade");
                 var moduleDelete = new Office.ModuleDelete($("body"), id, moduleDeleteTemplate, socket);
