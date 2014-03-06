@@ -100,9 +100,8 @@ define(["underscore", "jquery", "socket-io", "storage", "helpers", "hbs!../js/te
                 container.css("grid-row-end", "span " + this.config["size"]["h"]);
             },
             
-	    destroy: function() {
-                console.log(this.el);
-                this.el.remove();
+	        destroy: function() {
+                this.el.parent().remove();
                 this.disconnect.apply(this);
             },
 
@@ -146,7 +145,7 @@ define(["underscore", "jquery", "socket-io", "storage", "helpers", "hbs!../js/te
 
                 if (this.el === null) {
                     this.rootEl.append(adminTemplate({ "id": this.config["id"], "type": this.config["type"] }));
-                    this.el = this.rootEl.find("div#" + this.config["id"] + "admin div.admin-box");
+                    this.el = this.rootEl.find("div#" + this.config["id"] + "Admin div.admin-box");
                 }
 
                 // Render

@@ -201,7 +201,7 @@ define(["jquery",
             });
 
             // Listener - click on delete button
-            var deleteButtons = el.find(".admin-dashboard-instances .module-instance input.admin");
+            var deleteButtons = el.find(".admin-dashboard-instances .module-instance input.delete");
             deleteButtons.unbind("click");
             deleteButtons.click(function () {
                 var id = $(this).parent().attr("id");
