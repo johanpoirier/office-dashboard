@@ -1,7 +1,7 @@
 {{#each modules}}
     <div class="module" data-type="{{this.type}}" id="{{this.id}}" data-w="{{this.size.w}}" data-h="{{this.size.h}}"
         style="grid-column-start:{{this.position.x}}; grid-column-end:span {{this.size.w}}; grid-row-start:{{this.position.y}}; grid-row-end:span {{this.size.h}};" draggable="true">
-        <div class="module-inner" draggable="true">
+        <div class="module-inner" draggable="true" style="background:url(/js/modules/{{this.type}}/logo.png) #555454 no-repeat center center;">
             {{this.id}}
         <div class="action-panel">
             <button type="button" class="admin" title="Administrate"><img height="20px" width="20px" src="/images/admin.png" alt="Admin" title="Admin"></button>
