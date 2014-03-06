@@ -114,7 +114,21 @@ var DashboardConfig = {
     deleteModule: function (moduleId) {
         // remove module from conf
         var modules = this.getModulesConf();
-        console.log(modules);
+        modules.forEach(function(module,index) {
+            if(module.id === moduleId) modules.splice(index,1);
+        });
+
+        // remove module from storage
+        storage.setItem("modules", modules);
+
+        // remove module from instances
+        this.instances.forEach(function(instance,index) {
+            if(instance.config.id === moduleId) {
+                instance.destroy();
+                this.instances.splice(index,1);
+            } 
+        }.bind(this));
+        return modules;
     }
 }
 

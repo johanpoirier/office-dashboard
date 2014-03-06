@@ -86,6 +86,7 @@ define(["underscore", "jquery", "socket-io", "storage", "helpers", "hbs!../js/te
                 this.listen.apply(this);
             },
 
+
             updateConfig: function(config) {
                 this.config = config;
                 this.updatePosition();
@@ -97,6 +98,12 @@ define(["underscore", "jquery", "socket-io", "storage", "helpers", "hbs!../js/te
                 container.css("grid-column-end", "span " + this.config["size"]["w"]);
                 container.css("grid-row-start", String(this.config["position"]["y"]));
                 container.css("grid-row-end", "span " + this.config["size"]["h"]);
+            },
+            
+	    destroy: function() {
+                console.log(this.el);
+                this.el.remove();
+                this.disconnect.apply(this);
             },
 
             disconnect: function () {
