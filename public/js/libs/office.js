@@ -69,6 +69,12 @@ define(["underscore", "jquery", "socket-io", "storage", "helpers","hbs!../js/tem
             this.listen.apply(this);
         },
 
+        destroy: function() {
+            console.log(this.el);
+            this.el.remove();
+            this.disconnect.apply(this);
+        },
+
         disconnect: function () {
            this.dispose.apply(this);
         },

@@ -84,21 +84,19 @@ io.sockets.on('connection', function (socket) {
     });
     socket.on('admin-add-module-instance', function (moduleConfig) {
         console.log("Admin added a module instance " + moduleConfig.id);
-        DashboardConfig.addModule(moduleConfig);
+        var modules = DashboardConfig.addModule(moduleConfig);
         DashboardConfig.loadModule(config, moduleConfig, io.sockets);
-
         // send back modules instances to admin
-        socket.emit('admin-send-modules-instances', DashboardConfig.getModulesConf());
-        // bradcast modules instances to front socket
-        socket.broadcast.emit('front-send-modules-instances', DashboardConfig.getModulesConf());
+        socket.emit('admin-send-modules-instances', modules);
+        // broadcast new module instance to front socket
+        socket.broadcast.emit('front-add-module-instance', moduleConfig);
     });
     socket.on('admin-delete-module-instance', function (moduleId) {
         console.log("Admin deleted a module instance " + moduleId);
-        DashboardConfig.deleteModule(moduleId);
-
+        var modules = DashboardConfig.deleteModule(moduleId);
         // send back modules instances to admin
-        socket.emit('admin-send-modules-instances', DashboardConfig.getModulesConf());
-        // bradcast modules instances to front socket
-        socket.broadcast.emit('front-send-modules-instances', DashboardConfig.getModulesConf());
+        socket.emit('admin-send-modules-instances', modules);
+        // broadcast module instance to delete id to front socket
+        socket.broadcast.emit('front-delete-module-instance', moduleId);
     });
 });

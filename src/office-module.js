@@ -19,6 +19,9 @@ var OfficeModule = function(globalConfig, moduleConfig, socketio, proxy) {
 OfficeModule.prototype.start = function() {};
 OfficeModule.prototype.getData = function() {};
 OfficeModule.prototype.getAdminData = function() {};
+OfficeModule.prototype.destroy = function() {
+    // self-destroy method
+};
 
 var copyProps = function(obj) {
     for(var index in arguments) {
