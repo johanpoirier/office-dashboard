@@ -15,9 +15,9 @@ var TrelloModule = OfficeModule.extend({
         };
 
         // proxy conf
-        if (this.proxyHost && this.proxyPort) {
-            this.options.hostname = this.proxyHost;
-            this.options.port = this.proxyPort;
+        if (this.proxy) {
+            this.options.hostname = this.proxy['host'];
+            this.options.port = this.proxy['port'];
             this.options.path = 'https://' + this.config['host'] + this.config['path'] + "&key=" + this.config['key'] + "&token=" + this.config['token'];
             https = http;
         }

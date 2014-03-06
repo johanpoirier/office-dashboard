@@ -7,13 +7,16 @@ var IframeModule = OfficeModule.extend({
 
     start: function () {
         this.pages = this.config["pages"];
-        if (this.pages.length > 0) {
+        if (this.pages && this.pages.length > 0) {
             this.iosockets.on('connection', (function (socket) {
                 socket.on(this.config["id"] + ":screen", this.getNextPage.bind(this));
             }).bind(this));
             if (this.pages.length > 1) {
                 setInterval(this.getNextPage.bind(this), this.config["refresh"]);
             }
+        }
+        else {
+            console.warn("[" + this.config["id"] + "] no page to display");
         }
     },
 

@@ -2,10 +2,8 @@
 
 /* Twitter module CSS */
 .twitter {
-	height: 100%;
 	font-size: 12px;
 	font-family: Lato;
-    flex: 2 1 500px;
 }
 
 .twitter .module-item {

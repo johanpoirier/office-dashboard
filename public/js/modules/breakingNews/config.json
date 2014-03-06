@@ -1,0 +1,6 @@
+{
+    "type": "breakingNews",
+    "singleton" : true,
+    "refresh": 5000,
+    "admin": {}
+}

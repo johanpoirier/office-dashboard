@@ -25,10 +25,10 @@ require.config({
 
 // get context
 var bootstrapScript = document.querySelector("#bootstrap");
-var context = "";
+var app = "app-";
 if(bootstrapScript.hasAttribute("data-context")) {
-    context = bootstrapScript.getAttribute("data-context") + "-";
+    app += bootstrapScript.getAttribute("data-context");
 }
 
 // start app
-require([context + "app"]);
+require([app]);

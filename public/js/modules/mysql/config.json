@@ -1,0 +1,13 @@
+{
+    "type": "mysql",
+    "host": "",
+    "user": "",
+    "password": "",
+    "database": "",
+    "table": "",
+    "refresh": 20000,
+    "fetched_items": 5,
+    "title": "",
+    "fields": [],
+    "query": {}
+}

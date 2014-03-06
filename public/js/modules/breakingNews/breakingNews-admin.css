@@ -3,11 +3,9 @@
 
 /* Override */
 .breakingNews {
-	color: #ffffff;
-	font-size: 12px;
+	color: black;
 	font-family: Lato;
     border: 0;
-    height: 100%;
     overflow: hidden;
     width: 100%;
 }
@@ -30,7 +28,6 @@
 
 .breakingNews input[type="button"].remove-message {
 	border-radius: 5px;
-	height: 17px;
 	float: left;
 	margin-left: 10px;
 }

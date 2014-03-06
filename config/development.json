@@ -2,16 +2,7 @@
     "NODE_ENV": "development",
     "TEST_PORT": 8085,
     "server": "http://localhost:8085",
-    "modules": [
-        {
-            "id": "git",
-            "type": "git",
-            "repo": "office-dashboard",
-            "branch": "origin/master",
-            "url": "https://github.com/johanpoirier/office-dashboard.git",
-            "tmp": "g:/Temp",
-            "nb_commits_display": 6,
-            "refresh": 300000
-        }
-    ]
+    "tempDir": "./work",
+    "proxy_host": "proxy.priv.atos.fr",
+    "proxy_port": 3128
 }

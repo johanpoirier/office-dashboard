@@ -1,3 +1,4 @@
 #!/bin/sh
+PATH="$PATH:/opt/node/bin"
 cd /home/pi/office-dashboard
-NODE_ENV=production /opt/node/bin/npm start 1> stdout.log 2> stderr.log &
+grunt 1> stdout.log 2> stderr.log &

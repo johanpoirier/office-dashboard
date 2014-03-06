@@ -1,0 +1,63 @@
+<!doctype html>
+<html>
+<style>
+    * {
+        box-sizing: border-box;
+    }
+    #grid {
+        width: 100%;
+        height: 100%;
+        display: grid;
+        display: -ms-grid;
+        -ms-grid-columns: 1fr 1fr 1fr 1fr;
+        -ms-grid-rows: minmax(100px, 200px);
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+        grid-template-rows: 1fr 1fr 1fr 1fr;
+    }
+    #grid > section {
+        height: 100%;
+        overflow: hidden;
+    }
+    #grid > section:nth-child(1) {
+        border: 1px solid salmon;
+        -ms-grid-column: 1;
+        -ms-grid-row: 1;
+        grid-column-start: 1;
+        grid-column-end: span 3;
+        grid-row-start: 2;
+        grid-row-end: 4;
+    }
+
+    #grid > section:nth-child(2) {
+        border: 1px solid steelblue;
+        -ms-grid-column: 2;
+        -ms-grid-row: 1;
+        grid-column: 1;
+        grid-row: 4;
+    }
+
+    #grid > section:nth-child(3) {
+        border: 1px solid orange;
+        -ms-grid-column: 3;
+        -ms-grid-row: 1;
+        grid-column: 3;
+        grid-row: 1;
+    }
+
+    #grid > section:nth-child(4) {
+        border: 1px solid skyblue;
+        -ms-grid-column: 4;
+        -ms-grid-row: 1;
+        grid-column: 4;
+        grid-row: 3;
+    }
+</style>
+<body>
+<div id="grid">
+    <section>THE FIRST GRID COLUMN<br/>gfsdfgsdffgsdfsdfsdf<br/>gfsdfgsdffgsdfsdfsdf<br/>gfsdfgsdffgsdfsdfsdf<br/>gfsdfgsdffgsdfsdfsdf<br/>gfsdfgsdffgsdfsdfsdf<br/>gfsdfgsdffgsdfsdfsdf<br/>gfsdfgsdffgsdfsdfsdf<br/>gfsdfgsdffgsdfsdfsdf<br/>dfgdgdfg<br/>dfgdgdfg<br/>dfgdgdfg<br/>gfsdfgsdffgsdfsdfsdf<br/>gfsdfgsdffgsdfsdfsdf<br/>gfsdfgsdffgsdfsdfsdf<br/>gfsdfgsdffgsdfsdfsdf<br/>gfsdfgsdffgsdfsdfsdf<br/>gfsdfgsdffgsdfsdfsdf</section>
+    <section>THE SECOND GRID COLUMN</section>
+    <section>THE THIRD GRID COLUMN</section>
+    <section>THE FOURTH GRID COLUMN</section>
+</div>
+</body>
+</html>

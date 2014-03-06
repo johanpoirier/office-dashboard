@@ -6,12 +6,12 @@ var TwitterModule = OfficeModule.extend({
     twitterApi: null,
 
     start: function () {
-        var proxy = null;
-        if (this.proxyHost && this.proxyPort) {
-            proxy = {
+        var proxyConf = null;
+        if (this.proxy) {
+            proxyConf = {
                 "proxy": {
-                    "host": this.proxyHost,
-                    "port": this.proxyPort
+                    "host": this.proxy["host"],
+                    "port": this.proxy["port"]
                 }
             };
         }
@@ -21,7 +21,7 @@ var TwitterModule = OfficeModule.extend({
             "consumer_secret": this.config["consumer_secret"],
             "access_token_key": this.config["access_token_key"],
             "access_token_secret": this.config["access_token_secret"],
-            "proxy": proxy
+            "proxy": proxyConf
         });
 
         /* On run - Stream new tweets */

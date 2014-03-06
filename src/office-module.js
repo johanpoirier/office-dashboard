@@ -1,16 +1,17 @@
 var util = require('util');
 
-var OfficeModule = function(config, socketio, proxyHost, proxyPort) {
-    this.config = config;
-    this.proxyHost = proxyHost;
-    this.proxyPort = proxyPort;
+var OfficeModule = function(globalConfig, moduleConfig, socketio, proxy) {
+    this.proxy = proxy;
+    this.globalConfig = globalConfig;
+    this.config = moduleConfig;
+    this.id = moduleConfig["id"];
 
     console.log("[" + this.config["id"] + "] module loaded");
 
     this.iosockets = socketio;
     this.iosockets.on('connection', (function (socket) {
         socket.on(this.config["id"] + ":screen", this.getData.bind(this));
-        socket.on(this.config["id"] + "Admin" + ":screen", this.getAdminData.bind(this));
+        socket.on(this.config["id"] + "admin" + ":screen", this.getAdminData.bind(this));
     }).bind(this));
 
     this.start.apply(this);

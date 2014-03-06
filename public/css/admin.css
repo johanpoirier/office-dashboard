@@ -1,0 +1,132 @@
+[draggable] {
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
+*[draggable=true] {
+    -moz-user-select:none;
+    -khtml-user-drag: element;
+    cursor: move;
+}
+
+/* Modules admin */
+#admin {
+    color: #c1c1c1;
+    display: flex;
+    flex-flow: row wrap;
+    height: 100%;
+    justify-content: space-around;
+}
+
+#admin > div {
+    height: 100%;
+}
+
+.admin-modules {
+    background: #555454;
+    border: 1px solid #404040;
+    display: flex;
+    flex: 1 200px;
+    flex-flow: column wrap;
+}
+.admin-modules ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.admin-modules ul > li {
+    cursor: -webkit-grab;
+    flex: 1;
+    line-height: 30px;
+    min-height: 30px;
+    text-align: center;
+}
+.admin-modules ul > li:hover {
+    box-shadow: 0px 2px 12px #000;
+}
+
+.admin-dashboard {
+    display: flex;
+    flex: 4 600px;
+    flex-flow: column wrap;
+    padding: 5px;
+}
+
+.admin-dashboard > div {
+    background: #555454;
+    border: 1px solid #404040;
+}
+
+.admin-dashboard-grid-config > input {
+    width: 50px;
+}
+
+.admin-dashboard-instances {
+    display: grid;
+    flex: 5;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    height: 92%;
+    width: 100%;
+}
+
+.admin-dashboard-instances > module-instance {
+    height: 100%;
+    overflow: hidden;
+    grid-column: 1;
+    grid-row: 1;
+}
+
+.module-admin {
+    background: linear-gradient(135deg, rgba(69, 72, 77, 1) 0%, rgba(0, 0, 0, 1) 100%);
+    flex: 1 300px;
+    min-height: 300px;
+    max-height: 400px;
+    max-width: 600px;
+    outline: 2px solid #BFBFBF;
+    position: relative;
+}
+
+.module-admin .admin-box {
+    padding: 10px;
+    color: #C1C1C1;
+}
+
+.module-instance {
+    background: #cfcfcf;
+    border: 1px solid #404040;
+    box-shadow: inset 0px 1px 0px 0px #ffffff;
+    color: black;
+    height: 100%;
+    line-height: 40px;
+    padding-top: 15px;
+    position: relative;
+    text-align: center;
+}
+
+/** Modals **/
+div.modal {
+    left: 50%;
+    margin-left: -325px;
+    overflow-x: hidden;
+    top: 50px;
+    width: 650px;
+    z-index: 100;
+}
+
+input[type="button"].close-modal {
+    float: right;
+    border-radius: 5px;
+}
+
+.fade {
+    background-color: black;
+    height: 100%;
+    left: 0;
+    opacity: .30;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: 90;
+}

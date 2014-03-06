@@ -29,9 +29,9 @@ var GithubModule = OfficeModule.extend({
         };
 
         // proxy conf
-        if (this.proxyHost && this.proxyPort) {
-            options.hostname = this.proxyHost;
-            options.port = this.proxyPort;
+        if (this.proxy) {
+            options.hostname = this.proxy["host"];
+            options.port = this.proxy["port"];
             options.path = 'https://' + this.config['host'] + this.config['path'];
             https = http;
         }
