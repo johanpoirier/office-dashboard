@@ -1,8 +1,10 @@
 {{#each modules}}
-    <div class="module-instance" data-type="{{this.type}}" id="{{this.id}}" draggable="true"
-        style="grid-column-start:{{this.position.x}}; grid-column-end:span {{this.size.w}}; grid-row-start:{{this.position.y}}; grid-row-end:span {{this.size.h}};">
-	    {{this.id}}<br/>
-    	<input type="button" class="admin" title="Administrate" value="Administrate">
-	    <input type="button" class="delete" title="Delete" value="Delete">
+    <div class="module" data-type="{{this.type}}" id="{{this.id}}" data-w="{{this.size.w}}" data-h="{{this.size.h}}"
+        style="grid-column-start:{{this.position.x}}; grid-column-end:span {{this.size.w}}; grid-row-start:{{this.position.y}}; grid-row-end:span {{this.size.h}};" draggable="true">
+        <div class="module-inner" draggable="true">
+            {{this.id}}<br/>
+            <input type="button" class="admin" title="Administrate" value="Administrate">
+            <input type="button" class="delete" title="Delete" value="Delete">
+	    </div>
     </div>
 {{/each}}

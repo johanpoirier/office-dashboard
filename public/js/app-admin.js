@@ -155,25 +155,119 @@ define(["jquery",
                 "modules": modules
             }));
 
+            // resize cursor hover of module borders
+            var instancesEl = dashboardEl.find(".module");
+            instancesEl.bind("mouseover", function (e) {
+                var mod = $(e.target);
+                if(mod.hasClass("module")) {
+                    if(e.originalEvent.offsetX >= (mod.width() - 10)) {
+                        mod.css("cursor", "w-resize");
+                    }
+                    else if(e.originalEvent.offsetY >= (mod.height() - 10)) {
+                        mod.css("cursor", "n-resize");
+                    }
+                }
+            });
+
+            var dragIcon = window.document.getElementById("resize");
+            var dragOffsetX = 0, dragOffsetY = 0;
+            var modWidth = 0, modHeight = 0;
+            var unitWidth = 0, unitHeight = 0;
+            instancesEl.bind("dragstart", function (e) {
+                var mod = $(e.target);
+                if(mod.hasClass("module")) {
+                    e.originalEvent.dataTransfer.effectAllowed = 'move';
+                    e.originalEvent.dataTransfer.setData("operation", "resize");
+
+                    mod.addClass("resize");
+
+                    e.originalEvent.dataTransfer.setDragImage(dragIcon, -10, -10);
+
+                    modWidth = mod.width();
+                    modHeight = mod.height();
+                    unitWidth = dashboardEl.width() / globalConfig["grid"]["columns"];
+                    unitHeight = Math.round(modHeight / mod.data("h"));
+                    dragOffsetX = modWidth - e.originalEvent.offsetX;
+                    dragOffsetY = modHeight - e.originalEvent.offsetY;
+                }
+            });
+
+            instancesEl.bind("drag", function (e) {
+                var mod = $(e.target);
+                if(mod.hasClass("module") && mod.hasClass("resize")) {
+                    if(dragOffsetX < 10) {
+                        mod.width(e.originalEvent.offsetX + dragOffsetX);
+                    }
+                    if(dragOffsetY < 10) {
+                        mod.height(e.originalEvent.offsetY + dragOffsetY);
+                    }
+                }
+            });
+
+            instancesEl.bind("dragend", function (e) {
+                var mod = $(e.target);
+                if(mod.hasClass("module") && mod.hasClass("resize")) {
+                    mod.removeClass("resize");
+                    var size = {};
+
+                    // compute new size dimensions
+                    if(dragOffsetX < 10) {
+                        size["w"] = Math.round((e.originalEvent.offsetX + dragOffsetX) / unitWidth);
+                        if(size["w"] == 0) {
+                            size["w"] = 1;
+                        }
+                    }
+                    if(dragOffsetY < 10) {
+                        size["h"] = Math.round((e.originalEvent.offsetY + dragOffsetY) / unitHeight);
+                        if(size["h"] == 0) {
+                            size["h"] = 1;
+                        }
+                    }
+
+                    // complete size missing dimension of module
+                    if(!size["w"]) {
+                        size["w"] = mod.data("w");
+                    }
+                    if(!size["h"]) {
+                        size["h"] = mod.data("h");
+                    }
+
+                    // set new module size
+                    var moduleConfig = getModule(mod.attr("id"));
+                    if(moduleConfig) {
+                        moduleConfig["size"] = size;
+                    }
+                    else {
+                        console.debug("module not found");
+                    }
+
+                    // push the conf to the server
+                    socket.emit('admin-add-module-instance', moduleConfig);
+
+                    // reset temp vars
+                    dragOffsetX = dragOffsetY = modWidth = modHeight = unitWidth = unitHeight = 0;
+                }
+            });
+
             // prevent drop on existing modules
-            var instancesEl = dashboardEl.find(".module-instance");
-            instancesEl.unbind("dragover");
-            instancesEl.bind("dragover", function (e) {
+            var instancesInnerEl = dashboardEl.find(".module-inner");
+            instancesInnerEl.unbind();
+            instancesInnerEl.bind("dragover", function (e) {
                 e.stopImmediatePropagation();
                 e.originalEvent.dataTransfer.dropEffect = 'none';
                 return false;
             });
 
             // enable drag of module instances
-            instancesEl.unbind("dragstart");
-            dashboardEl.find(".module-instance").bind("dragstart", function (e) {
+            instancesInnerEl.unbind("dragstart");
+            instancesInnerEl.bind("dragstart", function (e) {
                 e.originalEvent.dataTransfer.effectAllowed = 'move'; // only dropEffect='copy' will be dropable
-                e.originalEvent.dataTransfer.setData('id', $(this).attr("id"));
+                e.originalEvent.dataTransfer.setData('id', $(this).parent().attr("id"));
                 e.originalEvent.dataTransfer.setData('operation', 'move');
             });
 
             // Listener - click on administrate button and display modal
-            var adminButtons = el.find(".admin-dashboard-instances .module-instance input.admin");
+            var adminButtons = el.find(".admin-dashboard-instances .module input.admin");
             adminButtons.unbind("click");
             adminButtons.click(function () {
                 if (!adminModule) {
@@ -201,10 +295,10 @@ define(["jquery",
             });
 
             // Listener - click on delete button
-            var deleteButtons = el.find(".admin-dashboard-instances .module-instance input.delete");
+            var deleteButtons = el.find(".admin-dashboard-instances .module input.delete");
             deleteButtons.unbind("click");
             deleteButtons.click(function () {
-                var id = $(this).parent().attr("id");
+                var id = $(this).parent().parent().attr("id");
                 el.addClass("fade");
                 var moduleDelete = new Office.ModuleDelete($("body"), id, moduleDeleteTemplate, socket);
                 moduleDelete.displayModuleDeleteForm(function () {
