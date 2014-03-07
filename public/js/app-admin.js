@@ -82,17 +82,22 @@ define(["jquery",
                     var moduleType = e.originalEvent.dataTransfer.getData('type');
                     console.debug("drop a module of type " + moduleType);
 
-                    var moduleConfigPattern = modulesList.filter(function (mod) {
+                    var moduleConstantConfig = modulesList.filter(function (mod) {
                         return mod.type === moduleType;
                     });
+                    // we need to clone the config object in order to not alter our modulesList
+                    var moduleConstantConfigClone = _.clone(moduleConstantConfig[0]);
 
-                    if (moduleConfigPattern.length > 0) {
+                    require(["modules/" + moduleType + "/admin/admin"], function (AdminModule) {
                         el.addClass("fade");
-                        var moduleConfig = new Office.ModuleConfig($("body"), moduleConfigPattern[0], moduleConfigTemplate, position, socket);
-                        moduleConfig.displayModuleConfForm(function () {
+                        adminModule = new AdminModule(moduleConstantConfigClone, $("body"));
+                        /* Listener - click on close button and hide administration modal */
+                        $(".module-admin .close-modal").click((function () {
                             el.removeClass("fade");
-                        });
-                    }
+                            adminModule = null;
+                            $(".module-admin").remove();
+                        }).bind(this));
+                    });
                 }
 
                 // move module instance inside the dashboard
