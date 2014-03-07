@@ -6,6 +6,7 @@ var ChatModule = OfficeModule.extend({
 
     start: function () {
         var self = this;
+
         self.iosockets.on('connection', function (socket) {
             socket.on(self.config["id"] + ":message", function (content) {
                 var message = { "author": socket.username, "content": content };
@@ -45,6 +46,10 @@ var ChatModule = OfficeModule.extend({
                 }
             });
         });
+    },
+
+    getData: function() {
+        console.log("[" + this.config["id"] + "] getData");
     }
 });
 

@@ -60,6 +60,8 @@ define(["underscore", "jquery", "socket-io", "storage", "helpers", "hbs!../js/te
                 this.id = config["id"];
                 this.updateFormat = "HH:mm:ss";
 
+                // Socket init & listen
+                this.socket = socketio.connect(window.office.node_server_url, { "force new connection": true });
                 this.socket.on('disconnect', this.disconnect.bind(this));
 
                 console.info("[" + this.config["id"] + "] module started");
@@ -85,7 +87,6 @@ define(["underscore", "jquery", "socket-io", "storage", "helpers", "hbs!../js/te
 
                 this.listen.apply(this);
             },
-
 
             updateConfig: function(config) {
                 this.config = config;
@@ -159,18 +160,24 @@ define(["underscore", "jquery", "socket-io", "storage", "helpers", "hbs!../js/te
 
                 console.info("[" + this.config["id"] + "] Admin module started");
             },
+
             close: function () {
                 this.disconnect();
             },
+
             disconnect: function () {
                 this.dispose.apply(this);
             },
+
             listen: function () {
             },
+
             events: function () {
             },
+
             render: function () {
             },
+
             dispose: function () {
                 this.el.remove();
             }

@@ -10,6 +10,7 @@ var OfficeModule = function(globalConfig, moduleConfig, socketio, proxy) {
 
     this.iosockets = socketio;
     this.iosockets.on('connection', (function (socket) {
+        console.log("[" + this.config["id"] + "] emit screen and admin:screen");
         socket.on(this.config["id"] + ":screen", this.getData.bind(this));
         socket.on(this.config["id"] + "admin" + ":screen", this.getAdminData.bind(this));
     }).bind(this));
@@ -21,7 +22,8 @@ OfficeModule.prototype.start = function() {};
 OfficeModule.prototype.getData = function() {};
 OfficeModule.prototype.getAdminData = function() {};
 OfficeModule.prototype.destroy = function() {
-    // self-destroy method
+    console.log("[" + this.config["id"] + "] destroy");
+    delete require.cache[require.resolve('../public/js/modules/' + this.config['type'] + '/backend')];
 };
 
 var copyProps = function(obj) {
