@@ -31,9 +31,8 @@ define(["jquery",
 
 
         /*
-         * Drag & Drop management
+         * Drag & Drop management : enable drop on dashboard
          */
-        // enable drop on dashboard
         gridOccupation.listenToDrop(function(e, data) {
             if (data["operation"]) {
                 var targetCell = $(e.target);
@@ -60,7 +59,13 @@ define(["jquery",
                 // move module instance inside the dashboard
                 else if(data["operation"] === "move") {
                     var moduleId = data["id"];
-                    console.debug("move the module " + moduleId + " to ", position);
+                    var offset = data["offset"];
+
+                    // apply offset from inside module click coordinates
+                    if(offset) {
+                        position["x"] -= offset["x"];
+                        position["y"] -= offset["y"];
+                    }
 
                     // update the module instance conf
                     var moduleConfig = getModule(moduleId);
@@ -231,11 +236,30 @@ define(["jquery",
             // enable drag of module instances
             instancesInnerEl.unbind("dragstart");
             instancesInnerEl.bind("dragstart", function (e) {
+                var mod = $(e.target).parent();
+                mod.addClass("move");
+
+                // compute local module click x/y
+                var startX = e.originalEvent.pageX - mod.position()["left"];
+                var startY = e.originalEvent.pageY - mod.position()["top"];
+                var insidePosition = computeGridPosition(mod.data("w"), mod.data("h"), mod.width(), mod.height(), startX, startY);
+                var offset = {
+                    "x": insidePosition["x"] - 1,
+                    "y": insidePosition["y"] - 1
+                }
+                mod.data("offsetX", offset["x"]);
+                mod.data("offsetY", offset["y"]);
+
                 e.originalEvent.dataTransfer.setData("text/plain", JSON.stringify({
-                    "id": $(this).parent().attr("id"),
-                    "operation": "move"
+                    "id": mod.attr("id"),
+                    "operation": "move",
+                    "offset": offset
                 }));
-                console.info("set data transfer on dragstart", e.originalEvent.dataTransfer.getData("text/plain"));
+            });
+            instancesInnerEl.unbind("dragend");
+            instancesInnerEl.bind("dragend", function (e) {
+                var mod = $(e.target);
+                mod.removeClass("move");
             });
 
             // Listener - click on administrate button and display modal
@@ -296,11 +320,10 @@ define(["jquery",
             dashboardInstances.css("grid-template-rows", Helpers.generateGridTemplateProperty(gridConfig["rows"]));
         };
 
-        var computeGridPosition = function (width, height, x, y) {
-            var gridConfig = globalConfigManager.get("grid");
+        var computeGridPosition = function (columns, rows, width, height, x, y) {
             return {
-                "x": Math.ceil((x / width) * gridConfig["columns"]),
-                "y": Math.ceil((y / height) * gridConfig["rows"])
+                "x": Math.ceil((x / width) * columns),
+                "y": Math.ceil((y / height) * rows)
             }
         };
 

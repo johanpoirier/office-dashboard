@@ -121,12 +121,16 @@ input[type="button"].close-modal {
 }
 
 .empty-cell {
-    border: 1px dashed white;
     height: 100%;
     padding: 5px;
     position: relative;
-    z-index: 10;
 }
-.empty-cell.over {
-    background-color: #9de9ff;
+
+.empty-cell-inner {
+    background-color: #949494;
+    height: 100%;
+}
+.empty-cell-inner.over {
+    background-color: #b2bac4;
+    border: 2px dashed #c6c6c6;
 }
