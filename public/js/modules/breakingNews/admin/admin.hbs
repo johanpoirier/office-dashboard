@@ -1,18 +1,20 @@
 
 <!-- refresh time -->
-<label class="persist" for="refresh">Refresh time</label>
+<label for="refresh">Refresh time</label>
+<input class="persist" type="text" name="refresh" placeholder="Refresh time (in ms)..." /><br/>
+
 <!-- Slider -->
 
 <!-- animation on show -->
 <label for="animationShow">Animation on show</label>
-<input class="persist" type="text" name="animationShow" value="animationShow" placeholder="Animation name..." /><br/>
+<input class="persist" type="text" name="animationShow" placeholder="Animation name..." /><br/>
 
 <!-- animation on hide -->
 <label for="animationHide">Animation on hide</label>
-<input class="persist" type="text" name="animationHide" value="animationHide" placeholder="Animation name..." /><br/>
-<span class="help">Check http://daneden.github.io/animate.css for animation names</span>
+<input class="persist" type="text" name="animationHide" placeholder="Animation name..." /><br/>
+<span class="help">(Check out http://daneden.github.io/animate.css to test animations)</span>
 
 <!-- new message -->
-<input type="text" class="text-message">
+<input type="text" class="text-message" placeholder="Type new message...">
 <input class="new-message" title="Send message" type="button" value="Send"><br/>
 <div class="messages-list"></div>

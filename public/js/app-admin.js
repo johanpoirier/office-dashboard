@@ -5,11 +5,10 @@ define(["jquery",
     "helpers",
     "hbs!templates/modules-list",
     "hbs!templates/modules-dashboard",
-    "hbs!templates/module-conf",
     "hbs!templates/module-delete",
     "constants"],
 
-    function ($, _, io, Office, Helpers, modulesListTemplate, modulesDashboardTemplate, moduleConfigTemplate, moduleDeleteTemplate) {
+    function ($, _, io, Office, Helpers, modulesListTemplate, modulesDashboardTemplate, moduleDeleteTemplate) {
         var el = $("#admin");
         var modulesList = [], modulesInstances = [];
         var globalConfig;
@@ -87,16 +86,15 @@ define(["jquery",
                     });
                     // we need to clone the config object in order to not alter our modulesList
                     var moduleConstantConfigClone = _.clone(moduleConstantConfig[0]);
+                    moduleConstantConfigClone.position = position;
 
                     require(["modules/" + moduleType + "/admin/admin"], function (AdminModule) {
                         el.addClass("fade");
-                        adminModule = new AdminModule(moduleConstantConfigClone, $("body"));
-                        /* Listener - click on close button and hide administration modal */
-                        $(".module-admin .close-modal").click((function () {
+                        adminModule = new AdminModule(moduleConstantConfigClone, $("body"), function() {
                             el.removeClass("fade");
                             adminModule = null;
                             $(".module-admin").remove();
-                        }).bind(this));
+                        });
                     });
                 }
 

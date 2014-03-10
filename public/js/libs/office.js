@@ -129,9 +129,10 @@ define(["underscore", "jquery", "socket-io", "storage", "helpers", "hbs!../js/te
             rootEl: null,
             el: null,
 
-            initialize: function (config, rootEl) {
+            initialize: function (config, rootEl, doneCallback) {
                 this.rootEl = rootEl;
                 this.config = config;
+                this.doneCallback = doneCallback;
 
                 // Socket init & listen
                 this.socket = socketio.connect(window.office.node_server_url, { "force new connection": true });
@@ -174,6 +175,11 @@ define(["underscore", "jquery", "socket-io", "storage", "helpers", "hbs!../js/te
                     this.el.submit(this.updateModule.bind(this));  
                 }
 
+                // Listener for close event
+                this.rootEl.find(".close-modal").click((function () {
+                    this.close();            
+                }).bind(this));
+
                 console.info("[" + this.config["id"] + "] Admin module started");
             },
             // Generic create module / Works for simple input text fields
@@ -205,7 +211,7 @@ define(["underscore", "jquery", "socket-io", "storage", "helpers", "hbs!../js/te
                 return false;
             },
             close: function () {
-                this.el.find("button.close-modal").unbind();
+                this.el.find("button[type='button'].close-modal").unbind();
                 this.el.find("form").unbind();
                 this.el.remove();
 
@@ -227,76 +233,6 @@ define(["underscore", "jquery", "socket-io", "storage", "helpers", "hbs!../js/te
             }
         });
         AdminModule.extend = extend;
-
-
-        /*
-         * module config
-         */
-        var ModuleConfig = Office.ModuleConfig = function (rootEl, configPattern, template, position, socket) {
-            this.rootEl = rootEl;
-            this.configPattern = configPattern;
-            this.template = template;
-            this.position = position;
-            this.socket = socket;
-        }
-        _.extend(ModuleConfig.prototype, {
-            displayModuleConfForm: function (doneCallback) {
-                this.doneCallback = doneCallback;
-                var fields = [];
-                for (var key in this.configPattern) {
-                    if (key !== "type") {
-                        fields.push({
-                            "name": key,
-                            "value": this.configPattern[key]
-                        })
-                    }
-                }
-
-                this.rootEl.append(this.template({
-                    "title": "New " + this.configPattern.type + " module :",
-                    "fields": fields
-                }));
-
-                this.el = this.rootEl.find(".modal");
-                this.el.find("form").submit(this.createModule.bind(this));
-                this.el.find("button.button-cancel").click(this.close.bind(this));
-            },
-
-            createModule: function () {
-                var inputs = this.el.find("form input");
-                var newConf = { "type": this.configPattern.type };
-                for (var i = 0; i < inputs.length; i++) {
-                    var input = $(inputs[i]);
-
-                    // remove this if when drag & drop available
-                    if (input.attr("name").indexOf("size") !== 0) {
-                        newConf[input.attr("name")] = input.val();
-                    }
-                }
-                newConf.position = this.position;
-                newConf.size = {
-                    "w": this.el.find("form input[name='sizeW']").val(),
-                    "h": this.el.find("form input[name='sizeH']").val()
-                }
-
-                this.socket.emit('admin-add-module-instance', newConf);
-
-                this.close();
-
-                return false;
-            },
-
-            close: function () {
-                this.el.find("button.button-cancel").unbind();
-                this.el.find("form").unbind();
-                this.el.remove();
-
-                if (this.doneCallback) {
-                    this.doneCallback();
-                }
-            }
-        });
-
 
         /*
          * module delete
