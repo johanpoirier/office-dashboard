@@ -6,9 +6,11 @@ define(['module', 'handlebars'], function (module, Handlebars) {
      *
      * Copyright RestHub
      */
-    Handlebars.registerHelper('ifequalsinline', function(value1, value2, returnValTrue, options) {
+    Handlebars.registerHelper('ifequalsinline', function (value1, value2, returnValTrue, options) {
         var returnValFalse = '';
-        if(arguments.length == 5) {returnValFalse = options}
+        if (arguments.length == 5) {
+            returnValFalse = options
+        }
         return (value1 === value2) ? returnValTrue : returnValFalse;
     });
 
@@ -22,6 +24,29 @@ define(['module', 'handlebars'], function (module, Handlebars) {
             return new Handlebars.SafeString(new_str + '...');
         }
         return str;
+    });
+
+    /* Repeat */
+    Handlebars.registerHelper('repeat', function (nb, options) {
+        var fn = options.fn, inverse = options.inverse;
+        var i = 0, ret = "", data = {};
+
+        if (nb && !isNaN(nb)) {
+            for (i = 0; i < nb; i++) {
+                if (data) {
+                    data.index = i;
+                    data.first = (i === 0);
+                    data.last = (i === (nb - 1));
+                }
+                ret = ret + fn(this, { data: data });
+            }
+        }
+
+        if (i === 0) {
+            ret = inverse(this);
+        }
+
+        return ret;
     });
 
     return Handlebars;

@@ -3,64 +3,35 @@ define(["jquery",
     "socket-io",
     "office",
     "helpers",
-    "hbs!templates/modules-list",
+    "admin/global-config",
+    "admin/modules-kinds",
     "hbs!templates/modules-dashboard",
     "hbs!templates/module-conf",
     "hbs!templates/module-delete",
+    "hbsCustomHelpers",
     "constants"],
 
-    function ($, _, io, Office, Helpers, modulesListTemplate, modulesDashboardTemplate, moduleConfigTemplate, moduleDeleteTemplate) {
+    function ($, _, io, Office, Helpers, globalConfigManager, modulesKindsManager, modulesDashboardTemplate, moduleConfigTemplate, moduleDeleteTemplate) {
+        // DOM elements
         var el = $("#admin");
-        var modulesList = [], modulesInstances = [];
-        var globalConfig;
-
-        // Reference to current admin module (modal window)
-        var adminModule = null;
-
-        var socket = io.connect(window.office.node_server_url);
-        socket.on('connect', function () {
-            socket.emit('admin-get-global-conf');
-        });
-
-        var resizeDashBoardGrid = function () {
-            var dashboardInstances = el.find(".admin-dashboard-instances");
-            dashboardInstances.css("grid-template-columns", Helpers.generateGridTemplateProperty(globalConfig["grid"]["columns"]));
-            dashboardInstances.css("grid-template-rows", Helpers.generateGridTemplateProperty(globalConfig["grid"]["rows"]));
-        };
-
-        var computeGridPosition = function (width, height, x, y) {
-            return {
-                "x": Math.ceil((x / width) * globalConfig["grid"]["columns"]),
-                "y": Math.ceil((y / height) * globalConfig["grid"]["rows"])
-            }
-        };
-
-        var getModule = function(id) {
-            var module = modulesInstances.filter(function (mod) {
-                return mod.id === id;
-            });
-            return (module.length > 0 ? module[0] : null);
-        }
-
-        // dashboard elements
-        var dashboardConfigEl = el.find(".admin-dashboard-grid-config");
-        var dashboardConfigGridColumns = dashboardConfigEl.find("input[name='columns']");
-        var dashboardConfigGridRows = dashboardConfigEl.find("input[name='rows']");
         var dashboardEl = el.find(".admin-dashboard-instances");
+        var adminModule = null;  // reference to current admin module (modal window)
 
-        // listen to grid cols & rows change
-        dashboardConfigGridColumns.change(function () {
-            globalConfig["grid"]["columns"] = dashboardConfigGridColumns.val();
-            socket.emit('admin-save-global-conf', globalConfig);
+        var modulesInstances = [];
+
+        /*
+         * grid cols & rows changes
+         */
+        globalConfigManager.listenToGridSizeChange(function () {
+            socket.emit('admin-save-global-conf', globalConfigManager.getConfig());
             resizeDashBoardGrid();
         });
-        dashboardConfigGridRows.change(function () {
-            globalConfig["grid"]["rows"] = dashboardConfigGridRows.val();
-            socket.emit('admin-save-global-conf', globalConfig);
-            resizeDashBoardGrid();
-        });
 
-        // enable drag over dashboard
+
+        /*
+         * Drag & Drop management
+         */
+        // enable drag over the dashboard
         dashboardEl.bind("dragover", function (e) {
             if (e.preventDefault) {
                 e.preventDefault(); // allows us to drop
@@ -82,13 +53,11 @@ define(["jquery",
                     var moduleType = e.originalEvent.dataTransfer.getData('type');
                     console.debug("drop a module of type " + moduleType);
 
-                    var moduleConfigPattern = modulesList.filter(function (mod) {
-                        return mod.type === moduleType;
-                    });
+                    var moduleConfigPattern = modulesKindsManager.getByType(moduleType);
 
-                    if (moduleConfigPattern.length > 0) {
+                    if (moduleConfigPattern) {
                         el.addClass("fade");
-                        var moduleConfig = new Office.ModuleConfig($("body"), moduleConfigPattern[0], moduleConfigTemplate, position, socket);
+                        var moduleConfig = new Office.ModuleConfig($("body"), moduleConfigPattern, moduleConfigTemplate, position, socket);
                         moduleConfig.displayModuleConfForm(function () {
                             el.removeClass("fade");
                         });
@@ -119,30 +88,25 @@ define(["jquery",
         });
 
 
-        // socket events
+        /*
+         * Web Socket events
+         */
+        var socket = io.connect(window.office.node_server_url);
+        socket.on('connect', function () {
+            socket.emit('admin-get-global-conf');
+        });
+
         socket.on('admin-send-global-conf', function (config) {
-            globalConfig = config;
+            globalConfigManager.setConfig(config);
 
             socket.emit('admin-get-modules-kinds');
             socket.emit('admin-get-modules-instances');
-
-            dashboardConfigGridColumns.val(globalConfig["grid"]["columns"]);
-            dashboardConfigGridRows.val(globalConfig["grid"]["rows"]);
         });
 
         socket.on('admin-send-modules-kinds', function (modules) {
             console.log("admin received modules kinds");
-            modulesList = modules;
-            el.find(".admin-modules").html(modulesListTemplate({ "modules": modulesList }));
-
-            // enable copy drag on module kinds list
-            var modulesKindsEl = el.find(".admin-modules li");
-            modulesKindsEl.unbind("dragstart");
-            modulesKindsEl.bind("dragstart", function (e) {
-                e.originalEvent.dataTransfer.effectAllowed = 'move'; // only dropEffect='move' will be dropable
-                e.originalEvent.dataTransfer.setData('type', $(this).text());
-                e.originalEvent.dataTransfer.setData('operation', 'add');
-            });
+            modulesKindsManager.setModulesList(modules);
+            modulesKindsManager.listenToDragOperation();
         });
 
         socket.on('admin-send-modules-instances', function (modules) {
@@ -185,7 +149,7 @@ define(["jquery",
 
                     modWidth = mod.width();
                     modHeight = mod.height();
-                    unitWidth = dashboardEl.width() / globalConfig["grid"]["columns"];
+                    unitWidth = dashboardEl.width() / globalConfigManager.get("grid")["columns"];
                     unitHeight = Math.round(modHeight / mod.data("h"));
                     dragOffsetX = modWidth - e.originalEvent.offsetX;
                     dragOffsetY = modHeight - e.originalEvent.offsetY;
@@ -312,5 +276,31 @@ define(["jquery",
             el.unbind();
             el.find("*").unbind();
         });
+
+
+        /*
+         * useful functions
+         */
+        var resizeDashBoardGrid = function () {
+            var dashboardInstances = el.find(".admin-dashboard-instances");
+            var gridConfig = globalConfigManager.get("grid");
+            dashboardInstances.css("grid-template-columns", Helpers.generateGridTemplateProperty(gridConfig["columns"]));
+            dashboardInstances.css("grid-template-rows", Helpers.generateGridTemplateProperty(gridConfig["rows"]));
+        };
+
+        var computeGridPosition = function (width, height, x, y) {
+            var gridConfig = globalConfigManager.get("grid");
+            return {
+                "x": Math.ceil((x / width) * gridConfig["columns"]),
+                "y": Math.ceil((y / height) * gridConfig["rows"])
+            }
+        };
+
+        var getModule = function(id) {
+            var module = modulesInstances.filter(function (mod) {
+                return mod.id === id;
+            });
+            return (module.length > 0 ? module[0] : null);
+        }
     }
 );
