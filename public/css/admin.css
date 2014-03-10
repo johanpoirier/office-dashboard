@@ -119,3 +119,14 @@ input[type="button"].close-modal {
     width: 100%;
     z-index: 90;
 }
+
+.empty-cell {
+    border: 1px dashed white;
+    height: 100%;
+    padding: 5px;
+    position: relative;
+    z-index: 10;
+}
+.empty-cell.over {
+    background-color: #9de9ff;
+}

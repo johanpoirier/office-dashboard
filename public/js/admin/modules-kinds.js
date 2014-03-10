@@ -23,8 +23,10 @@ define(["jquery", "hbs!templates/modules-list"],
                 modulesKindsEl.unbind("dragstart");
                 modulesKindsEl.bind("dragstart", function (e) {
                     e.originalEvent.dataTransfer.effectAllowed = 'move'; // only dropEffect='move' will be dropable
-                    e.originalEvent.dataTransfer.setData('type', $(this).text());
-                    e.originalEvent.dataTransfer.setData('operation', 'add');
+                    e.originalEvent.dataTransfer.setData('text/plain', JSON.stringify({
+                        "type": $(this).text(),
+                        "operation": "add"
+                    }));
                 });
             }
         }

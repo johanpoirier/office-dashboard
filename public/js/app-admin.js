@@ -5,13 +5,14 @@ define(["jquery",
     "helpers",
     "admin/global-config",
     "admin/modules-kinds",
+    "admin/grid-occupation",
     "hbs!templates/modules-dashboard",
     "hbs!templates/module-conf",
     "hbs!templates/module-delete",
     "hbsCustomHelpers",
     "constants"],
 
-    function ($, _, io, Office, Helpers, globalConfigManager, modulesKindsManager, modulesDashboardTemplate, moduleConfigTemplate, moduleDeleteTemplate) {
+    function ($, _, io, Office, Helpers, globalConfigManager, modulesKindsManager, gridOccupation, modulesDashboardTemplate, moduleConfigTemplate, moduleDeleteTemplate) {
         // DOM elements
         var el = $("#admin");
         var dashboardEl = el.find(".admin-dashboard-instances");
@@ -24,6 +25,7 @@ define(["jquery",
          */
         globalConfigManager.listenToGridSizeChange(function () {
             socket.emit('admin-save-global-conf', globalConfigManager.getConfig());
+            gridOccupation.setGridSize(globalConfigManager.get("grid"));
             resizeDashBoardGrid();
         });
 
@@ -31,29 +33,20 @@ define(["jquery",
         /*
          * Drag & Drop management
          */
-        // enable drag over the dashboard
-        dashboardEl.bind("dragover", function (e) {
-            if (e.preventDefault) {
-                e.preventDefault(); // allows us to drop
-            }
-            //this.className = 'over';
-            e.originalEvent.dataTransfer.dropEffect = 'move';
-            return false;
-        });
-
         // enable drop on dashboard
-        dashboardEl.bind("drop", function (e) {
-            if (e.stopPropagation) e.stopPropagation(); // stops the browser from redirecting...why???
-            var operation = e.originalEvent.dataTransfer.getData('operation');
-            if (operation) {
-                var position = computeGridPosition(dashboardEl.width(), dashboardEl.height(), e.originalEvent.offsetX, e.originalEvent.offsetY);
+        gridOccupation.listenToDrop(function(e, data) {
+            if (data["operation"]) {
+                var targetCell = $(e.target);
+                var position = {
+                    "x": targetCell.data("x"),
+                    "y": targetCell.data("y")
+                }
 
                 // add a new module to the dashboard
-                if (operation === "add") {
-                    var moduleType = e.originalEvent.dataTransfer.getData('type');
-                    console.debug("drop a module of type " + moduleType);
+                if (data["operation"] === "add") {
+                    console.debug("drop a module of type " + data["type"]);
 
-                    var moduleConfigPattern = modulesKindsManager.getByType(moduleType);
+                    var moduleConfigPattern = modulesKindsManager.getByType(data["type"]);
 
                     if (moduleConfigPattern) {
                         el.addClass("fade");
@@ -65,8 +58,8 @@ define(["jquery",
                 }
 
                 // move module instance inside the dashboard
-                else if(operation === "move") {
-                    var moduleId = e.originalEvent.dataTransfer.getData('id');
+                else if(data["operation"] === "move") {
+                    var moduleId = data["id"];
                     console.debug("move the module " + moduleId + " to ", position);
 
                     // update the module instance conf
@@ -80,6 +73,11 @@ define(["jquery",
 
                     // push the conf to the server
                     socket.emit('admin-add-module-instance', moduleConfig);
+                }
+
+                // move module instance inside the dashboard
+                else if(data["operation"] === "resize") {
+                    // do nothing
                 }
             }
             else {
@@ -98,6 +96,8 @@ define(["jquery",
 
         socket.on('admin-send-global-conf', function (config) {
             globalConfigManager.setConfig(config);
+            gridOccupation.setGridSize(globalConfigManager.get("grid"));
+            resizeDashBoardGrid();
 
             socket.emit('admin-get-modules-kinds');
             socket.emit('admin-get-modules-instances');
@@ -114,10 +114,10 @@ define(["jquery",
             modulesInstances = modules;
 
             // display dashboard with modules previews
-            resizeDashBoardGrid();
             dashboardEl.html(modulesDashboardTemplate({
                 "modules": modules
             }));
+            gridOccupation.setModulesInstances(modules);
 
             // resize cursor hover of module borders
             var instancesEl = dashboardEl.find(".module");
@@ -133,6 +133,7 @@ define(["jquery",
                 }
             });
 
+            // we use drag n drop for module resize
             var dragIcon = window.document.getElementById("resize");
             var dragOffsetX = 0, dragOffsetY = 0;
             var modWidth = 0, modHeight = 0;
@@ -140,8 +141,10 @@ define(["jquery",
             instancesEl.bind("dragstart", function (e) {
                 var mod = $(e.target);
                 if(mod.hasClass("module")) {
-                    e.originalEvent.dataTransfer.effectAllowed = 'move';
-                    e.originalEvent.dataTransfer.setData("operation", "resize");
+                    e.originalEvent.dataTransfer.setData("text/plain", JSON.stringify({
+                        "id": $(this).attr("id"),
+                        "operation": "resize"
+                    }));
 
                     mod.addClass("resize");
 
@@ -156,6 +159,7 @@ define(["jquery",
                 }
             });
 
+            // live resizing
             instancesEl.bind("drag", function (e) {
                 var mod = $(e.target);
                 if(mod.hasClass("module") && mod.hasClass("resize")) {
@@ -168,6 +172,7 @@ define(["jquery",
                 }
             });
 
+            // we compute new size and push the size to the backend
             instancesEl.bind("dragend", function (e) {
                 var mod = $(e.target);
                 if(mod.hasClass("module") && mod.hasClass("resize")) {
@@ -215,9 +220,10 @@ define(["jquery",
 
             // prevent drop on existing modules
             var instancesInnerEl = dashboardEl.find(".module-inner");
-            instancesInnerEl.unbind();
+            instancesInnerEl.unbind("dragover");
             instancesInnerEl.bind("dragover", function (e) {
                 e.stopImmediatePropagation();
+                e.originalEvent.dataTransfer.effectAllowed = 'none';
                 e.originalEvent.dataTransfer.dropEffect = 'none';
                 return false;
             });
@@ -225,9 +231,11 @@ define(["jquery",
             // enable drag of module instances
             instancesInnerEl.unbind("dragstart");
             instancesInnerEl.bind("dragstart", function (e) {
-                e.originalEvent.dataTransfer.effectAllowed = 'move'; // only dropEffect='copy' will be dropable
-                e.originalEvent.dataTransfer.setData('id', $(this).parent().attr("id"));
-                e.originalEvent.dataTransfer.setData('operation', 'move');
+                e.originalEvent.dataTransfer.setData("text/plain", JSON.stringify({
+                    "id": $(this).parent().attr("id"),
+                    "operation": "move"
+                }));
+                console.info("set data transfer on dragstart", e.originalEvent.dataTransfer.getData("text/plain"));
             });
 
             // Listener - click on administrate button and display modal
