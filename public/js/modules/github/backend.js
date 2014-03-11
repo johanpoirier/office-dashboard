@@ -9,9 +9,9 @@ var GithubModule = OfficeModule.extend({
         setInterval(this.getData.bind(this), this.config['refresh']);
     },
 
-    getData: function () {
+    getData: function (socket) {
         this.getLastCommits((function (commits) {
-            this.iosockets.emit(this.config["id"] + ":commits", commits);
+            socket.emit(this.config["id"] + ":commits", commits);
         }).bind(this));
     },
 

@@ -32,7 +32,7 @@ define([ "jquery", "office", "hbs!modules/breakingNews/admin/admin", "hbs!module
                 }).bind(this));
             },
 
-            render: function (messages) {
+            render: function () {
                 // Declare messages list if empty
                 if (!this.config.messages) this.config.messages = [];
 
