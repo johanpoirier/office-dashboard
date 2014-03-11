@@ -37,7 +37,7 @@ define([ "jquery","office", "hbs!modules/breakingNews/admin/admin", "hbs!modules
                 // Declare messages list if empty
                 if(!this.config.messages) this.config.messages = [];
 
-                this.el.prepend(template());
+                this.el.prepend(template({ 'config' : this.config }));
                 this.el.find("div.messages-list").html(templateList({ 'messages' : this.config.messages }));
             },
 

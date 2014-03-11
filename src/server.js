@@ -103,9 +103,9 @@ io.sockets.on('connection', function (socket) {
         socket.emit('admin-send-modules-instances', DashboardConfig.getModulesConf());
     });
 
-    socket.on('admin-add-module-instance', function (moduleConfig) {
+    socket.on('admin-add-or-update-module-instance', function (moduleConfig) {
         console.log("Admin pushed a module instance " + moduleConfig["id"]);
-        var modules = DashboardConfig.addModule(moduleConfig);
+        var modules = DashboardConfig.addOrUpdateModule(moduleConfig);
         DashboardConfig.loadModule(config, moduleConfig, io.sockets);
 
         // send back modules instances to admin

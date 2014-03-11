@@ -120,7 +120,7 @@ define(["underscore", "jquery", "socket-io", "storage", "helpers", "hbs!../js/te
 
 
         /*
-         * administration module
+         * Administration module
          */
         var AdminModule = Office.AdminModule = function () {
             this.initialize.apply(this, arguments);
@@ -143,8 +143,7 @@ define(["underscore", "jquery", "socket-io", "storage", "helpers", "hbs!../js/te
                 // Check if we are creating a new object or modifying an existing one
                 var isNew = false;
                 if(!this.config["id"]) isNew = true;
-
-                this.config["id"] = this.config["type"] + "-" + Math.floor((Math.random()*1000)+1);
+                if(isNew) this.config["id"] = this.config["type"] + "-" + Math.floor((Math.random()*1000)+1);
 
                 // load css
                 helpers.loadAdminModuleCss(this.config["type"]);
@@ -171,11 +170,7 @@ define(["underscore", "jquery", "socket-io", "storage", "helpers", "hbs!../js/te
                 this.events();
 
                 // Listener for submit event
-                if(isNew) {
-                    this.el.submit(this.createModule.bind(this));
-                } else {
-                    this.el.submit(this.updateModule.bind(this));  
-                }
+                this.el.submit(this.addOrUpdate.bind(this));
 
                 // Listener for close event
                 this.rootEl.find(".close-modal").click((function () {
@@ -184,8 +179,9 @@ define(["underscore", "jquery", "socket-io", "storage", "helpers", "hbs!../js/te
 
                 console.info("[" + this.config["id"] + "] Admin module started");
             },
+
             // Generic create module / Works for simple input text fields
-            createModule: function () {
+            addOrUpdate: function () {
                 var inputs = this.el.find("input.persist");
                 var newConf = this.config;
                 for (var i = 0; i < inputs.length; i++) {
@@ -194,24 +190,11 @@ define(["underscore", "jquery", "socket-io", "storage", "helpers", "hbs!../js/te
                         newConf[input.attr("name")] = input.val();
                     }
                 }
-                this.socket.emit('admin-add-module-instance', newConf);
+                this.socket.emit('admin-add-or-update-module-instance', newConf);
                 this.close();
                 return false;
             },
-            // Generic udpate module / Works for simple input text fields
-            udpateModule: function () {
-                var inputs = this.el.find("input.persist");
-                var newConf = this.config;
-                for (var i = 0; i < inputs.length; i++) {
-                    var input = $(inputs[i]);
-                    if (input.attr("name").indexOf("size") !== 0) {
-                        newConf[input.attr("name")] = input.val();
-                    }
-                }
-                this.socket.emit('admin-update-module-instance', newConf);
-                this.close();
-                return false;
-            },
+
             close: function () {
                 this.el.find("button[type='button'].close-modal").unbind();
                 this.el.find("form").unbind();

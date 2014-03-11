@@ -268,25 +268,22 @@ define(["jquery",
             });
 
             // Listener - click on administrate button and display modal
-            var adminButtons = el.find(".admin-dashboard-instances .module input.admin");
+            var adminButtons = el.find(".admin-dashboard-instances .module button.admin");
             adminButtons.unbind("click");
             adminButtons.click(function () {
                 if (!adminModule) {
-                    var type = $(this).parent().data("type");
-                    var id = $(this).parent().attr("id");
+                    var type = $(this).parent().parent().data("type");
+                    var id = $(this).parent().parent().attr("id");
 
                     var moduleConfig = getModule(id);
-                    if (moduleConfig && moduleConfig.admin !== undefined) {
-                        require(["modules/" + type + "/admin"], function (AdminModule) {
+                    if (moduleConfig) {
+                        require(["modules/" + type + "/admin/admin"], function (AdminModule) {
                             el.addClass("fade");
-                            adminModule = new AdminModule(moduleConfig, $("body"));
-                            /* Listener - click on close button and hide administration modal */
-                            $(".module-admin .close-modal").click((function () {
+                            adminModule = new AdminModule(moduleConfig, $("body"), function() {
                                 el.removeClass("fade");
-                                adminModule.close();
                                 adminModule = null;
                                 $(".module-admin").remove();
-                            }).bind(this));
+                            });
                         });
                     }
                     else {
@@ -296,7 +293,7 @@ define(["jquery",
             });
 
             // Listener - click on delete button
-            var deleteButtons = el.find(".admin-dashboard-instances .module input.delete");
+            var deleteButtons = el.find(".admin-dashboard-instances .module button.delete");
             deleteButtons.unbind("click");
             deleteButtons.click(function () {
                 var id = $(this).parent().parent().attr("id");
