@@ -272,8 +272,8 @@ define(["jquery",
             adminButtons.unbind("click");
             adminButtons.click(function () {
                 if (!adminModule) {
-                    var type = $(this).parent().parent().data("type");
-                    var id = $(this).parent().parent().attr("id");
+                    var type = $(this).parents("div.module").data("type");
+                    var id = $(this).parents("div.module").attr("id");
 
                     var moduleConfig = getModule(id);
                     if (moduleConfig) {

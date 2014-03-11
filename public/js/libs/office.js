@@ -181,7 +181,7 @@ define(["underscore", "jquery", "socket-io", "storage", "helpers", "hbs!../js/te
 
             // Generic create module / Works for simple input text fields
             addOrUpdate: function () {
-                var inputs = this.el.find("input.persist");
+                var inputs = this.el.find(".persist");
                 var newConf = this.config;
                 for (var i = 0; i < inputs.length; i++) {
                     var input = $(inputs[i]);

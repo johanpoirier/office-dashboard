@@ -94,6 +94,10 @@ body.admin {
     color: #C1C1C1;
 }
 
+div.action-panel {
+    float: right;
+}
+
 /** Modals **/
 div.modal {
     left: 50%;
@@ -104,9 +108,17 @@ div.modal {
     z-index: 100;
 }
 
-input[type="button"].close-modal {
-    float: right;
-    border-radius: 5px;
+div.input-wrapper {
+    margin: 10px 0;
+}
+
+div.input-wrapper > label {
+    margin-right: 0px;
+}
+
+span.help {
+    float: left;
+    font-weight: bold;
 }
 
 .fade {

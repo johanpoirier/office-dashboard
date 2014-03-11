@@ -1,10 +1,12 @@
 /**
  * breaking-news admin controller
  */
-define([ "jquery", "office", "hbs!modules/breakingNews/admin/admin", "hbs!modules/breakingNews/admin/admin-list"],
+define([ "jquery", "office", "hbs!modules/breakingNews/admin/admin", "hbs!modules/breakingNews/admin/admin-list","hbsCustomHelpers"],
     function ($, Office, template, templateList) {
 
         var breakingNewsAdminModule = Office.AdminModule.extend({
+
+            animations: ["bounce","flash","pulse","rubberBand","shake","swing","tada","wobble","bounceIn","bounceInDown","bounceInLeft","bounceInRight","bounceInUp","bounceOut","bounceOutDown","bounceOutLeft","bounceOutRight","bounceOutUp","fadeIn","fadeInDown","fadeInDownBig","fadeInLeft","fadeInLeftBig","fadeInRight","fadeInRightBig","fadeInUp","fadeInUpBig","fadeOut","fadeOutDown","fadeOutDownBig","fadeOutLeft","fadeOutLeftBig","fadeOutRight","fadeOutRightBig","fadeOutUp","fadeOutUpBig","flip","flipInX","flipInY","flipOutX","flipOutY","lightSpeedIn","lightSpeedOut","rotateIn","rotateInDownLeft","rotateInDownRight","rotateInUpLeft","rotateInUpRight","rotateOut","rotateOutDownLeft","rotateOutDownRight","rotateOutUpLeft","rotateOutUpRight","slideInDown","slideInLeft","slideInRight","slideOutLeft","slideOutRight","slideOutUp","hinge","rollIn","rollOut"],
 
             // SocketIO events
             listen: function () {
@@ -13,7 +15,7 @@ define([ "jquery", "office", "hbs!modules/breakingNews/admin/admin", "hbs!module
 
             // DOM events
             events: function () {
-                this.el.find("input[type='button'].new-message").click((function (event) {
+                this.el.find("button.new-message").click((function (event) {
                     event.stopPropagation();
                     this.newMessage(this.el.find("input[type='text'].text-message").val());
                 }).bind(this));
@@ -26,7 +28,7 @@ define([ "jquery", "office", "hbs!modules/breakingNews/admin/admin", "hbs!module
             },
 
             listEvents: function () {
-                this.el.find("input[type='button'].remove-message").click((function (event) {
+                this.el.find("button.remove-message").click((function (event) {
                     event.stopPropagation();
                     this.removeMessage($(event.target).siblings("li").attr("data-index"));
                 }).bind(this));
@@ -36,7 +38,7 @@ define([ "jquery", "office", "hbs!modules/breakingNews/admin/admin", "hbs!module
                 // Declare messages list if empty
                 if (!this.config.messages) this.config.messages = [];
 
-                this.el.prepend(template({ 'config': this.config }));
+                this.el.prepend(template({ 'config': this.config, 'animations': this.animations }));
                 this.el.find("div.messages-list").html(templateList({ 'messages': this.config.messages }));
             },
 

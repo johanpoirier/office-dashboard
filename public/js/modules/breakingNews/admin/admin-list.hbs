@@ -2,7 +2,7 @@
 {{#each messages}}
 	<div class="message">
 		<li data-index="{{@index}}">{{this}}</li>
-		<input class="remove-message" title="Delete message" type="button" value="x">
+		<button type="button" class="remove-message"><img height="20px" width="20px" src="/images/delete.png" alt="Delete message" title="Delete message"></button>
 	</div>
 {{/each}}
 </ul>
