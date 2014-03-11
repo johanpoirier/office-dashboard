@@ -22,17 +22,17 @@ var GitModule = OfficeModule.extend({
                 if (stderr !== null && stderr.length > 0) {
                     console.log("[" + this.config["id"] + "] " + stderr);
                 }
-                fs.readFile(path.join(this.globalConfig["tempDir"], this.config["repo"], "/logs"), (function(err, data) {
-                    this.sendData(socket, err, data);
+                fs.readFile(path.join(this.globalConfig["tempDir"], this.config["repo"], "/logs"), (function (err, data) {
+                    this.sendData(socket ? socket : this.iosockets, err, data);
                 }).bind(this));
             }).bind(this)
         );
     },
 
-    sendData: function(socket, err, data) {
+    sendData: function (socket, err, data) {
         var commitsRaw = data.toString('utf8').match(/[^\r\n]+/g);
         var commits = [];
-        for(var i=0; i<commitsRaw.length; i++) {
+        for (var i = 0; i < commitsRaw.length; i++) {
             var commitData = commitsRaw[i].split(";");
             commits.push({ "author": commitData[0], "message": commitData[1], "date": commitData[2] });
         }

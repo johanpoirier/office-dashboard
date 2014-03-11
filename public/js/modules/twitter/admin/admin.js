@@ -1,5 +1,5 @@
 /**
- * chat admin controller
+ * Twitter admin controller
  */
 define(["office"],
     function (Office) {

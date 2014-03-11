@@ -1,5 +1,4 @@
 {
     "type": "iframe",
-    "refresh": 10000,
-    "fullscreen": true
+    "refresh": 10000
 }
