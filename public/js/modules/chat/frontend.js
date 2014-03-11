@@ -7,6 +7,7 @@ define([ "office", "hbs!modules/chat/template", "hbs!modules/chat/message-templa
         var chatModule = Office.Module.extend({
 
             listen: function() {
+                this.socket.on(this.config["id"] + ":init", this.initMessages.bind(this));
                 this.socket.on(this.config["id"] + ":dispatch", this.updateMesages.bind(this));
                 this.socket.on(this.config["id"] + ":users", this.updateUsers.bind(this));
 
@@ -35,6 +36,12 @@ define([ "office", "hbs!modules/chat/template", "hbs!modules/chat/message-templa
                     text.val("");
                 }
                 return false;
+            },
+
+            initMessages: function (messages) {
+                var text = this.el.find(".chat-messages");
+                text.html("");
+                this.updateMesages(messages);
             },
 
             updateMesages: function (messages) {

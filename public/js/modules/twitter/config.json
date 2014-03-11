@@ -1,10 +1,4 @@
 {
     "type": "twitter",
-    "fetched_items": 6,
-    "topics": [],
-    "consumer_key": "",
-    "consumer_secret": "",
-    "access_token_key": "",
-    "access_token_secret": "",
-    "admin" : {}
+    "fetched_items": 6
 }

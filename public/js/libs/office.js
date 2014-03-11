@@ -161,12 +161,15 @@ define(["underscore", "jquery", "socket-io", "storage", "helpers", "hbs!../js/te
 
                 // Render
                 this.render();
+                require(["hbs!modules/" + this.config["type"] + "/admin/admin"], (function(template) {
+                    this.el.prepend(template({ 'config': this.config }));
+                }).bind(this));
 
                 // Register SocketIO events
                 this.listen.apply(this);
 
                 // Register DOM events
-                this.events();
+                this.events.apply(this);
 
                 // Listener for submit event
                 this.el.submit(this.addOrUpdate.bind(this));

@@ -1,7 +1,4 @@
 {
     "type": "jenkins",
-    "url": "",
-    "username": "",
-    "apiToken": "",
     "refresh": 6000000
 }

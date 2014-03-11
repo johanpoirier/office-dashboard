@@ -31,7 +31,7 @@ var ChatModule = OfficeModule.extend({
 
     getData: function(socket) {
         // send all past messages to the user
-        socket.emit(this.config["id"] + ":dispatch", this.messages);
+        socket.emit(this.config["id"] + ":init", this.messages);
     },
 
     disconnect: function (socket) {

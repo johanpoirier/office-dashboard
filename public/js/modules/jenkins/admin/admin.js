@@ -1,5 +1,5 @@
 /**
- * chat admin controller
+ * Jenkins admin controller
  */
 define(["office"],
     function (Office) {
