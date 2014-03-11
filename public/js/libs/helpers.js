@@ -15,7 +15,7 @@ define(function () {
         },
 
         loadAdminModuleCss: function (moduleName) {
-            appendToHead("/js/modules/" + moduleName + "/" + moduleName + "-admin" + ".css");
+            appendToHead("/js/modules/" + moduleName + "/admin/admin.css");
         },
 
         generateGridTemplateProperty: function (nb) {

@@ -138,15 +138,25 @@ define(["underscore", "jquery", "socket-io", "storage", "helpers", "hbs!../js/te
                 this.socket = socketio.connect(window.office.node_server_url, { "force new connection": true });
                 this.socket.on('disconnect', this.disconnect.bind(this));
 
-                // Init module local storage
-                this.storage = new Storage(this.config["id"]);
+                // Check if we are creating a new object or modifying an existing one
+                var isNew = false;
+                if(!this.config["id"]) isNew = true;
+
+                this.config["id"] = this.config["type"] + "-" + Math.floor((Math.random()*1000)+1);
 
                 // load css
                 helpers.loadAdminModuleCss(this.config["type"]);
 
+                // Create add/configuration modal
+                var modalTitle = "";
+                if(isNew) {
+                    modalTitle = "Create new " + this.config["type"] + " module";
+                } else {
+                    modalTitle = "Configure " + this.config["id"] + " module";
+                }
                 if (this.el === null) {
-                    this.rootEl.append(adminTemplate({ "id": this.config["id"], "type": this.config["type"] }));
-                    this.el = this.rootEl.find("div#" + this.config["id"] + "Admin div.admin-box");
+                    this.rootEl.append(adminTemplate({ "id": this.config["id"], "type": this.config["type"], "title": modalTitle }));
+                    this.el = this.rootEl.find("div#" + this.config["id"] + " form.admin-box");
                 }
 
                 // Render
@@ -158,11 +168,51 @@ define(["underscore", "jquery", "socket-io", "storage", "helpers", "hbs!../js/te
                 // Register DOM events
                 this.events();
 
+                // Listener for submit event
+                if(isNew) {
+                    this.el.submit(this.createModule.bind(this));
+                } else {
+                    this.el.submit(this.updateModule.bind(this));  
+                }
+
                 console.info("[" + this.config["id"] + "] Admin module started");
             },
-
+            // Generic create module / Works for simple input text fields
+            createModule: function () {
+                var inputs = this.el.find("input.persist");
+                var newConf = this.config;
+                for (var i = 0; i < inputs.length; i++) {
+                    var input = $(inputs[i]);
+                    if (input.attr("name").indexOf("size") !== 0) {
+                        newConf[input.attr("name")] = input.val();
+                    }
+                }
+                this.socket.emit('admin-add-module-instance', newConf);
+                this.close();
+                return false;
+            },
+            // Generic udpate module / Works for simple input text fields
+            udpateModule: function () {
+                var inputs = this.el.find("input.persist");
+                var newConf = this.config;
+                for (var i = 0; i < inputs.length; i++) {
+                    var input = $(inputs[i]);
+                    if (input.attr("name").indexOf("size") !== 0) {
+                        newConf[input.attr("name")] = input.val();
+                    }
+                }
+                this.socket.emit('admin-update-module-instance', newConf);
+                this.close();
+                return false;
+            },
             close: function () {
-                this.disconnect();
+                this.el.find("button.close-modal").unbind();
+                this.el.find("form").unbind();
+                this.el.remove();
+
+                if (this.doneCallback) {
+                    this.doneCallback();
+                }
             },
 
             disconnect: function () {

@@ -1,7 +1,4 @@
 {
     "type": "breakingNews",
-    "animationType": "",
-    "singleton" : true,
-    "refresh": 5000,
-    "admin": {}
+    "singleton" : true
 }
