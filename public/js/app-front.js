@@ -35,7 +35,7 @@ define(["jquery", "underscore", "socket-io", "helpers", "constants"], function (
         if (!instanciated) {
             if (!(exist && singleton)) {
                 // Instanciate front module
-                console.log("add new module", moduleConfig);
+                console.log("add new module", moduleConfig["id"]);
                 require(["modules/" + moduleConfig['type'] + "/frontend"], function (Module) {
                     instances.push(new Module(moduleConfig, $("#modules"), socket));
                 });
@@ -43,7 +43,7 @@ define(["jquery", "underscore", "socket-io", "helpers", "constants"], function (
         }
         else {
             // update module instance config
-            console.log("update module", moduleConfig);
+            console.log("update module", moduleConfig["id"]);
             _.findWhere(instances, { "id": instanciated["id"] }).updateConfig(moduleConfig);
         }
     };
@@ -60,6 +60,7 @@ define(["jquery", "underscore", "socket-io", "helpers", "constants"], function (
     // Delete existing module
     socket.on('front-delete-module-instance', function (moduleId) {
         console.log("delete module instance ", moduleId);
+
         // Destroy module instances
         var toDestroy = false;
         var indexDelete = null;

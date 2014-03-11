@@ -82,7 +82,7 @@ define(["jquery",
                     }
 
                     // push the conf to the server
-                    socket.emit('admin-add-module-instance', moduleConfig);
+                    socket.emit('admin-add-or-update-module-instance', moduleConfig);
                 }
 
                 // move module instance inside the dashboard
@@ -221,7 +221,7 @@ define(["jquery",
                     }
 
                     // push the conf to the server
-                    socket.emit('admin-add-module-instance', moduleConfig);
+                    socket.emit('admin-add-or-update-module-instance', moduleConfig);
 
                     // reset temp vars
                     dragOffsetX = dragOffsetY = modWidth = modHeight = unitWidth = unitHeight = 0;
@@ -279,7 +279,7 @@ define(["jquery",
                     if (moduleConfig) {
                         require(["modules/" + type + "/admin/admin"], function (AdminModule) {
                             el.addClass("fade");
-                            adminModule = new AdminModule(moduleConfig, $("body"), function() {
+                            adminModule = new AdminModule(moduleConfig, $("body"), socket, function() {
                                 el.removeClass("fade");
                                 adminModule = null;
                                 $(".module-admin").remove();
