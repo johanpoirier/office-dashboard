@@ -5,29 +5,67 @@ var OfficeModule = function(globalConfig, moduleConfig, socketio, proxy) {
     this.globalConfig = globalConfig;
     this.config = moduleConfig;
     this.id = moduleConfig["id"];
-
-    console.log("[" + this.config["id"] + "] module loaded");
-
-    this.connectionListener = (function (socket) {
-        console.log("[" + this.config["id"] + "] listen to screen and admin:screen");
-        socket.on(this.config["id"] + ":screen", this.getData.bind(this));
-        socket.on(this.config["id"] + "admin" + ":screen", this.getAdminData.bind(this));
-    }).bind(this);
+    this.listeners = [];
 
     this.iosockets = socketio;
-    this.iosockets.on("connection",  this.connectionListener);
+
+    // common listeners
+    this.registerSocketListener(this.config["id"] + ":screen", this.getData.bind(this));
+    this.registerSocketListener(this.config["id"] + ":admin-screen", this.getData.bind(this));
+
+    console.log("[" + this.config["id"] + "] module loaded");
 
     this.start.apply(this);
 }
 
+// add listener to a socket
+var applyListener = function(context, socket, event, handler) {
+    socket.on(event, function() {
+        // we add the socket to the handler
+        var args = [ socket ];
+        for(var index in arguments) {
+            args.push(arguments[index]);
+        }
+        handler.apply(context, args);
+    });
+}
+
+// register a socket listener for the module backend
+OfficeModule.prototype.registerSocketListener = function(event, handler) {
+    this.listeners.push({ "event": event, "handler": handler });
+
+    // apply each listener to each client
+    this.iosockets.clients().forEach((function(socket) {
+        applyListener(this, socket, event, handler);
+    }).bind(this));
+};
+
+// new client with new socket : add listeners to the socket
+OfficeModule.prototype.addClient = function(socket) {
+    console.log("[" + this.config["id"] + "] new socket client", socket.id);
+    this.listeners.forEach((function(eventHandler) {
+        console.log("[" + this.config["id"] + "] apply socket listener for", eventHandler["event"]);
+        applyListener(this, socket, eventHandler["event"], eventHandler["handler"]);
+    }).bind(this));
+
+    this.connect.call(this, socket);
+};
+
+// remove the node module from cache
+OfficeModule.prototype.destroy = function() {
+    console.log("[" + this.config["id"] + "] destroy");
+    delete require.cache[require.resolve('../public/js/modules/' + this.config['type'] + '/backend')];
+};
+
+// when a new client connect
+OfficeModule.prototype.connect = function(socket) {};
+
+// when a new client disconnect
+OfficeModule.prototype.disconnect = function(socket) {};
+
 OfficeModule.prototype.start = function() {};
 OfficeModule.prototype.getData = function() {};
 OfficeModule.prototype.getAdminData = function() {};
-OfficeModule.prototype.destroy = function() {
-    console.log("[" + this.config["id"] + "] destroy");
-    this.iosockets.removeListener("connection", this.connectionListener);
-    delete require.cache[require.resolve('../public/js/modules/' + this.config['type'] + '/backend')];
-};
 
 var copyProps = function(obj) {
     for(var index in arguments) {

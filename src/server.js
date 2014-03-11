@@ -67,6 +67,9 @@ modulesConf.forEach(function(moduleConfig) {
 
 // Socket.io Server
 io.sockets.on('connection', function (socket) {
+    // Add modules listeners
+    DashboardConfig.addNewClient(socket);
+
     // Client event listeners
     socket.on('front-get-modules-instances', function () {
         console.log("Client requested modules");
@@ -123,4 +126,11 @@ io.sockets.on('connection', function (socket) {
         // broadcast module instance to delete id to front socket
         socket.broadcast.emit('front-delete-module-instance', moduleId);
     });
+
+    socket.on('disconnect', function () {
+        // Add modules listeners
+        DashboardConfig.disconnectModules(socket);
+        console.log("client " + socket.id + " got disconnected");
+    });
 });
+

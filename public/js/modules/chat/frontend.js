@@ -11,6 +11,7 @@ define([ "office", "hbs!modules/chat/template", "hbs!modules/chat/message-templa
                 this.socket.on(this.config["id"] + ":users", this.updateUsers.bind(this));
 
                 this.socket.emit(this.config["id"] + ":screen");
+
                 this.socket.emit(this.config["id"] + ":adduser", prompt("What's your name?"));
 
                 // render

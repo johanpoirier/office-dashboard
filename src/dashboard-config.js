@@ -129,6 +129,18 @@ var DashboardConfig = {
             } 
         }.bind(this));
         return modules;
+    },
+
+    addNewClient: function(socket) {
+        this.instances.forEach(function(mod) {
+            mod.addClient(socket);
+        });
+    },
+
+    disconnectModules: function(socket) {
+        this.instances.forEach(function(mod) {
+            mod.disconnect(socket);
+        });
     }
 }
 

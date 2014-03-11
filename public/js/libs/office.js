@@ -56,12 +56,11 @@ define(["underscore", "jquery", "socket-io", "storage", "helpers", "hbs!../js/te
             initialize: function (config, rootEl, socket) {
                 this.rootEl = rootEl;
                 this.config = config;
-                this.socket = socket;
                 this.id = config["id"];
                 this.updateFormat = "HH:mm:ss";
 
                 // Socket init & listen
-                //this.socket = socketio.connect(window.office.node_server_url, { "force new connection": true });
+                this.socket = socket;
                 this.socket.on('disconnect', this.disconnect.bind(this));
 
                 console.info("[" + this.config["id"] + "] module started");
@@ -133,11 +132,10 @@ define(["underscore", "jquery", "socket-io", "storage", "helpers", "hbs!../js/te
             initialize: function (config, rootEl, socket, doneCallback) {
                 this.config = config;
                 this.rootEl = rootEl;
-                this.socket = socket;
                 this.doneCallback = doneCallback;
 
                 // Socket init & listen
-                //this.socket = socketio.connect(window.office.node_server_url, { "force new connection": true });
+                this.socket = socket;
                 this.socket.on('disconnect', this.disconnect.bind(this));
 
                 // Check if we are creating a new object or modifying an existing one
