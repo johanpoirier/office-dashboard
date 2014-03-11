@@ -57,6 +57,11 @@ OfficeModule.prototype.destroy = function() {
     delete require.cache[require.resolve('../public/js/modules/' + this.config['type'] + '/backend')];
 };
 
+OfficeModule.prototype.reload = function(globalConfig, moduleConfig) {
+    this.globalConfig = globalConfig;
+    this.config = moduleConfig;
+};
+
 // when a new client connect
 OfficeModule.prototype.connect = function(socket) {};
 

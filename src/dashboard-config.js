@@ -105,9 +105,13 @@ var DashboardConfig = {
     },
 
     loadModule: function (globalConfig, moduleConfig, iosockets) {
-        if(!this.getModuleInstance(moduleConfig["id"])) {
+        var instance = this.getModuleInstance(moduleConfig["id"]);
+        if(!instance) {
             var OfficeModule = require('../public/js/modules/' + moduleConfig['type'] + '/backend');
             this.instances.push(new OfficeModule(globalConfig, moduleConfig, iosockets, this.proxy));
+        }
+        else {
+            instance.reload(globalConfig, moduleConfig);
         }
     },
 

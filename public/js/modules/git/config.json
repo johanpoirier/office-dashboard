@@ -1,4 +1,5 @@
 {
     "type": "git",
-    "refresh": 300000
+    "refresh": 300000,
+    "nb_commits_display": 6
 }

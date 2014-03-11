@@ -1,10 +1,7 @@
 {
     "type": "github",
     "host": "api.github.com",
-    "repo": "",
-    "path": "",
-    "token": "",
     "nb_commits_display": 5,
-    "branch": "",
+    "branch": "master",
     "refresh": 300000
 }

@@ -90,6 +90,7 @@ define(["underscore", "jquery", "socket-io", "storage", "helpers", "hbs!../js/te
             updateConfig: function(config) {
                 this.config = config;
                 this.updatePosition();
+                this.socket.emit(this.config["id"] + ":screen");
             },
 
             updatePosition: function() {
