@@ -142,8 +142,7 @@ define(["underscore", "jquery", "socket-io", "storage", "helpers", "hbs!../js/te
                 // Check if we are creating a new object or modifying an existing one
                 var isNew = false;
                 if(!this.config["id"]) isNew = true;
-
-                this.config["id"] = this.config["type"] + "-" + Math.floor((Math.random()*1000)+1);
+                if(isNew) this.config["id"] = this.config["type"] + "-" + Math.floor((Math.random()*1000)+1);
 
                 // load css
                 helpers.loadAdminModuleCss(this.config["type"]);
@@ -198,7 +197,7 @@ define(["underscore", "jquery", "socket-io", "storage", "helpers", "hbs!../js/te
                 return false;
             },
             // Generic udpate module / Works for simple input text fields
-            udpateModule: function () {
+            updateModule: function () {
                 var inputs = this.el.find("input.persist");
                 var newConf = this.config;
                 for (var i = 0; i < inputs.length; i++) {

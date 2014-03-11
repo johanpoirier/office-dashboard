@@ -87,7 +87,7 @@ var DashboardConfig = {
         storage.setItem("config", config);
     },
 
-    addModule: function (config) {
+    addOrUpdateModule: function (config) {
         var modules = this.getModulesConf();
         var moduleFound = false;
         for (var i = 0; i < modules.length; i++) {

@@ -104,14 +104,25 @@ io.sockets.on('connection', function (socket) {
     });
 
     socket.on('admin-add-module-instance', function (moduleConfig) {
-        console.log("Admin pushed a module instance " + moduleConfig);
-        var modules = DashboardConfig.addModule(moduleConfig);
+        console.log("Admin pushed a module instance " + moduleConfig.id);
+        var modules = DashboardConfig.addOrUpdateModule(moduleConfig);
         DashboardConfig.loadModule(config, moduleConfig, io.sockets);
 
         // send back modules instances to admin
         socket.emit('admin-send-modules-instances', modules);
 
         // broadcast new module instance to front socket
+        socket.broadcast.emit('front-add-module-instance', moduleConfig);
+    });
+
+    socket.on('admin-update-module-instance', function (moduleConfig) {
+        console.log("Admin updated a module instance " + moduleConfig.id);
+        var modules = DashboardConfig.addOrUpdateModule(moduleConfig);
+
+        // send back modules instances to admin
+        socket.emit('admin-send-modules-instances', modules);
+
+        // broadcast updated module instance to front socket
         socket.broadcast.emit('front-add-module-instance', moduleConfig);
     });
 
