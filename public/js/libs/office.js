@@ -61,7 +61,7 @@ define(["underscore", "jquery", "socket-io", "storage", "helpers", "hbs!../js/te
                 this.updateFormat = "HH:mm:ss";
 
                 // Socket init & listen
-                this.socket = socketio.connect(window.office.node_server_url, { "force new connection": true });
+                //this.socket = socketio.connect(window.office.node_server_url, { "force new connection": true });
                 this.socket.on('disconnect', this.disconnect.bind(this));
 
                 console.info("[" + this.config["id"] + "] module started");
@@ -130,13 +130,14 @@ define(["underscore", "jquery", "socket-io", "storage", "helpers", "hbs!../js/te
             rootEl: null,
             el: null,
 
-            initialize: function (config, rootEl, doneCallback) {
-                this.rootEl = rootEl;
+            initialize: function (config, rootEl, socket, doneCallback) {
                 this.config = config;
+                this.rootEl = rootEl;
+                this.socket = socket;
                 this.doneCallback = doneCallback;
 
                 // Socket init & listen
-                this.socket = socketio.connect(window.office.node_server_url, { "force new connection": true });
+                //this.socket = socketio.connect(window.office.node_server_url, { "force new connection": true });
                 this.socket.on('disconnect', this.disconnect.bind(this));
 
                 // Check if we are creating a new object or modifying an existing one

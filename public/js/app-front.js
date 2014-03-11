@@ -9,7 +9,7 @@ define(["jquery", "underscore", "socket-io", "helpers", "constants"], function (
         socket.emit('front-get-global-conf');
     });
 
-    socket.on('front-send-global-conf', function(config) {
+    socket.on('front-send-global-conf', function (config) {
         console.log("front received global conf");
         globalConfig = config;
 
@@ -33,7 +33,7 @@ define(["jquery", "underscore", "socket-io", "helpers", "constants"], function (
         var singleton = (typeof moduleConfig["singleton"] !== "undefined") ? moduleConfig["singleton"] : false;
 
         if (!instanciated) {
-            if(!(exist && singleton)) {
+            if (!(exist && singleton)) {
                 // Instanciate front module
                 console.log("add new module", moduleConfig);
                 require(["modules/" + moduleConfig['type'] + "/frontend"], function (Module) {
@@ -56,22 +56,22 @@ define(["jquery", "underscore", "socket-io", "helpers", "constants"], function (
 
     // Add new module
     socket.on('front-add-module-instance', addUpdateModule);
-     
+
     // Delete existing module
     socket.on('front-delete-module-instance', function (moduleId) {
         console.log("delete module instance ", moduleId);
         // Destroy module instances
         var toDestroy = false;
         var indexDelete = null;
-        instances.forEach(function(module,index) {
-            if(moduleId=== module.config.id) {
+        instances.forEach(function (module, index) {
+            if (moduleId === module.config.id) {
                 toDestroy = true;
                 indexDelete = index;
-            } 
+            }
         });
-        if(toDestroy) {
+        if (toDestroy) {
             instances[indexDelete].destroy();
-            instances.splice(indexDelete,1);
+            instances.splice(indexDelete, 1);
         }
     });
 

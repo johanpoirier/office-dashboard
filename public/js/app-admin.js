@@ -45,15 +45,15 @@ define(["jquery",
                     console.debug("drop a module of type " + data["type"]);
 
                     var moduleConstantConfig = modulesKindsManager.getByType(data["type"]);
+
                     // we need to clone the config object in order to not alter our modulesList
                     var moduleConstantConfigClone = _.clone(moduleConstantConfig);
-                    moduleConstantConfigClone.position = position;
-                    //TODELETE
-                    moduleConstantConfigClone.size = { "w" : 2, "h" : 2 };
+                    moduleConstantConfigClone["position"] = position;
+                    moduleConstantConfigClone["size"] = { "w": 1, "h": 1 }; // default size
 
                     require(["modules/" + data["type"] + "/admin/admin"], function (AdminModule) {
                         el.addClass("fade");
-                        adminModule = new AdminModule(moduleConstantConfigClone, $("body"), function() {
+                        adminModule = new AdminModule(moduleConstantConfigClone, $("body"), socket, function() {
                             el.removeClass("fade");
                             adminModule = null;
                             $(".module-admin").remove();

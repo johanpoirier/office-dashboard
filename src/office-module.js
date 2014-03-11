@@ -8,12 +8,14 @@ var OfficeModule = function(globalConfig, moduleConfig, socketio, proxy) {
 
     console.log("[" + this.config["id"] + "] module loaded");
 
-    this.iosockets = socketio;
-    this.iosockets.on('connection', (function (socket) {
-        console.log("[" + this.config["id"] + "] emit screen and admin:screen");
+    this.connectionListener = (function (socket) {
+        console.log("[" + this.config["id"] + "] listen to screen and admin:screen");
         socket.on(this.config["id"] + ":screen", this.getData.bind(this));
         socket.on(this.config["id"] + "admin" + ":screen", this.getAdminData.bind(this));
-    }).bind(this));
+    }).bind(this);
+
+    this.iosockets = socketio;
+    this.iosockets.on("connection",  this.connectionListener);
 
     this.start.apply(this);
 }
@@ -23,6 +25,7 @@ OfficeModule.prototype.getData = function() {};
 OfficeModule.prototype.getAdminData = function() {};
 OfficeModule.prototype.destroy = function() {
     console.log("[" + this.config["id"] + "] destroy");
+    this.iosockets.removeListener("connection", this.connectionListener);
     delete require.cache[require.resolve('../public/js/modules/' + this.config['type'] + '/backend')];
 };
 
