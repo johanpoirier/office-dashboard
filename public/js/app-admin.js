@@ -7,12 +7,11 @@ define(["jquery",
     "admin/modules-kinds",
     "admin/grid-occupation",
     "hbs!templates/modules-dashboard",
-    "hbs!templates/module-conf",
     "hbs!templates/module-delete",
     "hbsCustomHelpers",
     "constants"],
 
-    function ($, _, io, Office, Helpers, globalConfigManager, modulesKindsManager, gridOccupation, modulesDashboardTemplate, moduleConfigTemplate, moduleDeleteTemplate) {
+    function ($, _, io, Office, Helpers, globalConfigManager, modulesKindsManager, gridOccupation, modulesDashboardTemplate, moduleDeleteTemplate) {
         // DOM elements
         var el = $("#admin");
         var dashboardEl = el.find(".admin-dashboard-instances");
@@ -48,16 +47,17 @@ define(["jquery",
                     var moduleConstantConfig = modulesKindsManager.getByType(data["type"]);
                     // we need to clone the config object in order to not alter our modulesList
                     var moduleConstantConfigClone = _.clone(moduleConstantConfig);
+                    moduleConstantConfigClone.position = position;
+                    //TODELETE
+                    moduleConstantConfigClone.size = { "w" : 2, "h" : 2 };
 
                     require(["modules/" + data["type"] + "/admin/admin"], function (AdminModule) {
                         el.addClass("fade");
-                        adminModule = new AdminModule(moduleConstantConfigClone, $("body"));
-                        /* Listener - click on close button and hide administration modal */
-                        $(".module-admin .close-modal").click((function () {
+                        adminModule = new AdminModule(moduleConstantConfigClone, $("body"), function() {
                             el.removeClass("fade");
                             adminModule = null;
                             $(".module-admin").remove();
-                        }).bind(this));
+                        });
                     });
                 }
 
