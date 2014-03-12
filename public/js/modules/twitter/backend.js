@@ -32,14 +32,21 @@ var TwitterModule = OfficeModule.extend({
         }).bind(this));
     },
 
-    getData: function () {
+    getData: function (socket) {
         this.getTweets((function (tweets) {
-            this.iosockets.emit(this.config["id"] + ":tweets", tweets);
+            (socket ? socket : this.iosockets).emit(this.config["id"] + ":tweets", tweets);
         }).bind(this));
     },
 
     getTweets: function (callback) {
-        this.twitterApi.search(this.config["topics"][0], (function (data) {
+        // handle 1 topic stored without array
+        var topics = this.config["topics"];
+        if(!(typeof topics === "Array")) {
+            topics = [ topics ];
+        }
+        console.log("topics", topics[0]);
+
+        this.twitterApi.search(topics[0], (function (data) {
             if(data.statuses) {
                 callback(data.statuses.slice(0, this.config["fetched_items"]));
             }

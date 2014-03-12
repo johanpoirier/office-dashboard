@@ -11,7 +11,7 @@ var GithubModule = OfficeModule.extend({
 
     getData: function (socket) {
         this.getLastCommits((function (commits) {
-            socket.emit(this.config["id"] + ":commits", commits);
+            (socket ? socket : this.iosockets).emit(this.config["id"] + ":commits", commits);
         }).bind(this));
     },
 
