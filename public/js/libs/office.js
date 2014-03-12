@@ -203,7 +203,7 @@ define(["underscore", "jquery", "socket-io", "storage", "helpers", "hbs!../js/te
                 this.el.remove();
 
                 if (this.doneCallback) {
-                    this.doneCallback();
+                    this.doneCallback.apply(this);
                 }
             },
 

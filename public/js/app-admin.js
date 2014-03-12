@@ -295,8 +295,8 @@ define(["jquery",
             // Listener - click on delete button
             var deleteButtons = el.find(".admin-dashboard-instances .module button.delete");
             deleteButtons.unbind("click");
-            deleteButtons.click(function () {
-                var id = $(this).parent().parent().attr("id");
+            deleteButtons.click(function (e) {
+                var id = $(this).parents("div.module").attr("id");
                 el.addClass("fade");
                 var moduleDelete = new Office.ModuleDelete($("body"), id, moduleDeleteTemplate, socket);
                 moduleDelete.displayModuleDeleteForm(function () {
