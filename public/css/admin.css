@@ -89,10 +89,23 @@ body.admin {
     position: relative;
 }
 
-.module-admin .admin-box {
-    padding: 10px;
+.module-admin .module-admin-box {
     color: #C1C1C1;
+    padding: 10px;
 }
+.module-admin .module-admin-box button {
+    bottom: 0;
+    margin-bottom: 8px;
+    position: absolute;
+    width: 120px;
+}
+.module-admin .module-admin-box button:first-of-type {
+    margin-left: 28%;
+}
+.module-admin .module-admin-box button:last-of-type {
+    margin-left: 50%;
+}
+
 
 div.action-panel {
     float: right;
@@ -103,6 +116,7 @@ div.modal {
     left: 50%;
     margin-left: -325px;
     overflow-x: hidden;
+    position: absolute;
     top: 50px;
     width: 650px;
     z-index: 100;
@@ -125,7 +139,7 @@ span.help {
     background-color: black;
     height: 100%;
     left: 0;
-    opacity: .30;
+    opacity: .80;
     position: absolute;
     top: 0;
     width: 100%;
@@ -145,4 +159,8 @@ span.help {
 .empty-cell-inner.over {
     background-color: #b2bac4;
     border: 2px dashed #c6c6c6;
+}
+
+.admin .module-inner {
+    padding: 5px;
 }

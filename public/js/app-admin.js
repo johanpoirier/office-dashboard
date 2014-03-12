@@ -278,9 +278,9 @@ define(["jquery",
                     var moduleConfig = getModule(id);
                     if (moduleConfig) {
                         require(["modules/" + type + "/admin/admin"], function (AdminModule) {
-                            el.addClass("fade");
+                            el.append($("<div/>", { "class": "fade" }));
                             adminModule = new AdminModule(moduleConfig, $("body"), socket, function() {
-                                el.removeClass("fade");
+                                el.find(".fade").remove();
                                 adminModule = null;
                                 $(".module-admin").remove();
                             });
@@ -297,10 +297,10 @@ define(["jquery",
             deleteButtons.unbind("click");
             deleteButtons.click(function (e) {
                 var id = $(this).parents("div.module").attr("id");
-                el.addClass("fade");
+                el.append($("<div/>", { "class": "fade" }));
                 var moduleDelete = new Office.ModuleDelete($("body"), id, moduleDeleteTemplate, socket);
                 moduleDelete.displayModuleDeleteForm(function () {
-                    el.removeClass("fade");
+                    el.find(".fade").remove();
                 });
             });
         });

@@ -156,7 +156,7 @@ define(["underscore", "jquery", "socket-io", "storage", "helpers", "hbs!../js/te
                 }
                 if (this.el === null) {
                     this.rootEl.append(adminTemplate({ "id": this.config["id"], "type": this.config["type"], "title": modalTitle }));
-                    this.el = this.rootEl.find("div#" + this.config["id"] + " form.admin-box");
+                    this.el = this.rootEl.find("div#" + this.config["id"] + " .module-admin-box");
                 }
 
                 // Render
