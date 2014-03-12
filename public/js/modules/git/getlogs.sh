@@ -1,3 +1,5 @@
+#!/bin/sh
+
 cd $1
 if [ ! -d $2 ]; then
     mkdir $2
@@ -18,6 +20,6 @@ else
     git fetch
 fi
 
-git log --pretty=format:"%an;%s;%ar" --no-merges $5 > logs
+git log --pretty=format:"%an;%s;%ar" --no-merges origin/$5 > logs
 
 cd $1
