@@ -30,14 +30,24 @@ var GitModule = OfficeModule.extend({
     },
 
     sendData: function (socket, err, data) {
-        var commitsRaw = data.toString('utf8').match(/[^\r\n]+/g);
-        var commits = [];
-        for (var i = 0; i < commitsRaw.length; i++) {
-            var commitData = commitsRaw[i].split(";");
-            commits.push({ "author": commitData[0], "message": commitData[1], "date": commitData[2] });
+        if (data && data.length > 0) {
+            var commitsRaw = data.toString('utf8').match(/[^\r\n]+/g);
+            var commits = [];
+            if (commitsRaw && commitsRaw.length > 0) {
+                for (var i = 0; i < commitsRaw.length; i++) {
+                    var commitData = commitsRaw[i].split(";");
+                    commits.push({ "author": commitData[0], "message": commitData[1], "date": commitData[2] });
+                }
+                console.log("[" + this.config["id"] + "] send data - " + this.config["nb_commits_display"] + " commits");
+                socket.emit(this.config["id"] + ":commits", commits.slice(0, this.config["nb_commits_display"]));
+            }
+            else {
+                console.error("[" + this.config["id"] + "] unable to parse git logs", commitsRaw);
+            }
         }
-        console.log("[" + this.config["id"] + "] send data - " + this.config["nb_commits_display"] + " commits");
-        socket.emit(this.config["id"] + ":commits", commits.slice(0, this.config["nb_commits_display"]));
+        else {
+            console.error("[" + this.config["id"] + "] logs data is not readable", data);
+        }
     }
 });
 

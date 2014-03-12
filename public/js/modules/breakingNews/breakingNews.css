@@ -2,26 +2,21 @@
 
 /* Override */
 .module.breakingNews {
-    z-index: 0;
-    font-size: 40px;
-	text-align: center;
-    background: linear-gradient(135deg, rgba(17,17,17,1) 0%,rgba(17,17,17,1) 10%,rgba(17,17,17,1) 13%,rgba(17,17,17,1) 15%,rgba(17,17,17,1) 27%,rgba(45,45,45,1) 53%,rgba(45,45,45,1) 67%,rgba(56,56,56,1) 100%,rgba(27,27,27,1) 100%);    
-	border-radius: 0px;
-    border : none;
-    box-shadow: none;
-    flex: none;
-    height: auto;
-    width: 100%;
-    max-width: 100%;
-    margin: 0;
     padding: 0;
-    position: fixed;
-    top: 0;
-    left: 0;
+    border: 0;
 }
+
+.module-inner.breakingNews {
+    background: linear-gradient(135deg, rgba(17, 17, 17, 1) 0%, rgba(17, 17, 17, 1) 10%, rgba(17, 17, 17, 1) 13%, rgba(17, 17, 17, 1) 15%, rgba(17, 17, 17, 1) 27%, rgba(45, 45, 45, 1) 53%, rgba(45, 45, 45, 1) 67%, rgba(56, 56, 56, 1) 100%, rgba(27, 27, 27, 1) 100%);
+    border: 0;
+    font-size: 40px;
+    text-align: center;
+}
+
 .breakingNews span {
-	color: #C1C1C1;
+    color: #C1C1C1;
 }
+
 .breakingNews span.animated {
     display: block;
 }

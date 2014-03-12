@@ -72,7 +72,7 @@ define(["underscore", "jquery", "socket-io", "storage", "helpers", "hbs!../js/te
                     // module container : cell of the grid
                     this.rootEl.append($("<div/>", {
                         "id": this.config["id"],
-                        "class": "module"
+                        "class": "module " + this.config["type"]
                     }));
                     var container = this.rootEl.find("div#" + this.config["id"]);
 

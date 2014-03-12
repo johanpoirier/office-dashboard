@@ -74,8 +74,8 @@ var DashboardConfig = {
         if (!config) {
             config = {
                 "grid": {
-                    "columns": 3,
-                    "rows": 3
+                    "columns": 8,
+                    "rows": 6
                 }
             };
             storage.setItem("config", config);
