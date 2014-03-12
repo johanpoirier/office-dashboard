@@ -87,21 +87,29 @@ define(["underscore", "jquery", "socket-io", "storage", "helpers", "hbs!../js/te
                 this.listen.apply(this);
             },
 
-            updateConfig: function(config) {
+            updateConfig: function (config) {
                 this.config = config;
                 this.updatePosition();
                 this.socket.emit(this.config["id"] + ":screen");
             },
 
-            updatePosition: function() {
+            updatePosition: function () {
                 var container = this.el.parent();
+
+                // using grid layout
                 container.css("grid-column-start", String(this.config["position"]["x"]));
                 container.css("grid-column-end", "span " + this.config["size"]["w"]);
                 container.css("grid-row-start", String(this.config["position"]["y"]));
                 container.css("grid-row-end", "span " + this.config["size"]["h"]);
+
+                // gridster fallback
+                container.attr("data-col", String(this.config["position"]["x"]));
+                container.attr("data-sizex", String(this.config["size"]["w"]));
+                container.attr("data-row", String(this.config["position"]["y"]));
+                container.attr("data-sizey", String(this.config["size"]["h"]));
             },
-            
-	        destroy: function() {
+
+            destroy: function () {
                 this.el.parent().remove();
                 this.disconnect.apply(this);
             },
@@ -141,15 +149,15 @@ define(["underscore", "jquery", "socket-io", "storage", "helpers", "hbs!../js/te
 
                 // Check if we are creating a new object or modifying an existing one
                 var isNew = false;
-                if(!this.config["id"]) isNew = true;
-                if(isNew) this.config["id"] = this.config["type"] + "-" + Math.floor((Math.random()*1000)+1);
+                if (!this.config["id"]) isNew = true;
+                if (isNew) this.config["id"] = this.config["type"] + "-" + Math.floor((Math.random() * 1000) + 1);
 
                 // load css
                 helpers.loadAdminModuleCss(this.config["type"]);
 
                 // Create add/configuration modal
                 var modalTitle = "";
-                if(isNew) {
+                if (isNew) {
                     modalTitle = "Create new " + this.config["type"] + " module";
                 } else {
                     modalTitle = "Configure " + this.config["id"] + " module";
@@ -161,7 +169,7 @@ define(["underscore", "jquery", "socket-io", "storage", "helpers", "hbs!../js/te
 
                 // Render
                 this.render();
-                require(["hbs!modules/" + this.config["type"] + "/admin/admin"], (function(template) {
+                require(["hbs!modules/" + this.config["type"] + "/admin/admin"], (function (template) {
                     this.el.prepend(template({ 'config': this.config }));
                 }).bind(this));
 
@@ -176,7 +184,7 @@ define(["underscore", "jquery", "socket-io", "storage", "helpers", "hbs!../js/te
 
                 // Listener for close event
                 this.rootEl.find(".close-modal").click((function () {
-                    this.close();            
+                    this.close();
                 }).bind(this));
 
                 console.info("[" + this.config["id"] + "] Admin module started");

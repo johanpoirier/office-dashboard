@@ -5,6 +5,11 @@ require.config({
         },
         'handlebars': {
             exports: 'Handlebars'
+        },
+        'gridster': {
+            deps: [
+                'jquery'
+            ]
         }
     },
 
@@ -14,6 +19,7 @@ require.config({
         'socket-io': 'libs/vendor/socket.io.min',
         'handlebars': 'libs/vendor/handlebars-v1.3.0',
         'text': 'libs/vendor/text',
+        'gridster': 'libs/vendor/jquery.gridster.min',
         'moment': 'libs/vendor/moment.min',
         'office': 'libs/office',
         'hbs': 'libs/require-handlebars',
