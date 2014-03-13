@@ -93,16 +93,16 @@ body.admin {
     color: #C1C1C1;
     padding: 10px;
 }
-.module-admin .module-admin-box button {
+.module-admin .module-admin-box > button {
     bottom: 0;
     margin-bottom: 8px;
     position: absolute;
     width: 120px;
 }
-.module-admin .module-admin-box button:first-of-type {
+.module-admin .module-admin-box > button:first-of-type {
     margin-left: 28%;
 }
-.module-admin .module-admin-box button:last-of-type {
+.module-admin .module-admin-box > button:last-of-type {
     margin-left: 50%;
 }
 

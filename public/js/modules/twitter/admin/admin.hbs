@@ -19,5 +19,10 @@
 <input class="persist" type="number" name="fetched_items" placeholder="Number of tweets..." value="{{config.fetched_items}}" /><br/>
 
 <!-- topics -->
-<label for="topic">Topics</label>
-<input type="text" name="topic" placeholder="topic..." value="" /><br/>
+<div class="input-wrapper">
+    <label for="topic">Topics</label>
+    <input type="text" name="topic" placeholder="topic..." value="" /><br/>
+	<button type="button" class="new-topic textual" title="Add topic">add</button>
+	<br/>
+	<div class="topic-list"></div>
+</div>

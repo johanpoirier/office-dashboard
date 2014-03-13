@@ -25,11 +25,30 @@ var TwitterModule = OfficeModule.extend({
         });
 
         /* On run - Stream new tweets */
-        this.twitterApi.stream('statuses/filter', { track: this.config["topics"]}, (function (stream) {
-            stream.on('data', (function (tweet) {
-                this.iosockets.emit(this.config["id"] + ":stream", tweet);
+        this.startStream();
+    },
+
+    reload: function () {
+        TwitterModule.__super__.reload.apply(this, arguments);
+        this.startStream();
+    },
+
+    startStream: function () {
+        this.stopStream();
+        if (this.config["topics"] && this.config["topics"].length > 0) {
+            this.stream = this.twitterApi.stream('statuses/filter', { track: this.config["topics"]}, (function (stream) {
+                stream.on('data', (function (tweet) {
+                    this.iosockets.emit(this.config["id"] + ":stream", tweet);
+                }).bind(this));
             }).bind(this));
-        }).bind(this));
+        }
+    },
+
+    stopStream: function () {
+        console.log("twitter stream :", this.stream);
+        if (this.stream) {
+            this.stream.destroy();
+        }
     },
 
     getData: function (socket) {
@@ -39,20 +58,17 @@ var TwitterModule = OfficeModule.extend({
     },
 
     getTweets: function (callback) {
-        // handle 1 topic stored without array
         var topics = this.config["topics"];
-        if(!(typeof topics === "Array")) {
-            topics = [ topics ];
+        if (topics && topics.length > 0) {
+            this.twitterApi.search(topics[0], (function (data) {
+                if (data.statuses) {
+                    callback(data.statuses.slice(0, this.config["fetched_items"]));
+                }
+                else {
+                    console.log("[" + this.config["id"] + "] " + data);
+                }
+            }).bind(this));
         }
-
-        this.twitterApi.search(topics[0], (function (data) {
-            if(data.statuses) {
-                callback(data.statuses.slice(0, this.config["fetched_items"]));
-            }
-            else {
-                console.log("[" + this.config["id"] + "] " + data);
-            }
-        }).bind(this));
     }
 });
 
