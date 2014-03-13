@@ -44,7 +44,6 @@ var TwitterModule = OfficeModule.extend({
         if(!(typeof topics === "Array")) {
             topics = [ topics ];
         }
-        console.log("topics", topics[0]);
 
         this.twitterApi.search(topics[0], (function (data) {
             if(data.statuses) {

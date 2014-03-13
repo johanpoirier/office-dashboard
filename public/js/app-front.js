@@ -1,4 +1,4 @@
-define(["jquery", "underscore", "socket-io", "helpers", "gridster", "constants"],
+define(["jquery", "underscore", "socket-io", "helpers", "constants"],
     function ($, _, io, Helpers) {
 
         var globalConfig = {};
@@ -55,14 +55,16 @@ define(["jquery", "underscore", "socket-io", "helpers", "gridster", "constants"]
             modules.forEach(addUpdateModule);
 
             // if no grid layout, fallback to gridster
-            if(!("grid-row-start" in document.body.style)) {
-                var modulesEl = $("#modules");
-                modulesEl.parent().addClass("gridster");
-                modulesEl.gridster({
-                    widget_base_dimensions: [ Math.round($("body").width() / globalConfig["grid"]["columns"]), Math.round($("body").height() / globalConfig["grid"]["rows"])],
-                    widget_margins: [0, 0]
+            if (!("grid-row-start" in document.body.style)) {
+                require(["gridster"], function () {
+                    var modulesEl = $("#modules");
+                    modulesEl.parent().addClass("gridster");
+                    modulesEl.gridster({
+                        widget_base_dimensions: [ Math.round($("body").width() / globalConfig["grid"]["columns"]), Math.round($("body").height() / globalConfig["grid"]["rows"])],
+                        widget_margins: [0, 0]
+                    });
+                    modulesEl.width($("body").width());
                 });
-                modulesEl.width($("body").width());
             }
         });
 

@@ -18,7 +18,7 @@ var JenkinsModule = OfficeModule.extend({
         }
 
         // proxy conf
-        if (this.proxy) {
+        if (this.proxy && !this.proxy.bypass(this.config['url'])) {
             this.options.hostname = this.proxy["host"];
             this.options.port = this.proxy["port"];
             this.options.path = 'http://' + this.config['url'] + this.options.path;

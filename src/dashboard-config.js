@@ -25,6 +25,19 @@ var DashboardConfig = {
                 "port": config["proxy_port"],
                 "url": "http://" + config["proxy_host"] + ":" + config["proxy_port"]
             }
+            this.proxy.bypass = function (url) {
+                if (config["proxy_bypass"] && config["proxy_bypass"].length > 0) {
+                    var bypassUrls = config["proxy_bypass"].split(",");
+                    var bypass = false;
+                    bypassUrls.forEach(function(bypassUrl) {
+                        bypass = bypass || (url.match(bypassUrl.replace(/\./g, "\\.").replace(/\*/g, ".*")));
+                    });
+                    return bypass;
+                }
+                else {
+                    return false;
+                }
+            }
         }
     },
 
@@ -97,7 +110,7 @@ var DashboardConfig = {
                 break;
             }
         }
-        if(!moduleFound) {
+        if (!moduleFound) {
             modules.push(config);
         }
         storage.setItem("modules", modules);
@@ -106,7 +119,7 @@ var DashboardConfig = {
 
     loadModule: function (globalConfig, moduleConfig, iosockets) {
         var instance = this.getModuleInstance(moduleConfig["id"]);
-        if(!instance) {
+        if (!instance) {
             var OfficeModule = require('../public/js/modules/' + moduleConfig['type'] + '/backend');
             this.instances.push(new OfficeModule(globalConfig, moduleConfig, iosockets, this.proxy));
         }
@@ -118,31 +131,31 @@ var DashboardConfig = {
     deleteModule: function (moduleId) {
         // remove module from conf
         var modules = this.getModulesConf();
-        modules.forEach(function(module,index) {
-            if(module.id === moduleId) modules.splice(index,1);
+        modules.forEach(function (module, index) {
+            if (module.id === moduleId) modules.splice(index, 1);
         });
 
         // remove module from storage
         storage.setItem("modules", modules);
 
         // remove module from instances
-        this.instances.forEach(function(instance,index) {
-            if(instance.config.id === moduleId) {
+        this.instances.forEach(function (instance, index) {
+            if (instance.config.id === moduleId) {
                 instance.destroy();
-                this.instances.splice(index,1);
-            } 
+                this.instances.splice(index, 1);
+            }
         }.bind(this));
         return modules;
     },
 
-    addNewClient: function(socket) {
-        this.instances.forEach(function(mod) {
+    addNewClient: function (socket) {
+        this.instances.forEach(function (mod) {
             mod.addClient(socket);
         });
     },
 
-    disconnectModules: function(socket) {
-        this.instances.forEach(function(mod) {
+    disconnectModules: function (socket) {
+        this.instances.forEach(function (mod) {
             mod.disconnect(socket);
         });
     }

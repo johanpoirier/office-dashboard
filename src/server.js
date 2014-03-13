@@ -20,6 +20,7 @@ var proxyOpt = process.argv.slice(2)[0];
 if(!proxyOpt || proxyOpt === "false") {
     delete config["proxy_host"];
     delete config["proxy_port"];
+    delete config["proxy_bypass"];
 }
 
 // CORS middleware
