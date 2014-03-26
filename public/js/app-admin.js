@@ -39,7 +39,7 @@ define(["jquery",
          * grid cols & rows changes
          */
         globalConfigManager.listenToGridSizeChange(function () {
-            socket.emit('admin-save-global-conf', globalConfigManager.getConfig());
+            socket.emit(Events.ADMIN_SAVE_GLOBAL_CONF, globalConfigManager.getConfig());
             gridOccupation.setGridSize(globalConfigManager.get("grid"));
             resizeDashBoardGrid();
         });

@@ -1,7 +1,7 @@
 define(["jquery", "hbs!templates/modules-list"],
 
     function ($, modulesListTemplate) {
-        var el = $("#admin .admin-modules");
+        var el = $("#admin .admin-menu-modules");
         var modulesList = [];
 
         return {

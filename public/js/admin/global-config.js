@@ -1,7 +1,7 @@
 define(["jquery"],
 
     function ($) {
-        var el = $(".admin-dashboard-grid-config");
+        var el = $(".admin-menu #admin-menu-grid-dimensions");
         var inputGridColumns = el.find("input[name='columns']");
         var inputGridRows = el.find("input[name='rows']");
         var config = {};
