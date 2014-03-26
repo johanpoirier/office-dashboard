@@ -1,4 +1,5 @@
 {
     "type": "breakingNews",
-    "singleton" : true
+    "singleton" : true,
+    "dock": "bottom"
 }

@@ -20,7 +20,9 @@ define(["jquery"],
                 gridMatrix.push(col);
             }
 
-            modulesInstances.forEach(function (mod) {
+            modulesInstances.filter(function (mod) {
+                return !mod["dock"];
+            }).forEach(function (mod) {
                 for (var x = 0; x < mod["size"]["w"]; x++) {
                     var matrixX = mod["position"]["x"] - 1 + x;
                     if(matrixX < gridMatrix.length) {

@@ -27,13 +27,23 @@ body.admin {
     height: 100%;
 }
 
-.admin-modules {
-    background: #555454;
-    border: 1px solid #404040;
-    display: flex;
-    flex: 1 200px;
-    flex-flow: column wrap;
+.admin-menu {
+    background: #ffffff;
+    border: 0;
+    color: #000000;
+    left: 0;
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    width: 20px;
+    z-index: 500;
+    transition-duration: 0.3s;
+    transition-property: width;
 }
+.admin-menu:hover {
+    width: 150px;
+}
+
 .admin-modules ul {
     list-style: none;
     margin: 0;
@@ -51,27 +61,22 @@ body.admin {
 }
 
 .admin-dashboard {
-    display: flex;
-    flex: 4 600px;
-    flex-flow: column wrap;
-    padding: 5px;
-}
-
-.admin-dashboard > div {
-    background: #A2A2A2;
-    border: 1px solid #404040;
+    left: 22px;
+    position: absolute;
+    top: 0;
+    width: 98%;
 }
 
 .admin-dashboard-grid-config > input {
+    color: #000000;
     width: 50px;
 }
 
 .admin-dashboard-instances {
     display: grid;
-    flex: 5;
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr 1fr;
-    height: 95%;
+    height: 100%;
     width: 100%;
 }
 .admin-dashboard-instances .module:hover {
@@ -163,4 +168,8 @@ span.help {
 
 .admin .module-inner {
     padding: 5px;
+}
+
+.admin .top, .admin .bottom {
+    height: 10%;
 }

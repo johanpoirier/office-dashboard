@@ -79,7 +79,7 @@ io.sockets.on('connection', function (socket) {
     // Client event listeners
     socket.on(Events.FRONT_GET_MODULES_INSTANCES, function () {
         console.log("Client requested modules");
-        socket.emit('front-send-modules-instances', DashboardConfig.getModulesConf());
+        socket.emit(Events.FRONT_SEND_MODULES_INSTANCES, DashboardConfig.getModulesConf());
     });
 
     socket.on(Events.FRONT_GET_GLOBAL_CONF, function () {

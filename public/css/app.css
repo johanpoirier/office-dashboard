@@ -25,6 +25,31 @@ a {
     text-decoration: none;
 }
 
+/* Screen areas */
+.center, .top, .bottom {
+    height: 100%;
+    left: 0;
+    position: absolute;
+    width: 100%;
+}
+
+/* Center area */
+.center {
+    top: 0;
+}
+
+/* Top area */
+.top {
+    height: 5%;
+    top: 0;
+}
+
+/* Bottom area */
+.bottom {
+    height: 5%;
+    bottom: 0;
+}
+
 /* Button embedding img*/
 input[type="button"], button {
     background: none;

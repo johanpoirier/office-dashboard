@@ -8,15 +8,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 </head>
 <body class="admin">
+
     <div id="admin">
-        <div class="admin-modules"></div>
-        <div class="admin-dashboard">
+
+        <div class="admin-menu">
             <div class="admin-dashboard-grid-config">
                 <input type="number" name="columns" value="3" size="2" /> x <input type="number" name="rows" value="3" size="2" />
             </div>
-            <div class="admin-dashboard-instances"></div>
+            <div class="admin-modules"></div>
         </div>
+
+        <div class="admin-dashboard">
+            <div class="top"></div>
+            <div class="center">
+                <div class="admin-dashboard-instances"></div>
+            </div>
+            <div class="bottom"></div>
+        </div>
+
     </div>
+
     <img id="resize" src="/images/1pix.png" alt="" />
     <script src="/js/libs/vendor/require.js" data-main="js/main" id="bootstrap" data-context="admin"></script>
 </body>

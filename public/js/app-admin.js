@@ -2,22 +2,38 @@ define(["jquery",
     "underscore",
     "socket-io",
     "office",
+    "handlebars",
     "helpers",
     "admin/global-config",
     "admin/modules-kinds",
     "admin/grid-occupation",
     "hbs!templates/modules-dashboard",
     "hbs!templates/module-delete",
+    "hbs!templates/modules-dashboard-module",
+    "text!templates/modules-dashboard-module.hbs",
     "hbsCustomHelpers",
     "constants"],
 
-    function ($, _, io, Office, Helpers, globalConfigManager, modulesKindsManager, gridOccupation, modulesDashboardTemplate, moduleDeleteTemplate) {
+    function ($, _, io,
+              Office,
+              Handlebars,
+              Helpers,
+              globalConfigManager, modulesKindsManager,
+              gridOccupation,
+              modulesDashboardTemplate, moduleDeleteTemplate, modulesDashboardModuleTemplate,
+              modulesDashboardModuleTemplateRaw)
+    {
         // DOM elements
         var el = $("#admin");
-        var dashboardEl = el.find(".admin-dashboard-instances");
+        var topEl = el.find(".top");
+        var centerEl = el.find(".center");
+        var bottomEl = el.find(".bottom");
+        var dashboardEl = centerEl.find(".admin-dashboard-instances");
         var adminModule = null;  // reference to current admin module (modal window)
 
         var modulesInstances = [];
+
+        Handlebars.registerPartial("dashboard-module", modulesDashboardModuleTemplateRaw);
 
         /*
          * grid cols & rows changes
@@ -123,11 +139,32 @@ define(["jquery",
             console.log("admin received modules instances");
             modulesInstances = modules;
 
-            // display dashboard with modules previews
+            // display dashboard with regular modules previews
             dashboardEl.html(modulesDashboardTemplate({
-                "modules": modules
+                "modules": modules.filter(function(module) {
+                    return !module["dock"];
+                })
             }));
             gridOccupation.setModulesInstances(modules);
+
+            // docked modules
+            centerEl.css("height", "100%");
+            centerEl.css("top", "0");
+            topEl.html("");
+            bottomEl.html("");
+            modules.forEach(function(module) {
+                if(module["dock"]) {
+                    if(module["dock"] === "top") {
+                        topEl.html(modulesDashboardModuleTemplate(module));
+                        centerEl.css("height", "90%");
+                        centerEl.css("top", topEl.height() + "px");
+                    }
+                    else if(module["dock"] === "bottom") {
+                        bottomEl.html(modulesDashboardModuleTemplate(module));
+                        centerEl.css("height", "90%");
+                    }
+                }
+            });
 
             // resize cursor hover of module borders
             var instancesEl = dashboardEl.find(".module");
@@ -192,13 +229,13 @@ define(["jquery",
                     // compute new size dimensions
                     if(dragOffsetX < 10) {
                         size["w"] = Math.round((e.originalEvent.offsetX + dragOffsetX) / unitWidth);
-                        if(size["w"] == 0) {
+                        if(size["w"] <= 0) {
                             size["w"] = 1;
                         }
                     }
                     if(dragOffsetY < 10) {
                         size["h"] = Math.round((e.originalEvent.offsetY + dragOffsetY) / unitHeight);
-                        if(size["h"] == 0) {
+                        if(size["h"] <= 0) {
                             size["h"] = 1;
                         }
                     }
@@ -268,7 +305,7 @@ define(["jquery",
             });
 
             // Listener - click on administrate button and display modal
-            var adminButtons = el.find(".admin-dashboard-instances .module button.admin");
+            var adminButtons = el.find(".module button.admin");
             adminButtons.unbind("click");
             adminButtons.click(function () {
                 if (!adminModule) {
@@ -293,7 +330,7 @@ define(["jquery",
             });
 
             // Listener - click on delete button
-            var deleteButtons = el.find(".admin-dashboard-instances .module button.delete");
+            var deleteButtons = el.find(".module button.delete");
             deleteButtons.unbind("click");
             deleteButtons.click(function (e) {
                 var id = $(this).parents("div.module").attr("id");

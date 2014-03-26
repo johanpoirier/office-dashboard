@@ -79,6 +79,9 @@ var DashboardConfig = {
             modules = [];
             storage.setItem("modules", modules);
         }
+        modules.forEach(function(module) {
+            module["docked"] = !module["dock"];
+        });
         return modules;
     },
 

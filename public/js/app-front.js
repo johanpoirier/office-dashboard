@@ -32,6 +32,8 @@ define(["jquery", "underscore", "socket-io", "helpers", "constants"],
             var instanciated = _.findWhere(configs, { "id": moduleConfig["id"] });
             // 'singleton' indicates wether or not this kind of module is allowed to instanciated several times within the same view
             var singleton = (typeof moduleConfig["singleton"] !== "undefined") ? moduleConfig["singleton"] : false;
+            // 'dock' indicates wether or not this kind of module is docked to the top or bottom of the screen
+            var dock = (typeof moduleConfig["dock"] !== "undefined") ? moduleConfig["dock"] : false;
 
             if (!instanciated) {
                 if (!(exist && singleton)) {

@@ -70,17 +70,41 @@ define(["underscore", "jquery", "socket-io", "storage", "helpers", "hbs!../js/te
 
                 if (this.el === null) {
                     // module container : cell of the grid
-                    this.rootEl.append($("<div/>", {
+                    var container = $("<div/>", {
                         "id": this.config["id"],
                         "class": "module " + this.config["type"]
-                    }));
-                    var container = this.rootEl.find("div#" + this.config["id"]);
+                    });
 
                     // inner contains the real content
                     container.append($("<div/>", {
                         "class": "module-inner " + this.config["type"]
                     }));
-                    this.el = container.find("div.module-inner");
+
+                    // regular module
+                    if(!config["dock"]) {
+                        // add it to center area
+                        this.rootEl.append(container);
+                    }
+                    // docked module
+                    else {
+                        if(config["dock"] === "top") {
+                            $(".center").css("height", "95%");
+                            $(".center").css("top", $(".top").height() + "px");
+                            $(".top").html(container);
+                        }
+                        else if(config["dock"] === "bottom") {
+                            $(".center").css("height", "95%");
+                            $(".bottom").html(container);
+                        }
+                        else {
+                            console.warn("docking mode unknown : " + config["dock"]);
+                        }
+                    }
+
+                    // save module dom element
+                    this.el = $("div#" + this.config["id"] + " div.module-inner");
+
+                    // position module inside the grid
                     this.updatePosition();
                 }
 
@@ -110,6 +134,10 @@ define(["underscore", "jquery", "socket-io", "storage", "helpers", "hbs!../js/te
             },
 
             destroy: function () {
+                if(this.config["dock"]) {
+                    $(".center").css("height", "100%");
+                    $(".center").css("top", "0");
+                }
                 this.el.parent().remove();
                 this.disconnect.apply(this);
             },
