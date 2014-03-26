@@ -22,7 +22,7 @@ var GitModule = OfficeModule.extend({
             this.processing = true;
 
             var url = this.config["url"];
-            if(this.config["user"].length > 0 && this.config["password"].length > 0) {
+            if(this.config["user"] && this.config["user"].length > 0 && this.config["password"].length > 0) {
                 var urlParts = url.split("//");
                 url = urlParts[0] + "//" + this.config["user"] + ":" + this.config["password"] + "@" + urlParts[1];
             }

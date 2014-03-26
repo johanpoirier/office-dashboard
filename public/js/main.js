@@ -37,4 +37,6 @@ if(bootstrapScript.hasAttribute("data-context")) {
 }
 
 // start app
-require([app]);
+require(["events"], function() {
+    require([app]);
+});

@@ -6,11 +6,11 @@ define(["jquery", "underscore", "socket-io", "helpers", "constants"],
 
         var socket = io.connect(window.office.node_server_url);
 
-        socket.on('connect', function () {
-            socket.emit('front-get-global-conf');
+        socket.on(Events.CONNECT, function () {
+            socket.emit(Events.FRONT_GET_GLOBAL_CONF);
         });
 
-        socket.on('front-send-global-conf', function (config) {
+        socket.on(Events.FRONT_SEND_GLOBAL_CONF, function (config) {
             console.log("front received global conf");
             globalConfig = config;
 
@@ -19,7 +19,7 @@ define(["jquery", "underscore", "socket-io", "helpers", "constants"],
             dashboardInstances.css("grid-template-columns", Helpers.generateGridTemplateProperty(globalConfig["grid"]["columns"]));
             dashboardInstances.css("grid-template-rows", Helpers.generateGridTemplateProperty(globalConfig["grid"]["rows"]));
 
-            socket.emit('front-get-modules-instances');
+            socket.emit(Events.FRONT_GET_MODULES_INSTANCES);
         });
 
         var addUpdateModule = function (moduleConfig) {
@@ -50,7 +50,7 @@ define(["jquery", "underscore", "socket-io", "helpers", "constants"],
         };
 
         // send all modules
-        socket.on('front-send-modules-instances', function (modules) {
+        socket.on(Events.FRONT_SEND_MODULES_INSTANCES, function (modules) {
             console.log("front received modules instances");
             modules.forEach(addUpdateModule);
 
@@ -69,10 +69,10 @@ define(["jquery", "underscore", "socket-io", "helpers", "constants"],
         });
 
         // Add new module
-        socket.on('front-add-module-instance', addUpdateModule);
+        socket.on(Events.FRONT_ADD_MODULE_INSTANCE, addUpdateModule);
 
         // Delete existing module
-        socket.on('front-delete-module-instance', function (moduleId) {
+        socket.on(Events.FRONT_DELETE_MODULE_INSTANCE, function (moduleId) {
             console.log("delete module instance ", moduleId);
 
             // Destroy module instances

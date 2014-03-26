@@ -82,7 +82,7 @@ define(["jquery",
                     }
 
                     // push the conf to the server
-                    socket.emit('admin-add-or-update-module-instance', moduleConfig);
+                    socket.emit(Events.ADMIN_ADD_OR_UPDATE_MODULE_INSTANCE, moduleConfig);
                 }
 
                 // move module instance inside the dashboard
@@ -101,25 +101,25 @@ define(["jquery",
          */
         var socket = io.connect(window.office.node_server_url);
         socket.on('connect', function () {
-            socket.emit('admin-get-global-conf');
+            socket.emit(Events.ADMIN_GET_GLOBAL_CONF);
         });
 
-        socket.on('admin-send-global-conf', function (config) {
+        socket.on(Events.ADMIN_SEND_GLOBAL_CONF, function (config) {
             globalConfigManager.setConfig(config);
             gridOccupation.setGridSize(globalConfigManager.get("grid"));
             resizeDashBoardGrid();
 
-            socket.emit('admin-get-modules-kinds');
-            socket.emit('admin-get-modules-instances');
+            socket.emit(Events.ADMIN_GET_MODULE_KINDS);
+            socket.emit(Events.ADMIN_GET_MODULE_INSTANCES);
         });
 
-        socket.on('admin-send-modules-kinds', function (modules) {
+        socket.on(Events.ADMIN_SEND_MODULE_KINDS, function (modules) {
             console.log("admin received modules kinds");
             modulesKindsManager.setModulesList(modules);
             modulesKindsManager.listenToDragOperation();
         });
 
-        socket.on('admin-send-modules-instances', function (modules) {
+        socket.on(Events.ADMIN_SEND_MODULE_INSTANCES, function (modules) {
             console.log("admin received modules instances");
             modulesInstances = modules;
 
@@ -221,7 +221,7 @@ define(["jquery",
                     }
 
                     // push the conf to the server
-                    socket.emit('admin-add-or-update-module-instance', moduleConfig);
+                    socket.emit(Events.ADMIN_ADD_OR_UPDATE_MODULE_INSTANCE, moduleConfig);
 
                     // reset temp vars
                     dragOffsetX = dragOffsetY = modWidth = modHeight = unitWidth = unitHeight = 0;
@@ -305,7 +305,7 @@ define(["jquery",
             });
         });
 
-        socket.on('disconnect', function () {
+        socket.on(Events.DISCONNECT, function () {
             console.log("Admin got disconnected");
             el.unbind();
             el.find("*").unbind();

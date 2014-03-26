@@ -9,6 +9,11 @@ var express = require('express')
     , DashboardConfig = require(__dirname + '/dashboard-config.js');
 
 /**
+ * Global socket.io events
+ */
+require(__dirname + '/../public/js/events.js')
+
+/**
  * Config
  */
 var config = require(__dirname + '/../config/' + app.get('env') + '.json');
@@ -72,63 +77,63 @@ io.sockets.on('connection', function (socket) {
     DashboardConfig.addNewClient(socket);
 
     // Client event listeners
-    socket.on('front-get-modules-instances', function () {
+    socket.on(Events.FRONT_GET_MODULES_INSTANCES, function () {
         console.log("Client requested modules");
         socket.emit('front-send-modules-instances', DashboardConfig.getModulesConf());
     });
 
-    socket.on('front-get-global-conf', function () {
+    socket.on(Events.FRONT_GET_GLOBAL_CONF, function () {
         console.log("Client requested global conf");
-        socket.emit('front-send-global-conf', DashboardConfig.getGlobalConf());
+        socket.emit(Events.FRONT_SEND_GLOBAL_CONF, DashboardConfig.getGlobalConf());
     });
 
 
     // Admin event listeners
-    socket.on('admin-get-global-conf', function () {
+    socket.on(Events.ADMIN_GET_GLOBAL_CONF, function () {
         console.log("Admin requested global conf");
-        socket.emit('admin-send-global-conf', DashboardConfig.getGlobalConf());
+        socket.emit(Events.ADMIN_SEND_GLOBAL_CONF, DashboardConfig.getGlobalConf());
     });
 
-    socket.on('admin-save-global-conf', function (config) {
+    socket.on(Events.ADMIN_SAVE_GLOBAL_CONF, function (config) {
         console.log("Admin pushed global conf");
         DashboardConfig.saveGlobalConf(config);
 
         // bradcast global conf to front clients
-        socket.broadcast.emit('front-send-global-conf', config);
+        socket.broadcast.emit(Events.FRONT_SEND_GLOBAL_CONF, config);
     });
 
-    socket.on('admin-get-modules-kinds', function () {
+    socket.on(Events.ADMIN_GET_MODULE_KINDS, function () {
         console.log("Admin requested modules kinds");
-        socket.emit('admin-send-modules-kinds', DashboardConfig.listAvailableModules());
+        socket.emit(Events.ADMIN_SEND_MODULE_KINDS, DashboardConfig.listAvailableModules());
     });
 
-    socket.on('admin-get-modules-instances', function () {
+    socket.on(Events.ADMIN_GET_MODULE_INSTANCES, function () {
         console.log("Admin requested modules instances");
-        socket.emit('admin-send-modules-instances', DashboardConfig.getModulesConf());
+        socket.emit(Events.ADMIN_SEND_MODULE_INSTANCES, DashboardConfig.getModulesConf());
     });
 
-    socket.on('admin-add-or-update-module-instance', function (moduleConfig) {
+    socket.on(Events.ADMIN_ADD_OR_UPDATE_MODULE_INSTANCE, function (moduleConfig) {
         console.log("Admin pushed a module instance " + moduleConfig["id"]);
         var modules = DashboardConfig.addOrUpdateModule(moduleConfig);
         DashboardConfig.loadModule(config, moduleConfig, io.sockets);
 
         // send back modules instances to admin
-        socket.emit('admin-send-modules-instances', modules);
+        socket.emit(Events.ADMIN_SEND_MODULE_INSTANCES, modules);
 
         // broadcast new module instance to front socket
-        socket.broadcast.emit('front-add-module-instance', moduleConfig);
+        socket.broadcast.emit(Events.FRONT_ADD_MODULE_INSTANCE, moduleConfig);
     });
 
-    socket.on('admin-delete-module-instance', function (moduleId) {
+    socket.on(Events.ADMIN_DELETE_MODULE_INSTANCE, function (moduleId) {
         console.log("Admin deleted a module instance " + moduleId);
         var modules = DashboardConfig.deleteModule(moduleId);
         // send back modules instances to admin
-        socket.emit('admin-send-modules-instances', modules);
+        socket.emit(Events.ADMIN_SEND_MODULE_INSTANCES, modules);
         // broadcast module instance to delete id to front socket
-        socket.broadcast.emit('front-delete-module-instance', moduleId);
+        socket.broadcast.emit(Events.FRONT_DELETE_MODULE_INSTANCE, moduleId);
     });
 
-    socket.on('disconnect', function () {
+    socket.on(Events.DISCONNECT, function () {
         // Add modules listeners
         DashboardConfig.disconnectModules(socket);
         console.log("client " + socket.id + " got disconnected");

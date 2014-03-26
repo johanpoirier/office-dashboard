@@ -61,7 +61,7 @@ define(["underscore", "jquery", "socket-io", "storage", "helpers", "hbs!../js/te
 
                 // Socket init & listen
                 this.socket = socket;
-                this.socket.on('disconnect', this.disconnect.bind(this));
+                this.socket.on(Events.DISCONNECT, this.disconnect.bind(this));
 
                 console.info("[" + this.config["id"] + "] module started");
 
@@ -145,7 +145,7 @@ define(["underscore", "jquery", "socket-io", "storage", "helpers", "hbs!../js/te
 
                 // Socket init & listen
                 this.socket = socket;
-                this.socket.on('disconnect', this.disconnect.bind(this));
+                this.socket.on(Events.DISCONNECT, this.disconnect.bind(this));
 
                 // Check if we are creating a new object or modifying an existing one
                 var isNew = false;
@@ -200,7 +200,7 @@ define(["underscore", "jquery", "socket-io", "storage", "helpers", "hbs!../js/te
                         newConf[input.attr("name")] = input.val();
                     }
                 }
-                this.socket.emit('admin-add-or-update-module-instance', newConf);
+                this.socket.emit(Events.ADMIN_ADD_OR_UPDATE_MODULE_INSTANCE, newConf);
                 this.close();
                 return false;
             },
@@ -256,7 +256,7 @@ define(["underscore", "jquery", "socket-io", "storage", "helpers", "hbs!../js/te
             },
 
             confirm: function () {
-                this.socket.emit('admin-delete-module-instance', this.moduleId);
+                this.socket.emit(Events.ADMIN_DELETE_MODULE_INSTANCE, this.moduleId);
                 this.close();
                 return false;
             },
