@@ -65,7 +65,7 @@ define(["jquery",
                     // we need to clone the config object in order to not alter our modulesList
                     var moduleConstantConfigClone = _.clone(moduleConstantConfig);
                     moduleConstantConfigClone["position"] = position;
-                    moduleConstantConfigClone["size"] = { "w": 2, "h": 2 }; // default size
+                    moduleConstantConfigClone["size"] = { "w": 1, "h": 1 }; // default size
 
                     require(["modules/" + data["type"] + "/admin/admin"], function (AdminModule) {
                         el.addClass("fade");

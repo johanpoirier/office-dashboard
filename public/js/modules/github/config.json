@@ -1,7 +1,6 @@
 {
     "type": "github",
     "host": "api.github.com",
-    "nb_commits_display": 5,
-    "branch": "master",
+    "nb_commits_display": 20,
     "refresh": 300000
 }

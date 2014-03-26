@@ -178,7 +178,7 @@ define(["underscore", "jquery", "socket-io", "storage", "helpers", "hbs!../js/te
                 // Check if we are creating a new object or modifying an existing one
                 var isNew = false;
                 if (!this.config["id"]) isNew = true;
-                if (isNew) this.config["id"] = this.config["type"] + "-" + Math.floor((Math.random() * 1000) + 1);
+                if (isNew) this.config["id"] = this.config["type"] + "-" + Math.floor((Math.random() * 10000) + 1);
 
                 // load css
                 helpers.loadAdminModuleCss(this.config["type"]);

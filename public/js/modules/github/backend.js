@@ -19,7 +19,7 @@ var GithubModule = OfficeModule.extend({
         var options = {
             hostname: this.config['host'],
             port: 443,
-            path: this.config['path'],
+            path: "/repos/" + this.config['user'] + "/" + this.config['repo'] + "/commits",
             method: 'GET',
             headers: {
                 'Accept': 'application/vnd.github.beta+json',
