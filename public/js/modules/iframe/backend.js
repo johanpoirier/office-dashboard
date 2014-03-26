@@ -8,15 +8,25 @@ var IframeModule = OfficeModule.extend({
     start: function () {
         this.pages = this.config["pages"];
         if (this.pages && this.pages.length > 0) {
-            this.iosockets.on('connection', (function (socket) {
-                socket.on(this.config["id"] + ":screen", this.getNextPage.bind(this));
-            }).bind(this));
-            if (this.pages.length > 1) {
-                setInterval(this.getNextPage.bind(this), this.config["refresh"]);
-            }
+            this.registerSocketListener(this.config["id"] + ":screen", this.getNextPage.bind(this));
+            this.startTimer();
         }
         else {
             console.warn("[" + this.config["id"] + "] no page to display");
+        }
+    },
+
+    getData: function() {
+        this.pages = this.config["pages"];
+        this.startTimer();
+    },
+
+    startTimer: function() {
+        if(this.timer) {
+            clearInterval(this.timer);
+        }
+        if (this.pages.length > 1) {
+            this.timer = setInterval(this.getNextPage.bind(this), this.config["refresh"]);
         }
     },
 

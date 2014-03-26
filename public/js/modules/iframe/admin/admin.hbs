@@ -4,8 +4,13 @@
 
 <!-- fullscreen -->
 <label for="fullscreen">Full screen</label>
-<input type="checkbox" name="fullscreen" value="{{config.fullscreen}}" /><br/>
+<input type="checkbox" name="fullscreen" value="true" /><br/>
 
-<!-- pages -->
-<label for="page">Pages</label>
-<input type="text" name="page" placeholder="url..." value="" /><br/>
+<!-- topics -->
+<div class="input-wrapper">
+    <label for="topic">Pages</label>
+    <input type="text" name="page" placeholder="page..." value="" /><br/>
+	<button type="button" class="new-page textual" title="Add page">add</button>
+	<br/>
+	<div class="page-list"></div>
+</div>

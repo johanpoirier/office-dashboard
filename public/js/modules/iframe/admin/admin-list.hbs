@@ -1,0 +1,12 @@
+<ul>
+{{#each pages}}
+	<div class="message">
+		<li>
+		    {{this}}
+		    <button type="image" data-index="{{@index}}" class="remove-page">
+		        <img height="20px" width="20px" src="/images/delete.png" alt="Delete page" title="Delete page">
+		    </button>
+		</li>
+	</div>
+{{/each}}
+</ul>

@@ -7,9 +7,7 @@ define([ "office", "hbs!modules/iframe/template"],
         var iframeModule = Office.Module.extend({
 
             listen: function () {
-                if(this.config["fullscreen"]) {
-                    this.el.addClass("fullscreen");
-                }
+                this.setFullscreenMode();
                 this.socket.emit(this.config["id"] + ":screen");
                 this.socket.on(this.config["id"] + ":page", this.displayPage.bind(this));
             },
@@ -19,6 +17,16 @@ define([ "office", "hbs!modules/iframe/template"],
                 this.el.html(template({
                     "url": page
                 }));
+                this.setFullscreenMode();
+            },
+
+            setFullscreenMode: function() {
+                if(this.config["fullscreen"]) {
+                    this.el.addClass("fullscreen");
+                }
+                else {
+                    this.el.removeClass("fullscreen");
+                }
             }
         });
 

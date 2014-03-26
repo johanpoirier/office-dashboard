@@ -80,7 +80,7 @@ var DashboardConfig = {
             storage.setItem("modules", modules);
         }
         modules.forEach(function(module) {
-            module["docked"] = !module["dock"];
+            module["draggable"] = !module["dock"];
         });
         return modules;
     },
