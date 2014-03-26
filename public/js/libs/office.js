@@ -165,6 +165,7 @@ define(["underscore", "jquery", "socket-io", "storage", "helpers", "hbs!../js/te
             socket: null,
             rootEl: null,
             el: null,
+            context: {},
 
             initialize: function (config, rootEl, socket, doneCallback) {
                 this.config = config;
@@ -198,7 +199,9 @@ define(["underscore", "jquery", "socket-io", "storage", "helpers", "hbs!../js/te
                 // Render
                 this.render();
                 require(["hbs!modules/" + this.config["type"] + "/admin/admin"], (function (template) {
-                    this.el.prepend(template({ 'config': this.config }));
+                    var context = this.context;
+                    context.config = this.config;
+                    this.el.prepend(template(context));
 
                     // Register DOM events
                     this.events.apply(this);

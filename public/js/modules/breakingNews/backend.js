@@ -9,10 +9,8 @@ var BreakingNewsModule = OfficeModule.extend({
     index: 0,
 
     start: function () {
-        this.iosockets.on('connection', (function (socket) {
-            socket.on(this.config["id"] + "admin" + ":message", this.getNewMessage.bind(this));
-            socket.on(this.config["id"] + "admin" + ":remove", this.removeMessage.bind(this));
-        }).bind(this));
+        this.registerSocketListener(this.config["id"] + ":admin-message", this.getNewMessage.bind(this));
+        this.registerSocketListener(this.config["id"] + ":admin-remove", this.removeMessage.bind(this));
 
         this.startRefresh();
     },
