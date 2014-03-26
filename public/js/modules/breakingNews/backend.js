@@ -15,8 +15,8 @@ var BreakingNewsModule = OfficeModule.extend({
         this.startRefresh();
     },
 
-    startRefresh: function() {
-        if(!this.timer) {
+    startRefresh: function () {
+        if (!this.timer) {
             this.timer = setInterval(this.displayMessage.bind(this), this.config["refresh"]);
         }
     },
@@ -48,13 +48,13 @@ var BreakingNewsModule = OfficeModule.extend({
     },
 
     // Receive new message from admin
-    getNewMessage: function (message) {
+    getNewMessage: function (socket, message) {
         console.log("[" + this.config["id"] + "] received new message from admin : " + message);
         this.messages.push(message);
         this.startRefresh();
     },
 
-    removeMessage: function (message) {
+    removeMessage: function (socket, message) {
         console.log("[" + this.config["id"] + "] remove message : " + message);
         var messageIndex = this.messages.indexOf(message);
         this.messages.splice(messageIndex, 1);

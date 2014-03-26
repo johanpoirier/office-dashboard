@@ -26,7 +26,7 @@ define([ "jquery", "office", "hbs!modules/breakingNews/admin/admin-list", "hbsCu
 
             newMessage: function (message) {
                 this.config.messages.push(message);
-                //this.socket.emit(this.config["id"] + ":admin-message", message);
+                this.socket.emit(this.config["id"] + ":admin-message", message);
                 this.refreshList();
             },
 
