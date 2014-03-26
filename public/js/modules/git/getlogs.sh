@@ -21,6 +21,8 @@ else
     else
         git config --local --unset http.proxy
     fi
+    git remote remove origin
+    git remote add origin $3
     git fetch
 fi
 

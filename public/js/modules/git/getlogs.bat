@@ -14,6 +14,8 @@ IF NOT EXIST .git (
 ) ELSE (
     IF NOT %4=="" git config --local http.proxy %4
     IF %4=="" git config --local --unset http.proxy
+    git remote remove origin
+    git remote add origin %3
     git fetch
 )
 git log --pretty=format:"%%an;%%s;%%ar" --no-merges origin/%5 > logs
