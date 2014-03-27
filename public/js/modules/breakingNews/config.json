@@ -1,5 +1,6 @@
 {
     "type": "breakingNews",
     "singleton" : true,
+    "refresh": 30000,
     "dock": "bottom"
 }
