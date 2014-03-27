@@ -88,6 +88,13 @@ define(["jquery",
                         position["y"] -= offset["y"];
                     }
 
+                    if(position["x"] < 1) {
+                        position["x"] = 1;
+                    }
+                    if(position["y"] < 1) {
+                        position["y"] = 1;
+                    }
+
                     // update the module instance conf
                     var moduleConfig = getModule(moduleId);
                     if(moduleConfig) {
@@ -360,9 +367,11 @@ define(["jquery",
         };
 
         var computeGridPosition = function (columns, rows, width, height, x, y) {
+            var gridX = Math.ceil((x / width) * columns);
+            var gridY = Math.ceil((y / height) * rows);
             return {
-                "x": Math.ceil((x / width) * columns),
-                "y": Math.ceil((y / height) * rows)
+                "x": gridX > 0 ? gridX : 1,
+                "y": gridY > 0 ? gridY : 1
             }
         };
 

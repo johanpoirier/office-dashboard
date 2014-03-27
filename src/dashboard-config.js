@@ -79,9 +79,6 @@ var DashboardConfig = {
             modules = [];
             storage.setItem("modules", modules);
         }
-        modules.forEach(function(module) {
-            module["draggable"] = !module["dock"];
-        });
         return modules;
     },
 
@@ -116,6 +113,9 @@ var DashboardConfig = {
         if (!moduleFound) {
             modules.push(config);
         }
+        modules.forEach(function(module) {
+            module["draggable"] = !module["dock"];
+        });
         storage.setItem("modules", modules);
         return modules;
     },
