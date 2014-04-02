@@ -59,6 +59,10 @@ var DashboardConfig = {
         return (instance.length > 0) ? instance[0] : false;
     },
 
+    getModuleInstances: function () {
+        return this.instances;
+    },
+
     getModuleConf: function (id) {
         var module = false;
         var modules = storage.getItem("modules");
@@ -161,6 +165,10 @@ var DashboardConfig = {
         this.instances.forEach(function (mod) {
             mod.disconnect(socket);
         });
+    },
+
+    deleteAllModules: function() {
+        storage.setItem("modules", []);
     }
 }
 
