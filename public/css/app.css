@@ -6,7 +6,7 @@ html {
 }
 
 body {
-    background: url(/images/bg.jpg) no-repeat center fixed;
+    background: url(/images/cover.jpg) no-repeat center fixed;
     background-size: cover;
     font: 18px Lato, "Helvetica Neue", Arial, Helvetica, sans-serif;
     height: 100%;
