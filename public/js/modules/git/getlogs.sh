@@ -2,7 +2,7 @@
 
 cd $1
 if [ ! -d $2 ]; then
-    mkdir $2
+    sudo mkdir $2
 fi
 cd $2
 
