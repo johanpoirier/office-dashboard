@@ -7,17 +7,10 @@ var iosocketMock = {
         return [];
     }
 };
-var getSocketMock = function (done) {
-    return {
-        emit: function () {
-            done();
-        }
-    }
-};
 
 describe('GitModule', function () {
     describe('#init', function () {
-        it('should call start when init', function (done) {
+        it('should call start when init', function () {
             this.timeout(30000);
             var git = new GitModule(config, {
                 "id": "git-555",
@@ -28,7 +21,6 @@ describe('GitModule', function () {
                 "nb_commits_display": 2,
                 "refresh": 3000000
             }, iosocketMock);
-            git.getData(getSocketMock(done));
         });
     });
 });

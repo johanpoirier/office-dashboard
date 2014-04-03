@@ -32,7 +32,7 @@ var GithubModule = OfficeModule.extend({
         if (this.proxy) {
             options.hostname = this.proxy["host"];
             options.port = this.proxy["port"];
-            options.path = 'https://' + this.config['host'] + this.config['path'];
+            options.path = 'https://' + this.config['host'] + "/repos/" + this.config['user'] + "/" + this.config['repo'] + "/commits";
             https = http;
         }
 

@@ -1,8 +1,5 @@
 #!/bin/sh
 
-set -ev
-set -x
-
 cd $1
 if [ ! -d $2 ]; then
     mkdir $2
