@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env sh
 
 cd $1
 if [ ! -d $2 ]; then
