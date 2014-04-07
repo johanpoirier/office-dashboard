@@ -11,9 +11,9 @@ var GitModule = OfficeModule.extend({
     processing: false,
 
     start: function () {
-        console.log("[" + this.config["id"] + "] refreshing data every " + (this.config['refresh'] / 1000) + " seconds");
+        console.log("[" + this.config["id"] + "] refreshing data every " + this.config['refresh'] + " seconds");
         this.isWin = /^win/.test(os.platform());
-        setInterval(this.getData.bind(this), this.config['refresh']);
+        setInterval(this.getData.bind(this), this.config['refresh'] * 1000);
     },
 
     getData: function (socket) {

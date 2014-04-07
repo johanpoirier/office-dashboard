@@ -129,7 +129,7 @@ body.admin {
     flex: 1 300px;
     min-height: 300px;
     max-height: 400px;
-    max-width: 600px;
+    max-width: 700px;
     outline: 2px solid #BFBFBF;
     position: relative;
 }
@@ -141,6 +141,7 @@ body.admin {
 
 .module-admin .module-admin-box > button {
     bottom: 0;
+    left: 0;
     margin-bottom: 8px;
     position: absolute;
     width: 120px;
@@ -154,12 +155,12 @@ body.admin {
     margin-left: 50%;
 }
 
-div.action-panel {
+.action-panel {
     float: right;
 }
 
 /** Modals **/
-div.modal {
+.modal {
     left: 50%;
     margin-left: -325px;
     overflow-x: hidden;
@@ -169,15 +170,7 @@ div.modal {
     z-index: 100;
 }
 
-div.input-wrapper {
-    margin: 10px 0;
-}
-
-div.input-wrapper > label {
-    margin-right: 0px;
-}
-
-span.help {
+.help {
     float: left;
     font-weight: bold;
 }
@@ -237,7 +230,47 @@ input[type="button"].textual, button.textual {
 }
 
 /* input text, number, select... */
-input[type="text"],input[type="number"],select {
+input[type="text"], input[type="number"], select {
     color: #000000;
     padding: 3px;
+}
+
+.module-admin-box > .row:last-of-type {
+    margin-bottom: 50px;
+}
+
+.row {
+    clear: both;
+    float: left;
+    margin-bottom: 4px;
+    width: 100%;
+}
+
+.row > * {
+    float: left;
+}
+
+.row > label {
+    line-height: 30px;
+    padding-right: 8px;
+    text-align: right;
+    width: 30%
+}
+
+.row > :nth-child(2) {
+    width: 70%;
+}
+
+.row input {
+    border: 0;
+    border-radius: 3px;
+    font-size: 0.9em;
+    padding: 6px;
+}
+
+.row input[type="number"] {
+    width: 60px;
+}
+.row input[name="refresh"] {
+    width: 70px;
 }

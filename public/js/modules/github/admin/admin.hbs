@@ -1,19 +1,29 @@
 <!-- refresh time -->
-<label for="refresh">Refresh time</label>
-<input class="persist" type="number" name="refresh" placeholder="Refresh time (in ms)..." value="{{config.refresh}}" /><br/>
+<div class="row">
+    <label for="refresh">Refresh time (s)</label>
+    <input class="persist" type="number" name="refresh" placeholder="Refresh time (in s)..." value="{{config.refresh}}" />
+</div>
 
 <!-- user -->
-<label for="user">User</label>
-<input class="persist" type="text" name="user" placeholder="User..." value="{{config.user}}" /><br/>
+<div class="row">
+    <label for="user">User</label>
+    <input class="persist" type="text" name="user" placeholder="User..." value="{{config.user}}" />
+</div>
 
 <!-- repository -->
-<label for="repo">Repository</label>
-<input class="persist" type="text" name="repo" placeholder="Repository..." value="{{config.repo}}" /><br/>
+<div class="row">
+    <label for="repo">Repository</label>
+    <input class="persist" type="text" name="repo" placeholder="Repository..." value="{{config.repo}}" />
+</div>
 
 <!-- nb commits -->
-<label for="nb_commits_display">Number of commits</label>
-<input class="persist" type="number" name="nb_commits_display" placeholder="Number of commits..." value="{{config.nb_commits_display}}" /><br/>
+<div class="row">
+    <label for="nb_commits_display">Number of commits</label>
+    <input class="persist" type="number" name="nb_commits_display" placeholder="Number of commits..." value="{{config.nb_commits_display}}" />
+</div>
 
 <!-- token -->
-<label for="token">API token</label>
-<input class="persist" type="text" name="token" placeholder="token..." value="{{config.token}}" /><br/>
+<div class="row">
+    <label for="token">API token</label>
+    <input class="persist" type="text" name="token" placeholder="token..." value="{{config.token}}" />
+</div>

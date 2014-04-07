@@ -24,7 +24,7 @@ var JenkinsModule = OfficeModule.extend({
             this.options.path = 'http://' + this.config['url'] + this.options.path;
         }
 
-        setInterval(this.getData.bind(this), this.config['refresh']);
+        setInterval(this.getData.bind(this), this.config['refresh'] * 1000);
     },
 
     getJobsInError: function (callback) {

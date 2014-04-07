@@ -1,28 +1,39 @@
 <!-- consumer_key -->
-<label for="consumer_key">Consumer key</label>
-<input class="persist" type="text" name="consumer_key" placeholder="consumer key..." value="{{config.consumer_key}}" /><br/>
+<div class="row">
+    <label for="consumer_key">Consumer key</label>
+    <input class="persist" type="text" name="consumer_key" placeholder="consumer key..." value="{{config.consumer_key}}" />
+</div>
 
 <!-- consumer_secret -->
-<label for="consumer_secret">Consumer secret</label>
-<input class="persist" type="text" name="consumer_secret" placeholder="consumer secret..." value="{{config.consumer_secret}}" /><br/>
+<div class="row">
+    <label for="consumer_secret">Consumer secret</label>
+    <input class="persist" type="text" name="consumer_secret" placeholder="consumer secret..." value="{{config.consumer_secret}}" />
+</div>
 
 <!-- access_token_key -->
-<label for="access_token_key">Access token key</label>
-<input class="persist" type="text" name="access_token_key" placeholder="access token key..." value="{{config.access_token_key}}" /><br/>
+<div class="row">
+    <label for="access_token_key">Access token key</label>
+    <input class="persist" type="text" name="access_token_key" placeholder="access token key..." value="{{config.access_token_key}}" />
+</div>
 
 <!-- access_token_secret -->
-<label for="branch">Access token secret</label>
-<input class="persist" type="text" name="access_token_secret" placeholder="access token secret..." value="{{config.access_token_secret}}" /><br/>
+<div class="row">
+    <label for="branch">Access token secret</label>
+    <input class="persist" type="text" name="access_token_secret" placeholder="access token secret..." value="{{config.access_token_secret}}" />
+</div>
 
 <!-- fetched_items -->
-<label for="fetched_items">Number of tweet fetched</label>
-<input class="persist" type="number" name="fetched_items" placeholder="Number of tweets..." value="{{config.fetched_items}}" /><br/>
+<div class="row">
+    <label for="fetched_items">Number of tweet fetched</label>
+    <input class="persist" type="number" name="fetched_items" placeholder="Number of tweets..." value="{{config.fetched_items}}" />
+</div>
 
 <!-- topics -->
-<div class="input-wrapper">
+<div class="row">
     <label for="topic">Topics</label>
-    <input type="text" name="topic" placeholder="topic..." value="" /><br/>
-	<button type="button" class="new-topic textual" title="Add topic">add</button>
-	<br/>
-	<div class="topic-list"></div>
+    <div class="topic-new">
+        <input type="text" name="topic" placeholder="topic..." value="" />
+        <button type="button" class="new-topic textual" title="Add topic">add</button>
+        <div class="topic-list"></div>
+    </div>
 </div>

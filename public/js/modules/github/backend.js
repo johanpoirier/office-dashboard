@@ -5,8 +5,8 @@ var OfficeModule = require(__dirname + "/../../../../src/office-module"),
 var GithubModule = OfficeModule.extend({
 
     start: function () {
-        console.log("[" + this.config["id"] + "] refreshing commits every " + (this.config['refresh'] / 1000) + " seconds");
-        setInterval(this.getData.bind(this), this.config['refresh']);
+        console.log("[" + this.config["id"] + "] refreshing commits every " + this.config['refresh'] + " seconds");
+        setInterval(this.getData.bind(this), this.config['refresh'] * 1000);
     },
 
     getData: function (socket) {
