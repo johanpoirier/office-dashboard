@@ -93,14 +93,38 @@ body.admin {
 }
 
 .admin-menu-modules ul > li {
-    cursor: -webkit-grab;
+    display: flex;
     flex: 1;
     line-height: 30px;
     min-height: 30px;
     text-align: center;
 }
 
-.admin-menu-modules ul > li:hover {
+.admin-menu-modules ul > li.instanciated {
+    color: gray;
+}
+
+.admin-menu-modules ul > li > span {
+    flex: 10;
+}
+
+.admin-menu-modules ul > li > button {
+    flex: 1;
+}
+
+.admin-menu-modules ul > li[draggable=true] {
+    cursor: -webkit-grab;
+}
+
+.admin-menu-modules ul > li:not([draggable=true]) button {
+    visibility: hidden;
+}
+
+.admin-menu-modules ul > li:not([draggable=true]):hover button {
+    visibility: visible;
+}
+
+.admin-menu-modules ul > li[draggable=true]:hover {
     box-shadow: 0px 2px 12px #000;
 }
 
@@ -221,12 +245,11 @@ input[type="button"].textual, button.textual {
     box-shadow: inset 0px 1px 0px 0px #ffffff;
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #f9f9f9), color-stop(1, #e9e9e9));
     background: -moz-linear-gradient(center top, #f9f9f9 5%, #e9e9e9 100%);
-    color: #7d7d7d;
-    border: 1px solid #dcdcdc;
+    color: #353535;
+    border: 0;
     font-weight: bold;
     text-decoration: none;
     text-align: center;
-    text-shadow: 1px 1px 0px #ffffff;
 }
 
 /* input text, number, select... */
@@ -261,7 +284,7 @@ input[type="text"], input[type="number"], select {
     width: 70%;
 }
 
-.row input {
+.row input, .row select {
     border: 0;
     border-radius: 3px;
     font-size: 0.9em;
@@ -269,6 +292,7 @@ input[type="text"], input[type="number"], select {
 }
 
 .row input[type="number"] {
+    text-align: center;
     width: 60px;
 }
 .row input[name="refresh"] {

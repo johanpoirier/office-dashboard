@@ -46,6 +46,27 @@ define(["jquery",
 
 
         /*
+         *
+         */
+        var addModuleToGrid = function(type, position) {
+            var moduleConstantConfig = modulesKindsManager.getByType(type);
+
+            // we need to clone the config object in order to not alter our modulesList
+            var moduleConstantConfigClone = _.clone(moduleConstantConfig);
+            moduleConstantConfigClone["position"] = position;
+            moduleConstantConfigClone["size"] = { "w": 1, "h": 1 }; // default size
+
+            require(["modules/" + type + "/admin/admin"], function (AdminModule) {
+                el.addClass("fade");
+                adminModule = new AdminModule(moduleConstantConfigClone, $("body"), socket, function() {
+                    el.removeClass("fade");
+                    adminModule = null;
+                    $(".module-admin").remove();
+                });
+            });
+        };
+
+        /*
          * Drag & Drop management : enable drop on dashboard
          */
         gridOccupation.listenToDrop(function(e, data) {
@@ -59,22 +80,7 @@ define(["jquery",
                 // add a new module to the dashboard
                 if (data["operation"] === "add") {
                     console.debug("drop a module of type " + data["type"]);
-
-                    var moduleConstantConfig = modulesKindsManager.getByType(data["type"]);
-
-                    // we need to clone the config object in order to not alter our modulesList
-                    var moduleConstantConfigClone = _.clone(moduleConstantConfig);
-                    moduleConstantConfigClone["position"] = position;
-                    moduleConstantConfigClone["size"] = { "w": 1, "h": 1 }; // default size
-
-                    require(["modules/" + data["type"] + "/admin/admin"], function (AdminModule) {
-                        el.addClass("fade");
-                        adminModule = new AdminModule(moduleConstantConfigClone, $("body"), socket, function() {
-                            el.removeClass("fade");
-                            adminModule = null;
-                            $(".module-admin").remove();
-                        });
-                    });
+                    addModuleToGrid(data["type"], position);
                 }
 
                 // move module instance inside the dashboard
@@ -140,11 +146,23 @@ define(["jquery",
             console.log("admin received modules kinds");
             modulesKindsManager.setModulesList(modules);
             modulesKindsManager.listenToDragOperation();
+
+            // Handle singleton add by click on + buttons
+            modulesKindsManager.setAddSingletonHandler(function(e) {
+                var type = $(e.target).data("type");
+                addModuleToGrid(type, {});
+            });
         });
 
         socket.on(Events.ADMIN_SEND_MODULE_INSTANCES, function (modules) {
             console.log("admin received modules instances");
             modulesInstances = modules;
+            modulesKindsManager.setSingletonsList(modules.filter(function(mod) {
+                return mod["singleton"];
+            }).map(function(mod) {
+                    return mod["type"];
+                })
+            );
 
             // display dashboard with regular modules previews
             dashboardEl.html(modulesDashboardTemplate({

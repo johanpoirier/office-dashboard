@@ -1,5 +1,8 @@
 <ul>
 {{#each modules}}
-    <li draggable="true">{{this.type}}</li>
+    <li {{#unless this.singleton}}draggable="true"{{/unless}} {{#if this.instanciated}}class="instanciated"{{/if}}>
+        <span>{{this.type}}</span>
+        {{#if this.singleton}}{{#unless this.instanciated}}<button type="button" data-type="{{this.type}}">+</button>{{/unless}}{{/if}}
+    </li>
 {{/each}}
 </ul>
