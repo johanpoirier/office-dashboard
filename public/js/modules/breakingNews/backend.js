@@ -17,7 +17,7 @@ var BreakingNewsModule = OfficeModule.extend({
 
     startRefresh: function () {
         if (!this.timer) {
-            this.timer = setInterval(this.displayMessage.bind(this), this.config["refresh"]);
+            this.timer = setInterval(this.displayMessage.bind(this), this.config["refresh"] * 1000);
         }
     },
 

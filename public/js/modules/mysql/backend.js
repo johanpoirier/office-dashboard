@@ -22,7 +22,7 @@ var MySqlModule = OfficeModule.extend({
             }
         });
 
-        setInterval(this.getData.bind(this), this.config['refresh']);
+        setInterval(this.getData.bind(this), this.config['refresh'] * 1000);
     },
 
     getData: function () {

@@ -31,3 +31,7 @@
 	float: left;
 	margin-left: 10px;
 }
+
+.module-admin.iframe .message-list {
+    clear: both;
+}

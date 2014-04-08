@@ -5,7 +5,7 @@
     "password": "",
     "database": "",
     "table": "",
-    "refresh": 20000,
+    "refresh": 200,
     "fetched_items": 5,
     "title": "",
     "fields": [],

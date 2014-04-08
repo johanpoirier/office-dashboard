@@ -11,7 +11,7 @@ define(["office", "hbs!modules/iframe/admin/admin-list"],
                 }
                 this.displayPages();
 
-                this.el.find("button.new-page").click((function () {
+                this.el.find("button.iframe-new-page").click((function () {
                     var pageInput = this.el.find("input[name='page']");
                     this.config["pages"].push(pageInput.val());
                     this.displayPages();
@@ -27,9 +27,9 @@ define(["office", "hbs!modules/iframe/admin/admin-list"],
             },
 
             displayPages: function() {
-                this.el.find(".page-list").html(templateList({ 'pages': this.config["pages"] }));
-                this.el.find(".page-list button.remove-page").unbind();
-                this.el.find(".page-list button.remove-page").click((function(e) {
+                this.el.find(".iframe-pages-list").html(templateList({ 'pages': this.config["pages"] }));
+                this.el.find(".iframe-pages-list button.remove-page").unbind();
+                this.el.find(".iframe-pages-list button.remove-page").click((function(e) {
                     var pageIndex = $(e.target).parent().data("index");
                     if(!isNaN(pageIndex)) {
                         this.config["pages"].splice(pageIndex, 1);
