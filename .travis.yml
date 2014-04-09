@@ -7,3 +7,6 @@ before_script:
   - chmod +x ./public/js/modules/git/getlogs.sh
   - mkdir ./work
   - chmod +w ./work
+after_script:
+  - ls ./work
+  - pwd
