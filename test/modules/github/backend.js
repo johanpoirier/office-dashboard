@@ -1,11 +1,12 @@
 var assert = require("assert");
-var GitModule = require(__dirname + "/../../../public/js/modules/github/backend");
+var GithubModule = require(__dirname + "/../../../public/js/modules/github/backend");
 var config = require(__dirname + '/../../config.json');
 
 var iosocketMock = {
     clients: function () {
         return [];
-    }
+    },
+    emit: function() {}
 };
 
 describe('GithubModule', function () {
@@ -13,7 +14,7 @@ describe('GithubModule', function () {
         it('should get last commits of office-dashboard', function (done) {
             this.timeout(20000);
 
-            var github = new GitModule(config, {
+            var github = new GithubModule(config, {
                 "id": "github-456",
                 "type": "github",
                 "host": "api.github.com",

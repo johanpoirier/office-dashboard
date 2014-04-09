@@ -5,7 +5,8 @@ var config = require(__dirname + '/../../config.json');
 var iosocketMock = {
     clients: function () {
         return [];
-    }
+    },
+    emit: function() {}
 };
 
 describe('GitModule', function () {
