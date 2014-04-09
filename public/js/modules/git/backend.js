@@ -18,7 +18,7 @@ var GitModule = OfficeModule.extend({
 
     getData: function (socket) {
         // check git logs if no data or data too old
-        if (!this.processing && (this.commits.length === 0 || Date.now() > this.lastUpdate + this.config["refresh"])) {
+        if (!this.processing && (this.commits.length === 0 || Date.now() > this.lastUpdate + this.config["refresh"] * 1000)) {
             this.processing = true;
 
             var url = this.config["url"];
