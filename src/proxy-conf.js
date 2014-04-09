@@ -1,9 +1,9 @@
 var ProxyConf = {
 
-    getProxyConf: function (config) {
+    getProxyConf: function (config, forceProxy) {
         var proxy = false;
 
-        var proxyOpt = process.argv.some(function(arg) {
+        var proxyOpt = forceProxy || process.argv.some(function(arg) {
             return arg === "-proxy";
         });
 

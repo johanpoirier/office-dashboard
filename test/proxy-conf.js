@@ -5,7 +5,7 @@ var config = require(__dirname + '/config.json');
 describe('ProxyConf', function () {
     describe('#getProxyConf()', function () {
         it('proxy should be initialized', function () {
-            var proxy = ProxyConf.getProxyConf(config);
+            var proxy = ProxyConf.getProxyConf(config, true);
             assert.equal("http://proxy.priv.atos.fr:3128", proxy["url"]);
         });
     });

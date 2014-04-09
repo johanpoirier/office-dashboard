@@ -19,6 +19,12 @@ describe('DashboardConfig', function () {
         done();
     });
 
+    describe('#init()', function () {
+        it('proxy should be initialized', function () {
+            assert.equal(true, typeof DashboardConfig.proxy !== "undefined");
+        });
+    });
+
     describe('#listAvailableModules()', function () {
         var modulesKinds = DashboardConfig.listAvailableModules();
         it('there must be multiple modules available', function () {
