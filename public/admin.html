@@ -13,14 +13,20 @@
 
         <div class="admin-menu">
             <div class="admin-menu-item" id="admin-menu-grid-dimensions">
-                <label for="grid-columns-input">Grid dimensions</label>
+                <div class="admin-menu-item-title">
+                    <i class="fa fa-th-large"></i> Grid size
+                </div>
                 <div class="admin-menu-item-form">
-                    <input id="grid-columns-input" type="number" name="columns" value="3" size="2" /> x <input type="number" name="rows" value="3" size="2" />
+                    <input id="grid-columns-input" type="number" name="columns" value="3" size="2" />
+                    <i class="fa fa-times"></i>
+                    <input type="number" name="rows" value="3" size="2" />
                 </div>
             </div>
 
             <div class="admin-menu-item">
-                <label for="grid-columns-input">Modules kinds</label>
+                <div class="admin-menu-item-title">
+                    <i class="fa fa-plus-square"></i> Modules
+                </div>
                 <div id="admin-menu-modules" class="admin-menu-modules"></div>
             </div>
         </div>

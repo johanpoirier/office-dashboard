@@ -2,7 +2,7 @@
 {{#each modules}}
     <li {{#unless this.singleton}}draggable="true"{{/unless}} {{#if this.instanciated}}class="instanciated"{{/if}}>
         <span>{{this.type}}</span>
-        {{#if this.singleton}}{{#unless this.instanciated}}<button type="button" data-type="{{this.type}}">+</button>{{/unless}}{{/if}}
+        {{#if this.singleton}}{{#unless this.instanciated}}<button type="button" data-type="{{this.type}}"><i class="fa fa-plus-square-o"></i></button>{{/unless}}{{/if}}
     </li>
 {{/each}}
 </ul>

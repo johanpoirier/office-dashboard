@@ -11,7 +11,19 @@
     cursor: move;
 }
 
+@font-face {
+    font-family: 'open_sansregular';
+    src: url('../fonts/opensans-regular-webfont.eot');
+    src: url('../fonts/opensans-regular-webfont.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/opensans-regular-webfont.woff') format('woff'),
+    url('../fonts/opensans-regular-webfont.ttf') format('truetype'),
+    url('../fonts/opensans-regular-webfont.svg#open_sansregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
 body.admin {
+    font-family: "open_sansregular", Helvetica, Arial;
     overflow: hidden;
 }
 
@@ -35,7 +47,6 @@ body.admin {
     color: #000000;
     left: 0;
     overflow: hidden;
-    padding-left: 20px;
     position: absolute;
     top: 0;
     width: 20px;
@@ -48,6 +59,10 @@ body.admin {
     width: 160px;
 }
 
+.admin-menu-item:nth-child(even) {
+    background-color: #c8c8c8;
+}
+
 .admin-menu-item {
     clear: both;
     display: flex;
@@ -56,14 +71,24 @@ body.admin {
     margin-bottom: 10px;
     margin-top: 15px;
     min-width: 140px;
+    padding: 8px 0 8px 10px;
     width: 100%;
 }
 
-.admin-menu-item label {
+.admin-menu-item .admin-menu-item-title {
+    display: flex;
+    flex-direction: row;
+    font-size: 1.1em;
+    font-weight: bold;
+    line-height: 20px;
     margin-bottom: 5px;
     text-align: center;
-    text-decoration: underline;
+    white-space: nowrap;
     width: 95%;
+}
+
+.admin-menu-item .admin-menu-item-title i {
+    margin-right: 8px;
 }
 
 .admin-menu-item-form {
@@ -79,6 +104,17 @@ body.admin {
 .admin-menu-item-form input {
     color: #000000;
     text-align: center;
+}
+
+#admin-menu-grid-dimensions .admin-menu-item-form * {
+    border: 0;
+    height: 34px;
+    line-height: 34px;
+    padding: 0;
+}
+
+#admin-menu-grid-dimensions .admin-menu-item-form input {
+    flex: 2;
 }
 
 .admin-menu-modules {
@@ -97,7 +133,7 @@ body.admin {
     flex: 1;
     line-height: 30px;
     min-height: 30px;
-    text-align: center;
+    text-align: left;
 }
 
 .admin-menu-modules ul > li.instanciated {
@@ -106,6 +142,7 @@ body.admin {
 
 .admin-menu-modules ul > li > span {
     flex: 10;
+    padding: 0 4px;
 }
 
 .admin-menu-modules ul > li > button {

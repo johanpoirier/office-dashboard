@@ -149,7 +149,7 @@ define(["jquery",
 
             // Handle singleton add by click on + buttons
             modulesKindsManager.setAddSingletonHandler(function(e) {
-                var type = $(e.target).data("type");
+                var type = $(e.currentTarget).data("type");
                 addModuleToGrid(type, {});
             });
         });
