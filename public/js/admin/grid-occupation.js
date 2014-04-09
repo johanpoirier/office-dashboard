@@ -23,18 +23,18 @@ define(["jquery"],
             modulesInstances.filter(function (mod) {
                 return !mod["dock"];
             }).forEach(function (mod) {
-                for (var x = 0; x < mod["size"]["w"]; x++) {
-                    var matrixX = mod["position"]["x"] - 1 + x;
-                    if(matrixX < gridMatrix.length) {
-                        for (var y = 0; y < mod["size"]["h"]; y++) {
-                            var matrixY = mod["position"]["y"] - 1 + y;
-                            if(matrixY < gridMatrix[matrixX].length){
-                                gridMatrix[matrixX][matrixY] = 1;
+                    for (var x = 0; x < mod["size"]["w"]; x++) {
+                        var matrixX = mod["position"]["x"] - 1 + x;
+                        if (matrixX < gridMatrix.length) {
+                            for (var y = 0; y < mod["size"]["h"]; y++) {
+                                var matrixY = mod["position"]["y"] - 1 + y;
+                                if (matrixY < gridMatrix[matrixX].length) {
+                                    gridMatrix[matrixX][matrixY] = 1;
+                                }
                             }
                         }
                     }
-                }
-            });
+                });
 
             displayEmptyCells();
         };
@@ -80,7 +80,7 @@ define(["jquery"],
                 // highlight all cells when moving module
                 var mod = gridEl.find(".move");
                 gridEl.find(".empty-cell-inner").removeClass("over");
-                if(mod.length == 1) {
+                if (mod.length == 1) {
                     var targetCell = $(e.target);
                     var offsetX = mod.data("offsetX") ? mod.data("offsetX") : 0;
                     var offsetY = mod.data("offsetY") ? mod.data("offsetY") : 0;
@@ -128,6 +128,19 @@ define(["jquery"],
             listenToDrop: function (callback) {
                 dropCallback = callback;
                 bindEmptyCellDrop();
+            },
+
+            findFirstEmptyCell: function () {
+                var emptyCells = gridEl.find(".empty-cell-inner");
+                if (emptyCells.length > 0) {
+                    return {
+                        "x": $(emptyCells[0]).data("x"),
+                        "y": $(emptyCells[0]).data("y")
+                    }
+                }
+                else {
+                    return false;
+                }
             }
         }
     }

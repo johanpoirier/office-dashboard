@@ -192,7 +192,7 @@ define(["underscore", "jquery", "socket-io", "storage", "helpers", "hbs!../js/te
                     modalTitle = "Configure " + this.config["id"] + " module";
                 }
                 if (this.el === null) {
-                    this.rootEl.append(adminTemplate({ "id": this.config["id"], "type": this.config["type"], "title": modalTitle }));
+                    this.rootEl.append(adminTemplate({ "id": this.config["id"], "type": this.config["type"], "title": modalTitle, "label": this.config["label"] }));
                     this.el = this.rootEl.find("div#" + this.config["id"] + " .module-admin-box");
                 }
 
@@ -201,7 +201,7 @@ define(["underscore", "jquery", "socket-io", "storage", "helpers", "hbs!../js/te
                 require(["hbs!modules/" + this.config["type"] + "/admin/admin"], (function (template) {
                     var context = this.context;
                     context.config = this.config;
-                    this.el.prepend(template(context));
+                    this.el.find(".row").after(template(context));
 
                     // Register DOM events
                     this.events.apply(this);

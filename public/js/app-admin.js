@@ -365,6 +365,22 @@ define(["jquery",
                     el.find(".fade").remove();
                 });
             });
+
+            // Listener - click on duplicate button
+            var duplicateButtons = el.find(".module button.duplicate");
+            duplicateButtons.unbind("click");
+            duplicateButtons.click(function () {
+                var id = $(this).parents("div.module").attr("id");
+                var moduleConfig = getModule(id);
+                var position = gridOccupation.findFirstEmptyCell();
+                if(position) {
+                    moduleConfig["position"] = position;
+                    moduleConfig["size"] = { "w": 1, "h": 1 };
+                    moduleConfig["id"] = moduleConfig["type"] + "-" + Math.floor((Math.random() * 10000) + 1);
+                    moduleConfig["label"] = "Copy of " + moduleConfig["label"];
+                }
+                socket.emit(Events.ADMIN_ADD_OR_UPDATE_MODULE_INSTANCE, moduleConfig);
+            });
         });
 
         socket.on(Events.DISCONNECT, function () {

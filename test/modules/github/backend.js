@@ -23,7 +23,7 @@ describe('GithubModule', function () {
                 "user": "johanpoirier",
                 "token": "6661e628354e10a070761f7c8c93f8f370d229b3",
                 "nb_commits_display": 2,
-                "refresh": 30000000
+                "refresh": 30000
             }, iosocketMock, ProxyConf.getProxyConf(config));
 
             github.getLastCommits(function(commits) {

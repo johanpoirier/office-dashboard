@@ -13,12 +13,13 @@ var GitModule = OfficeModule.extend({
     start: function () {
         console.log("[" + this.config["id"] + "] refreshing data every " + this.config['refresh'] + " seconds");
         this.isWin = /^win/.test(os.platform());
+        this.repo = this.config["url"].split("/").filter(function(v) { return v !== ""; }).pop();
         setInterval(this.getData.bind(this), this.config['refresh'] * 1000);
     },
 
     getData: function (socket) {
         // check git logs if no data or data too old
-        if(!this.processing && (this.commits.length === 0 || Date.now() > this.lastUpdate + this.config["refresh"])) {
+        if(!this.processing && (this.commits.length === 0 || Date.now() > this.lastUpdate + (this.config["refresh"] * 1000))) {
             this.processing = true;
 
             var url = this.config["url"];
@@ -27,7 +28,7 @@ var GitModule = OfficeModule.extend({
                 url = urlParts[0] + "//" + this.config["user"] + ":" + this.config["password"] + "@" + urlParts[1];
             }
 
-            var cmd = [ __dirname, '/getlogs.', (this.isWin ? 'bat' : 'sh' ), ' "', this.globalConfig["tempDir"], '" "', this.config["repo"],
+            var cmd = [ __dirname, '/getlogs.', (this.isWin ? 'bat' : 'sh' ), ' "', this.globalConfig["tempDir"], '" "', this.repo,
                 '" ', url, ' "', (this.proxy && !this.proxy.bypass(this.config["url"]) ? this.proxy["url"] : ""), '" ',
                 this.config["branch"], ' ', 50 ];
 
@@ -36,7 +37,7 @@ var GitModule = OfficeModule.extend({
                     if (stderr !== null && stderr.length > 0) {
                         console.log("[" + this.config["id"] + "] " + stderr);
                     }
-                    fs.readFile(path.join(this.globalConfig["tempDir"], this.config["repo"], "/logs"), (function (err, data) {
+                    fs.readFile(path.join(this.globalConfig["tempDir"], this.repo, "/logs"), (function (err, data) {
                         this.sendData(socket ? socket : this.iosockets, err, data);
                     }).bind(this));
                 }).bind(this)
