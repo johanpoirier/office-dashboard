@@ -18,19 +18,30 @@ var GitModule = OfficeModule.extend({
 
     getData: function (socket) {
         // check git logs if no data or data too old
-        if(!this.processing && (this.commits.length === 0 || Date.now() > this.lastUpdate + this.config["refresh"])) {
+        if (!this.processing && (this.commits.length === 0 || Date.now() > this.lastUpdate + this.config["refresh"])) {
             this.processing = true;
 
             var url = this.config["url"];
-            if(this.config["user"] && this.config["user"].length > 0 && this.config["password"].length > 0) {
+            if (this.config["user"] && this.config["user"].length > 0 && this.config["password"].length > 0) {
                 var urlParts = url.split("//");
                 url = urlParts[0] + "//" + this.config["user"] + ":" + this.config["password"] + "@" + urlParts[1];
             }
-            var cmd = [ './getlogs.', (this.isWin ? 'bat' : 'sh' ), ' "', this.globalConfig["tempDir"], '" "', this.config["repo"],
+            var cmd = [ './public/js/modules/git/getlogs.', (this.isWin ? 'bat' : 'sh' ), ' "', this.globalConfig["tempDir"], '" "', this.config["repo"],
                 '" ', url, ' "', (this.proxy && !this.proxy.bypass(this.config["url"]) ? this.proxy["url"] : ""), '" ',
                 this.config["branch"], ' ', 50 ];
 
-            /*
+            exec("pwd", function (error, stdout, stderr) {
+                console.log("[pwd] error : " + error);
+                console.log("[pwd] stdout : " + stdout);
+                console.log("[pwd] stderr : " + stderr);
+            });
+            exec("ls -la", function (error, stdout, stderr) {
+                console.log("[ls -la] error : " + error);
+                console.log("[ls -la] stdout : " + stdout);
+                console.log("[ls -la] stderr : " + stderr);
+            });
+
+            console.log("[" + this.config["id"] + "] cmd : " + cmd);
             exec(cmd.join(""),
                 (function (error, stdout, stderr) {
                     if (stderr !== null && stderr.length > 0) {
@@ -40,17 +51,7 @@ var GitModule = OfficeModule.extend({
                         this.sendData(socket ? socket : this.iosockets, err, data);
                     }).bind(this));
                 }).bind(this)
-            );*/
-            exec("pwd", function(error, stdout, stderr) {
-                console.log("[pwd] error : " + error);
-                console.log("[pwd] stdout : " + stdout);
-                console.log("[pwd] stderr : " + stderr);
-            });
-            exec("ls -la", function(error, stdout, stderr) {
-                console.log("[ls -la] error : " + error);
-                console.log("[ls -la] stdout : " + stdout);
-                console.log("[ls -la] stderr : " + stderr);
-            });
+            );
         }
         // send last updated data
         else {
