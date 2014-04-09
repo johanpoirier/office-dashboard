@@ -19,12 +19,6 @@ describe('DashboardConfig', function () {
         done();
     });
 
-    describe('#init()', function () {
-        it('proxy should be initialized', function () {
-            assert.equal("http://proxy.priv.atos.fr:3128", DashboardConfig.proxy.url);
-        });
-    });
-
     describe('#listAvailableModules()', function () {
         var modulesKinds = DashboardConfig.listAvailableModules();
         it('there must be multiple modules available', function () {
