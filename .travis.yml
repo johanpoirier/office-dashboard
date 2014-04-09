@@ -8,5 +8,5 @@ before_script:
   - mkdir ./work
   - chmod +w ./work
 after_script:
-  - ls ./work
-  - pwd
+  - ls ./work/test
+  - echo `/usr/bin/env bash`
