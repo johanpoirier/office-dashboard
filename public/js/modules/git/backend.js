@@ -68,7 +68,7 @@ var GitModule = OfficeModule.extend({
             }
         }
         else {
-            console.error("[" + this.config["id"] + "] logs data is not readable", data);
+            console.error("[" + this.config["id"] + "] logs data is not readable : ", data);
         }
     }
 });

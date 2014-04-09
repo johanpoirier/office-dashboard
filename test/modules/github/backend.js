@@ -1,6 +1,7 @@
 var assert = require("assert");
 var GithubModule = require(__dirname + "/../../../public/js/modules/github/backend");
 var config = require(__dirname + '/../../config.json');
+var ProxyConf = require(__dirname + '/../../../src/proxy-conf.js');
 
 var iosocketMock = {
     clients: function () {
@@ -23,7 +24,7 @@ describe('GithubModule', function () {
                 "token": "6661e628354e10a070761f7c8c93f8f370d229b3",
                 "nb_commits_display": 2,
                 "refresh": 30000000
-            }, iosocketMock);
+            }, iosocketMock, ProxyConf.getProxyConf(config));
 
             github.getLastCommits(function(commits) {
                 if(commits.length == 2) {
