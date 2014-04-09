@@ -26,10 +26,11 @@ var GitModule = OfficeModule.extend({
                 var urlParts = url.split("//");
                 url = urlParts[0] + "//" + this.config["user"] + ":" + this.config["password"] + "@" + urlParts[1];
             }
-
             var cmd = [ __dirname, '/getlogs.', (this.isWin ? 'bat' : 'sh' ), ' "', this.globalConfig["tempDir"], '" "', this.config["repo"],
                 '" ', url, ' "', (this.proxy && !this.proxy.bypass(this.config["url"]) ? this.proxy["url"] : ""), '" ',
                 this.config["branch"], ' ', 50 ];
+
+            console.log(cmd.join(""));
 
             exec(cmd.join(""),
                 (function (error, stdout, stderr) {
