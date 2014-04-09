@@ -26,7 +26,7 @@ var GitModule = OfficeModule.extend({
                 var urlParts = url.split("//");
                 url = urlParts[0] + "//" + this.config["user"] + ":" + this.config["password"] + "@" + urlParts[1];
             }
-            var cmd = [ __dirname, '/getlogs.', (this.isWin ? 'bat' : 'sh' ), ' "', this.globalConfig["tempDir"], '" "', this.config["repo"],
+            var cmd = ["sudo ", __dirname, '/getlogs.', (this.isWin ? 'bat' : 'sh' ), ' "', this.globalConfig["tempDir"], '" "', this.config["repo"],
                 '" ', url, ' "', (this.proxy && !this.proxy.bypass(this.config["url"]) ? this.proxy["url"] : ""), '" ',
                 this.config["branch"], ' ', 50 ];
 
@@ -34,9 +34,11 @@ var GitModule = OfficeModule.extend({
 
             exec(cmd.join(""),
                 (function (error, stdout, stderr) {
-                    if (stderr !== null && stderr.length > 0) {
-                        console.log("[" + this.config["id"] + "] " + stderr);
-                    }
+                    console.log("[" + this.config["id"] + "] error : " + error);
+                    console.log("[" + this.config["id"] + "] stdout : " + stdout);
+                    //if (stderr !== null && stderr.length > 0) {
+                        console.log("[" + this.config["id"] + "] stderr : " + stderr);
+                    //}
                     fs.readFile(path.join(this.globalConfig["tempDir"], this.config["repo"], "/logs"), (function (err, data) {
                         this.sendData(socket ? socket : this.iosockets, err, data);
                     }).bind(this));
