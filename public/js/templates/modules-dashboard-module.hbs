@@ -4,7 +4,7 @@
         {{this.label}}
         <div class="action-panel">
             <button type="button" class="admin" title="Administrate"><i class="fa fa-wrench"></i></button>
-            <button type="button" class="duplicate" title="Duplicate"><i class="fa fa-files-o"></i></button>
+            {{#unless this.singleton}}<button type="button" class="duplicate" title="Duplicate"><i class="fa fa-files-o"></i></button>{{/unless}}
             <button type="button" class="delete" title="Delete"><i class="fa fa-trash-o"></i></button>
         </div>
         ({{this.id}})

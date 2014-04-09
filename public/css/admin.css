@@ -56,7 +56,7 @@ body.admin {
 }
 
 .admin-menu:hover {
-    width: 160px;
+    width: 180px;
 }
 
 .admin-menu-item:nth-child(even) {
@@ -80,7 +80,7 @@ body.admin {
     flex-direction: row;
     font-size: 1.1em;
     font-weight: bold;
-    line-height: 20px;
+    line-height: 19px;
     margin-bottom: 5px;
     text-align: center;
     white-space: nowrap;
@@ -184,7 +184,7 @@ body.admin {
     background-color: #b0aaa8;
 }
 
-.admin-dashboard-instances .module-inner {
+.admin .module-inner {
     background-color: #efefef;
     border-radius: 0;
     color: #000000;
