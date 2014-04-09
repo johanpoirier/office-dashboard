@@ -30,8 +30,7 @@ var GitModule = OfficeModule.extend({
                 '" ', url, ' "', (this.proxy && !this.proxy.bypass(this.config["url"]) ? this.proxy["url"] : ""), '" ',
                 this.config["branch"], ' ', 50 ];
 
-            console.log(cmd.join(""));
-
+            /*
             exec(cmd.join(""),
                 (function (error, stdout, stderr) {
                     if (stderr !== null && stderr.length > 0) {
@@ -41,7 +40,17 @@ var GitModule = OfficeModule.extend({
                         this.sendData(socket ? socket : this.iosockets, err, data);
                     }).bind(this));
                 }).bind(this)
-            );
+            );*/
+            exec("pwd", function(error, stdout, stderr) {
+                console.log("[pwd] error : " + error);
+                console.log("[pwd] stdout : " + stdout);
+                console.log("[pwd] stderr : " + stderr);
+            });
+            exec("ls -la", function(error, stdout, stderr) {
+                console.log("[ls -la] error : " + error);
+                console.log("[ls -la] stdout : " + stdout);
+                console.log("[ls -la] stderr : " + stderr);
+            });
         }
         // send last updated data
         else {
