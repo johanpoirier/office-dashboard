@@ -19,5 +19,9 @@ To use http proxy :
 1. add proxy_host and proxy_conf constants to global config
 2. launch grunt with -proxy option
 
+To run tests : 
+-------------------
+1. grunt test (with -proxy option if needed)
+
 
 [![Build Status](https://travis-ci.org/johanpoirier/office-dashboard.png?branch=master)](https://travis-ci.org/johanpoirier/office-dashboard.png?branch=master)
