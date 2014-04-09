@@ -22,7 +22,7 @@ describe('GitModule', function () {
                 "branch": "master",
                 "url": "https://github.com/johanpoirier/office-dashboard.git",
                 "nb_commits_display": 2,
-                "refresh": 3000000
+                "refresh": 3000
             }, iosocketMock, ProxyConf.getProxyConf(config));
         });
     });
