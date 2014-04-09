@@ -20,6 +20,7 @@
 .module-inner {
     background: #555454;
     border: 1px solid #404040;
+    border-radius: 3px;
     height: 100%;
     overflow: hidden;
 }

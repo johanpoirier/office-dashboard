@@ -14,7 +14,7 @@ var GitModule = OfficeModule.extend({
         console.log("[" + this.config["id"] + "] refreshing data every " + this.config['refresh'] + " seconds");
         this.isWin = /^win/.test(os.platform());
         this.repo = this.config["url"].split("/").filter(function(v) { return v !== ""; }).pop();
-        setInterval(this.getData.bind(this), this.config['refresh'] * 1000);
+        this.timer = setInterval(this.getData.bind(this), this.config['refresh'] * 1000);
     },
 
     getData: function (socket) {
@@ -70,6 +70,12 @@ var GitModule = OfficeModule.extend({
         }
         else {
             console.error("[" + this.config["id"] + "] logs data is not readable : ", data);
+        }
+    },
+
+    dispose: function () {
+        if(this.timer) {
+            clearInterval(this.timer);
         }
     }
 });

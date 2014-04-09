@@ -186,6 +186,7 @@ body.admin {
 
 .admin-dashboard-instances .module-inner {
     background-color: #efefef;
+    border-radius: 0;
     color: #000000;
     font-weight: bold;
 }

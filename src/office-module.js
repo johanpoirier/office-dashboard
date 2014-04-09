@@ -53,6 +53,7 @@ OfficeModule.prototype.addClient = function(socket) {
 
 // remove the node module from cache
 OfficeModule.prototype.destroy = function() {
+    this.dispose.apply(this);
     console.log("[" + this.config["id"] + "] destroy");
     delete require.cache[require.resolve('../public/js/modules/' + this.config['type'] + '/backend')];
 };
@@ -69,6 +70,7 @@ OfficeModule.prototype.connect = function(socket) {};
 OfficeModule.prototype.disconnect = function(socket) {};
 
 OfficeModule.prototype.start = function() {};
+OfficeModule.prototype.dispose = function() {};
 OfficeModule.prototype.getData = function() {};
 OfficeModule.prototype.getAdminData = function() {};
 

@@ -52,6 +52,12 @@ var GithubModule = OfficeModule.extend({
             console.error(e);
         });
         req.end();
+    },
+
+    dispose: function () {
+        if(this.timer) {
+            clearInterval(this.timer);
+        }
     }
 });
 
