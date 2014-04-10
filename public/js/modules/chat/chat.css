@@ -35,6 +35,33 @@
     margin-left: 10px;
 }
 
+.chat-user {
+    flex: 1;
+    text-align: center;
+}
+
+.chat-user form {
+    position: absolute;
+    text-align: center;
+    top: 40%;
+    width: 98%;
+}
+
+.chat-user form > * {
+    margin: 8px;
+}
+
+.chat-user form > label {
+    color: white;
+    font-size: 1.1em;
+    font-weight: bold;
+}
+
+.chat-user form > input {
+    min-width: 300px;
+    text-align: center;
+}
+
 .chat-users {
     background: linear-gradient(135deg, rgba(38,38,38,1) 0%,rgba(38,38,38,1) 10%,rgba(38,38,38,1) 13%,rgba(38,38,38,1) 15%,rgba(38,38,38,1) 27%,rgba(45,45,45,1) 53%,rgba(45,45,45,1) 67%,rgba(56,56,56,1) 100%,rgba(27,27,27,1) 100%);
     flex: 1;
