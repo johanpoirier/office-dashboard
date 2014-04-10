@@ -78,6 +78,10 @@
     animation: fadeIn 1s;
 }
 
+.chat-users .user.highlight {
+    background-color: #f7ffc8;
+}
+
 .chat-input {
     display: flex;
     margin-top: auto;

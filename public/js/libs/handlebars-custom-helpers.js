@@ -14,6 +14,27 @@ define(['module', 'handlebars'], function (module, Handlebars) {
         return (value1 === value2) ? returnValTrue : returnValFalse;
     });
 
+    /**
+     * This helper provides a if comparing two values
+     *
+     * If only the two values are strictly equals ('===') display the block
+     *
+     * Usage:
+     *        {{#ifequals type "details"}}
+     *            <span>This is details page</span>
+     *        {{/ifequals}}
+     *
+     * Copyright RestHub
+     */
+    Handlebars.registerHelper('ifequals', function(value1, value2, options) {
+        console.debug("ifequals : ", value1, value2);
+        if (value1 === value2) {
+            return options.fn(this);
+        } else {
+            return options.inverse(this);
+        }
+    });
+
     /* Truncate long strings without cutting words */
     Handlebars.registerHelper('truncate', function (str, len) {
         if (str.length > len && str.length > 0) {

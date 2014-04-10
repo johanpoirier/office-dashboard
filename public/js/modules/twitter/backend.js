@@ -47,7 +47,7 @@ var TwitterModule = OfficeModule.extend({
 
     stopStream: function () {
         if (this.stream && this.stream["destroy"]) {
-            console.log("destroying twitter stream");
+            console.log("[" + this.config["id"] + "] destroying twitter stream");
             this.stream.destroy();
             delete this.stream;
         }

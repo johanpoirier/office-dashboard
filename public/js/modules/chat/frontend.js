@@ -1,29 +1,37 @@
 /**
  * Chat frontend controller
  */
-define([ "office", "hbs!modules/chat/template", "hbs!modules/chat/template-user", "hbs!modules/chat/message-template" ],
-    function (Office, template, templateUser, messageTemplate) {
+define([ "office",
+    "hbs!modules/chat/template",
+    "hbs!modules/chat/template-users",
+    "hbs!modules/chat/template-newuser",
+    "hbs!modules/chat/template-message",
+    "hbsCustomHelpers" ],
+
+    function (Office, template, templateUsers, templateNewUser, templateMessage) {
 
         var chatModule = Office.Module.extend({
 
             listen: function () {
+                // get username
+                this.username = window.localStorage.getItem(this.config["id"] + ".username");
+
+                // socket events handlers
                 this.socket.on(this.config["id"] + ":init", this.initMessages.bind(this));
                 this.socket.on(this.config["id"] + ":dispatch", this.updateMesages.bind(this));
                 this.socket.on(this.config["id"] + ":users", this.updateUsers.bind(this));
 
-                // get username
-                this.username = window.localStorage.getItem(this.config["id"] + ".username");
-                if(this.username) {
-                    this.render();
-                }
-                // or ask fot it
-                else {
-                    this.el.html(templateUser());
+                // if new user
+                if (!this.username) {
+                    this.el.html(templateNewUser());
                     this.el.find("form").on("submit", this.handleUsernameInput.bind(this));
+                }
+                else {
+                    this.render();
                 }
 
                 // focus on user input
-                setTimeout((function() {
+                setTimeout((function () {
                     this.el.find("input[name='username']").focus();
                 }).bind(this), 500);
             },
@@ -54,7 +62,7 @@ define([ "office", "hbs!modules/chat/template", "hbs!modules/chat/template-user"
                     messages = [ messages ];
                 }
                 messages.forEach(function (message) {
-                    text.append(messageTemplate(message));
+                    text.append(templateMessage(message));
                 });
 
                 this.notify(messages[0]);
@@ -64,10 +72,7 @@ define([ "office", "hbs!modules/chat/template", "hbs!modules/chat/template-user"
 
             updateUsers: function (users) {
                 var usersEl = this.el.find(".chat-users");
-                usersEl.html("");
-                users.forEach(function (user) {
-                    usersEl.append('<span class="user module-item">' + user + '</span>');
-                });
+                usersEl.html(templateUsers({ "users": users, "currentUser": this.username }));
             },
 
             handleKeyPress: function (event) {
@@ -87,14 +92,14 @@ define([ "office", "hbs!modules/chat/template", "hbs!modules/chat/template-user"
                 return false;
             },
 
-            render: function() {
+            render: function () {
                 // tell the server about the user
                 this.socket.emit(this.config["id"] + ":screen");
                 this.socket.emit(this.config["id"] + ":adduser", this.username);
 
                 // display chat
                 this.el.find("form").off("submit");
-                this.el.html(template());
+                this.el.html(template({ "title": this.config["label"] }));
                 this.el.find("textarea").focus();
 
                 // input watch
