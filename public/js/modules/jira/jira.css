@@ -1,0 +1,39 @@
+.github .module-title h2 {
+    background-image: url(logo_m.png);
+    background-position: 0% 50%;
+    background-repeat: no-repeat;
+    background-size: 34px 34px;
+    padding-left: 36px;
+}
+
+.github-commit {
+    background-color: white;
+    display: flew;
+    flex-flow: col wrap;
+    margin: 1px 0;
+    padding: 5px 8px;
+}
+
+.github-commit img {
+    border-radius: 4px;
+    float: left;
+    margin-left: -4px;
+    margin-right: 4px;
+}
+
+.github-commit-message {
+    font-size: 14px;
+    font-weight: bold;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.github-commit-author-name {
+    color: #444;
+}
+
+.github-commit-author {
+    color: #888;
+    font-size: 12px;
+}

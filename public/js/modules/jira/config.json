@@ -1,0 +1,5 @@
+{
+    "type": "jira",
+    "nb_issues_display": 20,
+    "refresh": 600
+}

@@ -2,29 +2,28 @@ var OfficeModule = require(__dirname + "/../../../../src/office-module"),
     http = require('http'),
     https = require('https');
 
-var GithubModule = OfficeModule.extend({
+var JiraModule = OfficeModule.extend({
 
     start: function () {
-        console.log("[" + this.config["id"] + "] refreshing commits every " + this.config['refresh'] + " seconds");
+        console.log("[" + this.config["id"] + "] refreshing issues every " + this.config['refresh'] + " seconds");
         this.timer = setInterval(this.getData.bind(this), this.config['refresh'] * 1000);
     },
 
     getData: function (socket) {
-        this.getLastCommits((function (commits) {
-            (socket ? socket : this.iosockets).emit(this.config["id"] + ":commits", commits);
+        this.getLastIssues((function (issues) {
+            (socket ? socket : this.iosockets).emit(this.config["id"] + ":issues", issues);
         }).bind(this));
     },
 
-    getLastCommits: function (callback) {
+    getLastIssues: function (callback) {
         var options = {
-            hostname: this.config['host'],
+            hostname: this.config['server'],
             port: 443,
-            path: "/repos/" + this.config['user'] + "/" + this.config['repo'] + "/commits",
+            path: "/jira/rest/api/latest/issue/PHT-METEOFRANCE-999",
             method: 'GET',
             headers: {
-                'Accept': 'application/vnd.github.beta+json',
-                'User-Agent': 'Office-Dashboard-app',
-                'Authorization': 'token ' + this.config['token']
+                'Host': this.config['server'],
+                'Authorization': 'Basic ' + new Buffer(this.config['username'] + ':' + this.config['apiToken']).toString('base64')
             }
         };
 
@@ -32,7 +31,7 @@ var GithubModule = OfficeModule.extend({
         if (this.proxy) {
             options.hostname = this.proxy["host"];
             options.port = this.proxy["port"];
-            options.path = 'https://' + this.config['host'] + "/repos/" + this.config['user'] + "/" + this.config['repo'] + "/commits";
+            options.path = 'https://' + this.config['server'] + "/jira/rest/api/latest/issue/PHT-METEOFRANCE-999";
             https = http;
         }
 
@@ -43,8 +42,10 @@ var GithubModule = OfficeModule.extend({
             });
             res.on('end', (function () {
                 if (callback) {
-                    var commits = JSON.parse(data);
-                    callback(commits.slice(0, this.config['nb_commits_display']));
+                    //var commits = JSON.parse(data);
+                    //callback(commits.slice(0, this.config['nb_issues_display']));
+                    console.log("[" + this.config["id"] + "] data : " + data);
+                    callback([]);
                 }
             }).bind(this));
         }).bind(this));
@@ -61,4 +62,4 @@ var GithubModule = OfficeModule.extend({
     }
 });
 
-module.exports = GithubModule;
+module.exports = JiraModule;
