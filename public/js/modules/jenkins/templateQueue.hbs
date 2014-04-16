@@ -1,6 +1,8 @@
-<h2 class="module-title">{{#if title}}{{title}}{{/if}}</h2>
+<div class="module-title">
+    <h2>{{#if title}}{{title}}{{/if}}</h2>
+</div>
 <span class="module-update">{{update}}</span>
-<div class="jenkins-queue">
+<div class="module-items jenkins-queue">
 {{#each items}}
     <div class="module-item jenkins-item">
         <a href="{{this.task.url}}" target="_blank" title="{{this.why}}">{{this.task.name}}</a>

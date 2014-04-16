@@ -104,6 +104,13 @@ define(["underscore", "jquery", "socket-io", "storage", "helpers", "hbs!../js/te
                     // save module dom element
                     this.el = $("div#" + this.config["id"] + " div.module-inner");
 
+                    // add loading image to el
+                    this.el.html($("<img/>", {
+                        "class": "loading",
+                        "src": "/images/loading.gif",
+                        "alt": "Module is loading..."
+                    }));
+
                     // position module inside the grid
                     this.updatePosition();
                 }

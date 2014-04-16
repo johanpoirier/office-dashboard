@@ -3,6 +3,14 @@
     flex-flow: column wrap;
 }
 
+.jenkins .module-title h2 {
+    background-image: url(logo_m.png);
+    background-position: top left;
+    background-repeat: no-repeat;
+    background-size: 34px 34px;
+    padding-left: 38px;
+}
+
 .jenkins-jobs, .jenkins-queue {
     background-color: #ffffff;
     flex: 1;
@@ -29,7 +37,7 @@
 }
 
 .jenkins-empty-queue {
-    color: #ffffff;
+    color: #000000;
     flex: 1;
     position: absolute;
     text-align: center;
