@@ -1,0 +1,38 @@
+.jenkins {
+    display: flex;
+    flex-flow: column wrap;
+}
+
+.jenkins-jobs, .jenkins-queue {
+    background-color: #ffffff;
+    flex: 1;
+}
+
+.jenkins .module-item {
+    border-bottom: 1px solid #bbb;
+    color: #204A87;
+    font-family: Verdana, Helvetica, sans serif;
+    font-size: 0.9em;
+    font-weight: bold;
+    margin: 4px 0 0 0;
+    padding-left: 4px;
+}
+
+.jenkins .module-item.jenkins-job-red {
+    background-color: transparent;
+    background-image: url(red.png);
+    background-position: left;
+    background-repeat: no-repeat;
+    line-height: 32px;
+    padding-left: 36px;
+    text-decoration: underline;
+}
+
+.jenkins-empty-queue {
+    color: #ffffff;
+    flex: 1;
+    position: absolute;
+    text-align: center;
+    top: 50%;
+    width: 99%;
+}

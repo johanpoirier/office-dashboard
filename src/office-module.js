@@ -61,6 +61,9 @@ OfficeModule.prototype.destroy = function() {
 OfficeModule.prototype.reload = function(globalConfig, moduleConfig) {
     this.globalConfig = globalConfig;
     this.config = moduleConfig;
+
+    this.dispose.apply(this);
+    this.start.apply(this);
 };
 
 // when a new client connect

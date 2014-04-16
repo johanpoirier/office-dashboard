@@ -27,7 +27,6 @@ define(['module', 'handlebars'], function (module, Handlebars) {
      * Copyright RestHub
      */
     Handlebars.registerHelper('ifequals', function(value1, value2, options) {
-        console.debug("ifequals : ", value1, value2);
         if (value1 === value2) {
             return options.fn(this);
         } else {

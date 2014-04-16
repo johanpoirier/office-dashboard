@@ -1,0 +1,9 @@
+<h2 class="module-title">{{#if title}}{{title}}{{/if}}</h2>
+<span class="module-update">{{update}}</span>
+<div class="jenkins-jobs">
+{{#each jobs}}
+    <div class="module-item jenkins-job-red">
+        <a href="{{this.url}}" target="_blank">{{this.name}}</a>
+    </div>
+{{/each}}
+</div>

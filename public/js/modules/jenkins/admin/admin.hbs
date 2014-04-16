@@ -21,3 +21,14 @@
     <label for="token">API token</label>
     <input class="persist" type="text" name="apiToken" placeholder="token..." value="{{config.apiToken}}" />
 </div>
+
+<!-- module mode -->
+<div class="row">
+    <label for="jenkins-mode">Mode</label>
+    <div class="jenkins-mode">
+        <select class="persist" name="mode" id="jenkins-mode">
+            <option value="error"{{#ifequals config.mode "error"}} selected{{/ifequals}}>Jobs in error</option>
+            <option value="queue"{{#ifequals config.mode "queue"}} selected{{/ifequals}}>Build queue</option>
+        </select>
+    </div>
+</div>

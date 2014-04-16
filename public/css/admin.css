@@ -189,6 +189,7 @@ body.admin {
     border-radius: 0;
     color: #000000;
     font-weight: bold;
+    text-shadow: 0px 0px 6px #ffffff;
 }
 
 /* renommer ces classes */
@@ -224,6 +225,10 @@ body.admin {
 
 .action-panel {
     float: right;
+}
+
+.action-panel button {
+    text-shadow: 0px 0px 6px #ffffff;
 }
 
 /** Modals **/
