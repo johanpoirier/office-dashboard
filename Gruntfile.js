@@ -7,9 +7,6 @@ module.exports = function (grunt) {
                 dev: {
                     src: "config/development.json"
                 },
-                julien: {
-                    src: "config/julien.json"
-                },
                 prod: {
                     src: "config/production.json"
                 }
@@ -33,7 +30,7 @@ module.exports = function (grunt) {
             nodemon: {
                 dev: {
                     options: {
-                        args: [grunt.option("proxy") || false],
+                        args: [grunt.option("proxy") ? "-proxy" : false],
                         file: "src/server.js",
                         nodeArgs: ['--debug=5857']
                     }
@@ -55,6 +52,11 @@ module.exports = function (grunt) {
                         ]
                     }
                 }
+            },
+            "mochaTest": {
+                test: {
+                    src: ['test/**/*.js']
+                }
             }
         }
     );
@@ -64,11 +66,11 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-node-inspector');
     grunt.loadNpmTasks('grunt-nodemon');
     grunt.loadNpmTasks('grunt-string-replace');
+    grunt.loadNpmTasks('grunt-mocha-test');
 
     grunt.registerTask('default', [ 'env:dev', 'string-replace', 'nodemon']);
+    grunt.registerTask('test', ['mochaTest']);
+    grunt.registerTask('test-proxy', ['mochaTest']);
     grunt.registerTask('debug', ['env:dev', 'string-replace', 'concurrent']);
-    grunt.registerTask('julien', ['env:julien', 'string-replace', 'nodemon']);
-    grunt.registerTask('julien-debug', ['env:julien', 'string-replace', 'concurrent']);
     grunt.registerTask('prod', ['env:prod', 'string-replace', 'nodemon']);
 }
-;

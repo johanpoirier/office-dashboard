@@ -5,8 +5,8 @@ var OfficeModule = require(__dirname + "/../../../../src/office-module"),
 var GithubModule = OfficeModule.extend({
 
     start: function () {
-        console.log("[" + this.config["id"] + "] refreshing commits every " + (this.config['refresh'] / 1000) + " seconds");
-        setInterval(this.getData.bind(this), this.config['refresh']);
+        console.log("[" + this.config["id"] + "] refreshing commits every " + this.config['refresh'] + " seconds");
+        setInterval(this.getData.bind(this), this.config['refresh'] * 1000);
     },
 
     getData: function (socket) {
@@ -32,7 +32,7 @@ var GithubModule = OfficeModule.extend({
         if (this.proxy) {
             options.hostname = this.proxy["host"];
             options.port = this.proxy["port"];
-            options.path = 'https://' + this.config['host'] + this.config['path'];
+            options.path = 'https://' + this.config['host'] + "/repos/" + this.config['user'] + "/" + this.config['repo'] + "/commits";
             https = http;
         }
 
@@ -52,6 +52,12 @@ var GithubModule = OfficeModule.extend({
             console.error(e);
         });
         req.end();
+    },
+
+    dispose: function () {
+        if(this.timer) {
+            clearInterval(this.timer);
+        }
     }
 });
 

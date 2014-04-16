@@ -19,11 +19,12 @@ define([ "office", "hbs!modules/twitter/template", "hbsCustomHelpers" ],
                 if (tweets) {
                     this.displayedTweets = tweets;
                     console.info("[twitter] " + this.displayedTweets.length + " tweets fetched - " + new Date());
-                    this.el.html(template({ "tweets": this.displayedTweets, "topics": this.config["topics"] }));
                 }
                 else {
+                    this.displayedTweets = [];
                     console.warn("no tweets to display");
                 }
+                this.el.html(template({ "tweets": this.displayedTweets, "topics": this.config["topics"] }));
             },
 
             /* Display new streamed tweet */

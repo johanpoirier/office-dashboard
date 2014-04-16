@@ -1,10 +1,14 @@
 <div id="{{id}}" class="modal module-admin {{type}}">
     <h2 class="module-title">
         {{title}}
-        <button type="button" class="close-modal"></button>
     </h2>
 
     <form class="module-admin-box">
+        <div class="row">
+            <label for="refresh">Friendly name</label>
+            <input type="text" name="label" class="persist" value="{{label}}" placeholder="your module friendly name..." />
+        </div>
+
         <!-- Admin modal el -->
         <button type="submit" class="textual">Save</button>
         <button type="button" class="close-modal textual">Cancel</button>

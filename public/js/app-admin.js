@@ -46,6 +46,27 @@ define(["jquery",
 
 
         /*
+         *
+         */
+        var addModuleToGrid = function(type, position) {
+            var moduleConstantConfig = modulesKindsManager.getByType(type);
+
+            // we need to clone the config object in order to not alter our modulesList
+            var moduleConstantConfigClone = _.clone(moduleConstantConfig);
+            moduleConstantConfigClone["position"] = position;
+            moduleConstantConfigClone["size"] = { "w": 1, "h": 1 }; // default size
+
+            require(["modules/" + type + "/admin/admin"], function (AdminModule) {
+                el.addClass("fade");
+                adminModule = new AdminModule(moduleConstantConfigClone, $("body"), socket, function() {
+                    el.removeClass("fade");
+                    adminModule = null;
+                    $(".module-admin").remove();
+                });
+            });
+        };
+
+        /*
          * Drag & Drop management : enable drop on dashboard
          */
         gridOccupation.listenToDrop(function(e, data) {
@@ -59,22 +80,7 @@ define(["jquery",
                 // add a new module to the dashboard
                 if (data["operation"] === "add") {
                     console.debug("drop a module of type " + data["type"]);
-
-                    var moduleConstantConfig = modulesKindsManager.getByType(data["type"]);
-
-                    // we need to clone the config object in order to not alter our modulesList
-                    var moduleConstantConfigClone = _.clone(moduleConstantConfig);
-                    moduleConstantConfigClone["position"] = position;
-                    moduleConstantConfigClone["size"] = { "w": 1, "h": 1 }; // default size
-
-                    require(["modules/" + data["type"] + "/admin/admin"], function (AdminModule) {
-                        el.addClass("fade");
-                        adminModule = new AdminModule(moduleConstantConfigClone, $("body"), socket, function() {
-                            el.removeClass("fade");
-                            adminModule = null;
-                            $(".module-admin").remove();
-                        });
-                    });
+                    addModuleToGrid(data["type"], position);
                 }
 
                 // move module instance inside the dashboard
@@ -86,6 +92,13 @@ define(["jquery",
                     if(offset) {
                         position["x"] -= offset["x"];
                         position["y"] -= offset["y"];
+                    }
+
+                    if(position["x"] < 1) {
+                        position["x"] = 1;
+                    }
+                    if(position["y"] < 1) {
+                        position["y"] = 1;
                     }
 
                     // update the module instance conf
@@ -133,11 +146,23 @@ define(["jquery",
             console.log("admin received modules kinds");
             modulesKindsManager.setModulesList(modules);
             modulesKindsManager.listenToDragOperation();
+
+            // Handle singleton add by click on + buttons
+            modulesKindsManager.setAddSingletonHandler(function(e) {
+                var type = $(e.currentTarget).data("type");
+                addModuleToGrid(type, {});
+            });
         });
 
         socket.on(Events.ADMIN_SEND_MODULE_INSTANCES, function (modules) {
             console.log("admin received modules instances");
             modulesInstances = modules;
+            modulesKindsManager.setSingletonsList(modules.filter(function(mod) {
+                return mod["singleton"];
+            }).map(function(mod) {
+                    return mod["type"];
+                })
+            );
 
             // display dashboard with regular modules previews
             dashboardEl.html(modulesDashboardTemplate({
@@ -340,6 +365,22 @@ define(["jquery",
                     el.find(".fade").remove();
                 });
             });
+
+            // Listener - click on duplicate button
+            var duplicateButtons = el.find(".module button.duplicate");
+            duplicateButtons.unbind("click");
+            duplicateButtons.click(function () {
+                var id = $(this).parents("div.module").attr("id");
+                var moduleConfig = getModule(id);
+                var position = gridOccupation.findFirstEmptyCell();
+                if(position) {
+                    moduleConfig["position"] = position;
+                    moduleConfig["size"] = { "w": 1, "h": 1 };
+                    moduleConfig["id"] = moduleConfig["type"] + "-" + Math.floor((Math.random() * 10000) + 1);
+                    moduleConfig["label"] = "Copy of " + moduleConfig["label"];
+                }
+                socket.emit(Events.ADMIN_ADD_OR_UPDATE_MODULE_INSTANCE, moduleConfig);
+            });
         });
 
         socket.on(Events.DISCONNECT, function () {
@@ -360,9 +401,11 @@ define(["jquery",
         };
 
         var computeGridPosition = function (columns, rows, width, height, x, y) {
+            var gridX = Math.ceil((x / width) * columns);
+            var gridY = Math.ceil((y / height) * rows);
             return {
-                "x": Math.ceil((x / width) * columns),
-                "y": Math.ceil((y / height) * rows)
+                "x": gridX > 0 ? gridX : 1,
+                "y": gridY > 0 ? gridY : 1
             }
         };
 

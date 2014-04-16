@@ -1,0 +1,9 @@
+{
+    "NODE_ENV": "test",
+    "TEST_PORT": 8085,
+    "server": "http://localhost:8085",
+    "tempDir": "./work/test",
+    "proxy_host": "proxy.priv.atos.fr",
+    "proxy_port": 3128,
+    "proxy_bypass": "*.priv.atos.fr"
+}

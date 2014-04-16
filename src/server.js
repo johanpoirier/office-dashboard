@@ -18,15 +18,6 @@ require(__dirname + '/../public/js/events.js')
  */
 var config = require(__dirname + '/../config/' + app.get('env') + '.json');
 
-/**
- * Proxy settings
- */
-var proxyOpt = process.argv.slice(2)[0];
-if(!proxyOpt || proxyOpt === "false") {
-    delete config["proxy_host"];
-    delete config["proxy_port"];
-    delete config["proxy_bypass"];
-}
 
 // CORS middleware
 var allowCrossDomain = function(req, res, next) {

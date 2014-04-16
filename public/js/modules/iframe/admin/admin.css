@@ -1,0 +1,20 @@
+.module-admin.iframe .iframe-pages-list {
+    clear: both;
+}
+
+.module-admin.iframe .iframe-pages-list ul {
+    list-style: none;
+    margin: 8px 0 0 0;
+}
+
+.module-admin.iframe input[type="checkbox"] {
+    width: auto;
+}
+
+.module-admin.iframe .iframe-pages input {
+    width: 80%;
+}
+
+.module-admin.iframe .iframe-pages button {
+    width: 18%;
+}

@@ -1,16 +1,21 @@
 <!-- refresh time -->
-<label for="refresh">Refresh time</label>
-<input class="persist" type="number" name="refresh" placeholder="Refresh time (in ms)..." value="{{config.refresh}}" /><br/>
+<div class="row">
+    <label for="refresh">Refresh time (s)</label>
+    <input class="persist" type="number" name="refresh" placeholder="Refresh time (in s)..." value="{{config.refresh}}" />
+</div>
 
 <!-- fullscreen -->
-<label for="fullscreen">Full screen</label>
-<input type="checkbox" name="fullscreen" value="true" /><br/>
+<div class="row">
+    <label for="fullscreen">Full screen</label>
+    <input type="checkbox" name="fullscreen" value="true" />
+</div>
 
 <!-- topics -->
-<div class="input-wrapper">
-    <label for="topic">Pages</label>
-    <input type="text" name="page" placeholder="page..." value="" /><br/>
-	<button type="button" class="new-page textual" title="Add page">add</button>
-	<br/>
-	<div class="page-list"></div>
+<div class="row">
+    <label for="page">Pages</label>
+    <div class="iframe-pages">
+        <input type="text" name="page" placeholder="page..." value="" />
+        <button type="button" class="iframe-new-page textual" title="Add page">add</button>
+	    <div class="iframe-pages-list"></div>
+	</div>
 </div>

@@ -22,11 +22,9 @@ var IframeModule = OfficeModule.extend({
     },
 
     startTimer: function() {
-        if(this.timer) {
-            clearInterval(this.timer);
-        }
+        this.clearTimer();
         if (this.pages.length > 1) {
-            this.timer = setInterval(this.getNextPage.bind(this), this.config["refresh"]);
+            this.timer = setInterval(this.getNextPage.bind(this), this.config["refresh"] * 1000);
         }
     },
 
@@ -37,6 +35,16 @@ var IframeModule = OfficeModule.extend({
         if (this.index >= this.pages.length) {
             this.index = 0;
         }
+    },
+
+    clearTimer: function() {
+        if(this.timer) {
+            clearInterval(this.timer);
+        }
+    },
+
+    dispose: function () {
+        this.clearTimer();
     }
 });
 

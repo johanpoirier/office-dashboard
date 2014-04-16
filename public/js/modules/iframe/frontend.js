@@ -1,6 +1,6 @@
- /**
- * iFrame frontend controller
- */
+/**
+* iFrame frontend controller
+*/
 define([ "office", "hbs!modules/iframe/template"],
     function (Office, template) {
 

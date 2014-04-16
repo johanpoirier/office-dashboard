@@ -1,27 +1,35 @@
 <!-- refresh time -->
-<label for="refresh">Refresh time</label>
-<input class="persist" type="number" name="refresh" placeholder="Refresh time (in ms)..." value="{{config.refresh}}" /><br/>
-
-<!-- repository -->
-<label for="repo">Repository</label>
-<input class="persist" type="text" name="repo" placeholder="Repository..." value="{{config.repo}}" /><br/>
+<div class="row">
+    <label for="refresh">Refresh time (s)</label>
+    <input class="persist" type="number" name="refresh" placeholder="Refresh time (in s)..." value="{{config.refresh}}" />
+</div>
 
 <!-- url -->
-<label for="url">URL</label>
-<input class="persist" type="text" name="url" placeholder="URL..." value="{{config.url}}" /><br/>
+<div class="row">
+    <label for="url">URL</label>
+    <input class="persist" type="text" name="url" placeholder="URL..." value="{{config.url}}" />
+</div>
 
 <!-- branch -->
-<label for="branch">Branch</label>
-<input class="persist" type="text" name="branch" placeholder="Branch..." value="{{config.branch}}" /><br/>
+<div class="row">
+    <label for="branch">Branch</label>
+    <input class="persist" type="text" name="branch" placeholder="Branch..." value="{{config.branch}}" />
+</div>
 
 <!-- nb commits -->
-<label for="nb_commits_display">Number of commits</label>
-<input class="persist" type="number" name="nb_commits_display" placeholder="Number of commits..." value="{{config.nb_commits_display}}" /><br/>
+<div class="row">
+    <label for="nb_commits_display">Number of commits</label>
+    <input class="persist" type="number" name="nb_commits_display" placeholder="Number of commits..." value="{{config.nb_commits_display}}" />
+</div>
 
 <!-- user -->
-<label for="user">Username</label>
-<input class="persist" type="text" name="user" placeholder="username..." value="{{config.user}}" /><br/>
+<div class="row">
+    <label for="user">Username</label>
+    <input class="persist" type="text" name="user" placeholder="username..." value="{{config.user}}" />
+</div>
 
 <!-- password -->
-<label for="password">Password</label>
-<input class="persist" type="password" name="password" placeholder="password..." value="{{config.password}}" /><br/>
+<div class="row">
+    <label for="password">Password</label>
+    <input class="persist" type="password" name="password" placeholder="password..." value="{{config.password}}" />
+</div>

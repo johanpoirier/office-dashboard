@@ -2,7 +2,9 @@
 {{#each messages}}
 	<div class="message">
 		<li data-index="{{@index}}">{{this}}</li>
-		<button type="button" class="remove-message"><img height="20px" width="20px" src="/images/delete.png" alt="Delete message" title="Delete message"></button>
+		<button type="button" class="remove-message" title="Delete message">
+		    <i class="fa fa-trash-o"></i>
+		</button>
 	</div>
 {{/each}}
 </ul>

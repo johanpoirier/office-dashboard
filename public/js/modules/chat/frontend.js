@@ -1,34 +1,46 @@
 /**
  * Chat frontend controller
  */
-define([ "office", "hbs!modules/chat/template", "hbs!modules/chat/message-template" ],
-    function (Office, template, messageTemplate) {
+define([ "office",
+    "hbs!modules/chat/template",
+    "hbs!modules/chat/template-users",
+    "hbs!modules/chat/template-newuser",
+    "hbs!modules/chat/template-message",
+    "hbsCustomHelpers" ],
+
+    function (Office, template, templateUsers, templateNewUser, templateMessage) {
 
         var chatModule = Office.Module.extend({
 
-            listen: function() {
+            listen: function () {
+                // get username
+                this.username = window.localStorage.getItem(this.config["id"] + ".username");
+
+                // socket events handlers
                 this.socket.on(this.config["id"] + ":init", this.initMessages.bind(this));
                 this.socket.on(this.config["id"] + ":dispatch", this.updateMesages.bind(this));
                 this.socket.on(this.config["id"] + ":users", this.updateUsers.bind(this));
 
-                this.socket.emit(this.config["id"] + ":screen");
+                // if new user
+                if (!this.username) {
+                    this.el.html(templateNewUser());
+                    this.el.find("form").on("submit", this.handleUsernameInput.bind(this));
+                }
+                else {
+                    this.render();
+                }
 
-                this.socket.emit(this.config["id"] + ":adduser", prompt("What's your name?"));
-
-                // render
-                this.el.html(template());
-                this.el.find("textarea").focus();
-
-                // input watch
-                this.el.find("textarea").on("keypress", this.handleKeyPress.bind(this));
-                this.el.find("input[type=button]").on("click", this.handleKeyPress.bind(this));
+                // focus on user input
+                setTimeout((function () {
+                    this.el.find("input[name='username']").focus();
+                }).bind(this), 500);
             },
 
-            dispose: function() {
+            dispose: function () {
                 this.el.find("textarea").off("keypress");
                 this.el.find("textarea").off("click");
             },
-            
+
             sendMessage: function () {
                 var text = this.el.find("textarea");
                 if (text.val().length > 0) {
@@ -50,7 +62,7 @@ define([ "office", "hbs!modules/chat/template", "hbs!modules/chat/message-templa
                     messages = [ messages ];
                 }
                 messages.forEach(function (message) {
-                    text.append(messageTemplate(message));
+                    text.append(templateMessage(message));
                 });
 
                 this.notify(messages[0]);
@@ -60,10 +72,7 @@ define([ "office", "hbs!modules/chat/template", "hbs!modules/chat/message-templa
 
             updateUsers: function (users) {
                 var usersEl = this.el.find(".chat-users");
-                usersEl.html("");
-                users.forEach(function (user) {
-                    usersEl.append('<span class="user module-item">' + user + '</span>');
-                });
+                usersEl.html(templateUsers({ "users": users, "currentUser": this.username }));
             },
 
             handleKeyPress: function (event) {
@@ -71,6 +80,31 @@ define([ "office", "hbs!modules/chat/template", "hbs!modules/chat/message-templa
                     this.sendMessage();
                     return false;
                 }
+            },
+
+            handleUsernameInput: function () {
+                // store username
+                this.username = this.el.find("input[name='username']").val();
+                window.localStorage.setItem(this.config["id"] + ".username", this.username);
+
+                this.render();
+
+                return false;
+            },
+
+            render: function () {
+                // tell the server about the user
+                this.socket.emit(this.config["id"] + ":screen");
+                this.socket.emit(this.config["id"] + ":adduser", this.username);
+
+                // display chat
+                this.el.find("form").off("submit");
+                this.el.html(template({ "title": this.config["label"] }));
+                this.el.find("textarea").focus();
+
+                // input watch
+                this.el.find("textarea").on("keypress", this.handleKeyPress.bind(this));
+                this.el.find("input[type=button]").on("click", this.handleKeyPress.bind(this));
             },
 
             notify: function (message) {

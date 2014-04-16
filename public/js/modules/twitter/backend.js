@@ -36,7 +36,8 @@ var TwitterModule = OfficeModule.extend({
     startStream: function () {
         this.stopStream();
         if (this.config["topics"] && this.config["topics"].length > 0) {
-            this.stream = this.twitterApi.stream('statuses/filter', { track: this.config["topics"]}, (function (stream) {
+            this.twitterApi.stream('statuses/filter', { track: this.config["topics"]}, (function (stream) {
+                this.stream = stream;
                 stream.on('data', (function (tweet) {
                     this.iosockets.emit(this.config["id"] + ":stream", tweet);
                 }).bind(this));
@@ -45,9 +46,10 @@ var TwitterModule = OfficeModule.extend({
     },
 
     stopStream: function () {
-        console.log("twitter stream :", this.stream);
-        if (this.stream) {
+        if (this.stream && this.stream["destroy"]) {
+            console.log("[" + this.config["id"] + "] destroying twitter stream");
             this.stream.destroy();
+            delete this.stream;
         }
     },
 
@@ -68,6 +70,9 @@ var TwitterModule = OfficeModule.extend({
                     console.log("[" + this.config["id"] + "] " + data);
                 }
             }).bind(this));
+        } else {
+            // send empty array to refresh module front display
+            callback([]);
         }
     }
 });

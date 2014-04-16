@@ -1,21 +1,21 @@
 <!-- refresh time -->
-<div class="input-wrapper">
+<div class="row">
 	<label for="refresh">Refresh time</label>
 	<input class="persist" type="number" name="refresh" placeholder="Refresh time (in ms)..." value="{{config.refresh}}" />
 </div>
 
 <!-- animation on show -->
-<div class="input-wrapper">
-<label for="animationShow">Animation on show</label>
-<select class="persist" value="{{config.animationShow}}" name="animationShow">
-	{{#each animations}}
-		<option value="{{this}}" {{#ifequalsinline ../config.animationShow this 'selected="selected"'}}{{/ifequalsinline}}>{{this}}</option>
-	{{/each}}
-</select>
+<div class="row">
+    <label for="animationShow">Animation on show</label>
+    <select class="persist" value="{{config.animationShow}}" name="animationShow">
+        {{#each animations}}
+            <option value="{{this}}" {{#ifequalsinline ../config.animationShow this 'selected="selected"'}}{{/ifequalsinline}}>{{this}}</option>
+        {{/each}}
+    </select>
 </div>
 
 <!-- animation on hide -->
-<div class="input-wrapper">
+<div class="row">
 	<label for="animationHide">Animation on hide</label>
 	<select class="persist" name="animationHide">
 		{{#each animations}}
@@ -26,9 +26,11 @@
 <span class="help">Check <a style="color:red;" href="http://daneden.github.io/animate.css" target="_blank">http://daneden.github.io/animate.css</a> to test animations</span>
 
 <!-- new message -->
-<div class="input-wrapper">
-	<input type="text" class="text-message" placeholder="Type new message...">
-	<button type="button" class="new-message textual" title="Send message">Send message</button>
-	<br/>
-	<div class="messages-list"></div>
+<div class="row">
+	<label for="new-message">New message</label>
+	<div>
+        <input type="text" class="text-message" placeholder="Type new message...">
+        <button type="button" class="new-message textual" title="Send message">Send message</button>
+        <div class="messages-list"></div>
+	</div>
 </div>
