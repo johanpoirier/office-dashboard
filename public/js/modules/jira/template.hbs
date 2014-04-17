@@ -5,7 +5,7 @@
 <div>
 {{#each issues}}
     <div class="jira-issue">
-        {{this}}
+        <a href="{{this.self}}" target="_blank">{{this.fields.summary}}</a>
     </div>
 {{/each}}
 </div>

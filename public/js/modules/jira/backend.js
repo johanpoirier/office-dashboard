@@ -7,6 +7,27 @@ var JiraModule = OfficeModule.extend({
     start: function () {
         console.log("[" + this.config["id"] + "] refreshing issues every " + this.config['refresh'] + " seconds");
         this.timer = setInterval(this.getData.bind(this), this.config['refresh'] * 1000);
+
+        //parseURI?
+        
+        this.options = {
+            hostname: this.config['server'],
+            port: 443,
+            path: "/jira/rest/api/latest/search?jql=project=" + this.config['project'] + "&status=OPEN&startAt=0&maxResults=" + this.config['nb_issues_display'],
+            method: 'GET',
+            headers: {
+                'Host': this.config['server'],
+                'Authorization': 'Basic ' + new Buffer(this.config['user'] + ':' + this.config['password']).toString('base64')
+            }
+        };
+
+        // proxy conf
+        if (this.proxy) {
+            this.options.hostname = this.proxy["host"];
+            this.options.port = this.proxy["port"];
+            this.options.path = 'https://' + this.config['server'] + this.options.path;
+            https = http;
+        }
     },
 
     getData: function (socket) {
@@ -16,36 +37,15 @@ var JiraModule = OfficeModule.extend({
     },
 
     getLastIssues: function (callback) {
-        var options = {
-            hostname: this.config['server'],
-            port: 443,
-            path: "/jira/rest/api/latest/issue/PHT-METEOFRANCE-999",
-            method: 'GET',
-            headers: {
-                'Host': this.config['server'],
-                'Authorization': 'Basic ' + new Buffer(this.config['username'] + ':' + this.config['apiToken']).toString('base64')
-            }
-        };
-
-        // proxy conf
-        if (this.proxy) {
-            options.hostname = this.proxy["host"];
-            options.port = this.proxy["port"];
-            options.path = 'https://' + this.config['server'] + "/jira/rest/api/latest/issue/PHT-METEOFRANCE-999";
-            https = http;
-        }
-
-        var req = https.request(options, (function (res) {
+        var req = https.request(this.options, (function (res) {
             var data = "";
             res.on('data', function (d) {
                 data += d;
             });
             res.on('end', (function () {
                 if (callback) {
-                    //var commits = JSON.parse(data);
-                    //callback(commits.slice(0, this.config['nb_issues_display']));
-                    console.log("[" + this.config["id"] + "] data : " + data);
-                    callback([]);
+                    var commits = JSON.parse(data);
+                    callback(commits["issues"]);
                 }
             }).bind(this));
         }).bind(this));
