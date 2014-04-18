@@ -1,0 +1,9 @@
+.thermonitor-temperature {
+    font-size: 3vw;
+    font-weight: bolder;
+    left: 50%;
+    margin-left: -5vw;
+    margin-top: -1vw;
+    position: absolute;
+    top: 50%;
+}
