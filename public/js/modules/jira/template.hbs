@@ -4,7 +4,7 @@
 <span class="module-update">{{update}}</span>
 <div>
 {{#each issues}}
-    <div class="jira-issue">
+    <div class="jira-issue" title="{{this.fields.description}}">
         <span class="jira-issue-logo"><img src="{{this.fields.issuetype.iconUrl}}" alt="{{this.fields.issuetype.name}}" /></span>
         <span class="jira-issue-key">{{this.key}}</span>
         <a href="{{this.self}}" class="jira-issue-name" target="_blank">{{this.fields.summary}}</a>

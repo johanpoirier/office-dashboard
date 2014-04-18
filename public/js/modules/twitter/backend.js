@@ -36,10 +36,17 @@ var TwitterModule = OfficeModule.extend({
     startStream: function () {
         this.stopStream();
         if (this.config["topics"] && this.config["topics"].length > 0) {
-            this.twitterApi.stream('statuses/filter', { track: this.config["topics"]}, (function (stream) {
-                this.stream = stream;
-                stream.on('data', (function (tweet) {
-                    this.iosockets.emit(this.config["id"] + ":stream", tweet);
+            var d = require('domain').create();
+            d.on('error', (function(err){
+                // handle the error safely
+                console.log("[" + this.config["id"] + "] " + err);
+            }).bind(this));
+            d.run((function() {
+                this.twitterApi.stream('statuses/filter', { track: this.config["topics"]}, (function (stream) {
+                    this.stream = stream;
+                    stream.on('data', (function (tweet) {
+                        this.iosockets.emit(this.config["id"] + ":stream", tweet);
+                    }).bind(this));
                 }).bind(this));
             }).bind(this));
         }

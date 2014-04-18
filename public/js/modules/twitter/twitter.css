@@ -6,6 +6,16 @@
 	font-family: Lato;
 }
 
+.twitter .module-title h2 {
+    background-image: url(logo.png);
+    background-position: 0% 0%;
+    background-repeat: no-repeat;
+    background-size: 30px 30px;
+    height: 32px;
+    line-height: 32px;
+    padding-left: 34px;
+}
+
 .twitter .module-item {
 	min-height: 67px;
 	margin: 0;
@@ -13,9 +23,8 @@
 
 .twitter .module-item-detail {
 	overflow: hidden;
-    padding: 6px 8px 6px;
+    padding: 6px 8px 2px;
     position: relative;
-	text-overflow: none;
     white-space: normal;
 }
 

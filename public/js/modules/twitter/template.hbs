@@ -1,4 +1,6 @@
-<h2 class="module-title">Tweets : {{#each topics}} {{this}} {{/each}}</h2>
+<div class="module-title">
+    <h2>{{#each topics}} {{this}} {{/each}}</h2>
+</div>
 <div class="tweets">
 {{#each tweets}}
     <div class="module-item {{#ifequalsinline @index 0 'animated fadeInLeft'}}{{/ifequalsinline}}">
