@@ -2,6 +2,36 @@
     background-image: url(logo_m.png);
     background-position: 0% 50%;
     background-repeat: no-repeat;
-    background-size: 34px 34px;
-    padding-left: 36px;
+    background-size: 30px 30px;
+    padding-left: 34px;
+}
+
+.jira-issue {
+    border-bottom: 1px solid #eee;
+    color: #326ca6;
+    display: flex;
+    flex-flow: row wrap;
+    font-size: 0.9em;
+}
+
+.jira-issue .jira-issue-logo {
+    width: 20px;
+}
+
+.jira-issue .jira-issue-logo img {
+    padding-left: 2px;
+    padding-top: 2px;
+}
+
+.jira-issue .jira-issue-key {
+    flex: 1 200px;
+    padding-left: 4px;
+}
+
+.jira-issue .jira-issue-name {
+    flex: 100;
+    padding: 0 8px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }

@@ -1,23 +1,24 @@
 var OfficeModule = require(__dirname + "/../../../../src/office-module"),
     http = require('http'),
-    https = require('https');
+    https = require('https'),
+    url = require('url');
 
 var JiraModule = OfficeModule.extend({
 
     start: function () {
-        console.log("[" + this.config["id"] + "] refreshing issues every " + this.config['refresh'] + " seconds");
-        this.timer = setInterval(this.getData.bind(this), this.config['refresh'] * 1000);
+        console.log("[" + this.config["id"] + "] refreshing issues every " + this.config["refresh"] + " seconds");
+        this.timer = setInterval(this.getData.bind(this), this.config["refresh"] * 1000);
 
-        //parseURI?
-        
+        var serverUrl = url.parse(this.config["server"]);
+
         this.options = {
-            hostname: this.config['server'],
-            port: 443,
-            path: "/jira/rest/api/latest/search?jql=project=" + this.config['project'] + "&status=OPEN&startAt=0&maxResults=" + this.config['nb_issues_display'],
+            hostname: serverUrl["hostname"],
+            port: serverUrl["port"] ? serverUrl["port"] : (serverUrl["protocol"] === "https:" ? 443 : 80),
+            path: serverUrl["pathname"] + "/rest/api/latest/search?jql=project=" + this.config['project'] + "&status=OPEN&startAt=0&maxResults=" + this.config["nb_issues_display"],
             method: 'GET',
             headers: {
-                'Host': this.config['server'],
-                'Authorization': 'Basic ' + new Buffer(this.config['user'] + ':' + this.config['password']).toString('base64')
+                'Host': serverUrl["hostname"],
+                'Authorization': 'Basic ' + new Buffer(this.config["user"] + ':' + this.config["password"]).toString("base64")
             }
         };
 
@@ -25,7 +26,7 @@ var JiraModule = OfficeModule.extend({
         if (this.proxy) {
             this.options.hostname = this.proxy["host"];
             this.options.port = this.proxy["port"];
-            this.options.path = 'https://' + this.config['server'] + this.options.path;
+            this.options.path = serverUrl["protocol"] + "//" + serverUrl["host"] + this.options.path;
             https = http;
         }
     },

@@ -17,6 +17,9 @@ define([ "office", "hbs!modules/jira/template", "moment"],
                     "update": moment().format(this.updateFormat),
                     "issues": issues
                 }));
+                issues.forEach(function(issue) {
+                   console.dir(issue.fields.issuetype);
+                });
             }
         });
 

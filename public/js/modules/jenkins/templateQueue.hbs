@@ -6,6 +6,7 @@
 {{#each items}}
     <div class="module-item jenkins-item">
         <a href="{{this.task.url}}" target="_blank" title="{{this.why}}">{{this.task.name}}</a>
+        <span class="jenkins-item-why">{{this.why}}</span>
     </div>
 {{/each}}
 </div>
