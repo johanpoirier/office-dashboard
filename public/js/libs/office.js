@@ -149,7 +149,7 @@ define(["underscore", "jquery", "socket-io", "storage", "helpers", "hbs!../js/te
                     }
                     this.alertTimer = setTimeout(function() {
                         container.css("background-color", "transparent");
-                    }, 5000);
+                    }, 10000);
                 }
             },
 

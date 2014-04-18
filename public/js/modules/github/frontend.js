@@ -9,14 +9,24 @@ define([ "office", "hbs!modules/github/template", "moment"],
             listen: function () {
                 this.socket.emit(this.config["id"] + ":screen");
                 this.socket.on(this.config["id"] + ":commits", this.displayCommits.bind(this));
+                this.commits = [];
             },
 
             displayCommits: function (commits) {
                 console.info("[" + this.config["id"] + "] " + commits.length + " commits to display - " + new Date());
+
+                // new commit -> alert (if activated) !
+                if((this.commits.length > 0) && (commits[0].commit.url !== this.commits[0].commit.url)) {
+                    this.alert();
+                }
+
+                // format commit dates with moment
                 commits.forEach(function(data) {
                    var commitDate = moment(data.commit.author.date);
                    data.commit.author.date = commitDate.fromNow();
                 });
+
+                // render
                 this.el.html(template({
                     "repo": this.config["repo"],
                     "update": moment().format(this.updateFormat),
