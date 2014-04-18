@@ -15,11 +15,9 @@ define([ "office", "hbs!modules/jira/template", "moment"],
                 console.info("[" + this.config["id"] + "] " + issues.length + " issues to display - " + new Date());
                 this.el.html(template({
                     "update": moment().format(this.updateFormat),
-                    "issues": issues
+                    "issues": issues,
+                    "title": this.config["label"].length > 0 ? this.config["label"] : "JIRA"
                 }));
-                issues.forEach(function(issue) {
-                   console.dir(issue.fields.issuetype);
-                });
             }
         });
 

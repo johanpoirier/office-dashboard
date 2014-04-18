@@ -1,5 +1,5 @@
 {
     "type": "jira",
-    "nb_issues_display": 20,
-    "refresh": 600
+    "nb_issues_display": 30,
+    "refresh": 300
 }
