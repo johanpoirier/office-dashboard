@@ -16,8 +16,15 @@ define([ "office", "hbs!modules/github/template", "moment"],
                 console.info("[" + this.config["id"] + "] " + commits.length + " commits to display - " + new Date());
 
                 // new commit -> alert (if activated) !
-                if((this.commits.length > 0) && (commits[0].commit.url !== this.commits[0].commit.url)) {
+                if(this.commits.length === 0) {
+                    this.commits = commits;
+                }
+                else if(commits[0].commit.url !== this.commits[0].commit.url) {
+                    this.commits = commits;
                     this.alert();
+                }
+                else {
+                    return;
                 }
 
                 // format commit dates with moment
