@@ -43,7 +43,6 @@
 .module-item {
     background-color: #fff;
     border-bottom: 1px solid #555454;
-    cursor: pointer;
     margin: 7px 0;
     min-height: 20px;
     position: relative;
@@ -57,6 +56,10 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     z-index: 10;
+}
+
+.module-item-detail a:hover {
+    text-decoration: underline;
 }
 
 .module-update {

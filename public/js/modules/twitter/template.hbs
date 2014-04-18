@@ -5,9 +5,11 @@
 {{#each tweets}}
     <div class="module-item {{#ifequalsinline @index 0 'animated fadeInLeft'}}{{/ifequalsinline}}">
     	<div class="module-item-image-wrapper">
-            <img class="module-item-image" alt="{{this.user.name}}" src="{{this.user.profile_image_url_https}}" width="58" height="58" />
+            <a href="{{this.user.url}}" target="_blank">
+                <img class="module-item-image" alt="{{this.user.name}}" src="{{this.user.profile_image_url_https}}" width="58" height="58" />
+            </a>
     	</div>
-        <div class="module-item-detail"><strong>{{this.user.name}}: </strong>{{this.text}}</div>
+        <div class="module-item-detail"><a href="{{this.user.url}}" target="_blank"><strong>{{this.user.name}}</a>:</strong> {{{this.text}}}</div>
     </div>
 {{/each}}
 </div>

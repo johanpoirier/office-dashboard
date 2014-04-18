@@ -17,6 +17,9 @@ define([ "office", "hbs!modules/twitter/template", "hbsCustomHelpers" ],
             /* Display N first tweets */
             displayTweets: function (tweets) {
                 if (tweets) {
+                    tweets.forEach((function(tweet) {
+                        tweet["text"] = this.enhanceContent(tweet["text"]);
+                    }).bind(this));
                     this.displayedTweets = tweets;
                     console.info("[twitter] " + this.displayedTweets.length + " tweets fetched - " + new Date());
                 }
@@ -29,6 +32,8 @@ define([ "office", "hbs!modules/twitter/template", "hbsCustomHelpers" ],
 
             /* Display new streamed tweet */
             displayStreamedTweet: function (tweet) {
+                tweet["text"] = this.enhanceContent(tweet["text"]);
+
                 // Refresh tweets list
                 if (this.displayedTweets.length >= this.config["fetched_items"]) {
                     this.displayedTweets.pop();
@@ -38,6 +43,17 @@ define([ "office", "hbs!modules/twitter/template", "hbsCustomHelpers" ],
                 // Refresh view
                 this.el.html(template({ "tweets": this.displayedTweets, "topics": this.config["topics"] }));
                 this.alert(3);
+            },
+
+            enhanceContent: function(content) {
+                var urlRegexp = /https?:\/\/[a-zA-Z0-9\.\-\/\?#=!]*/g;
+                var links = content.match(urlRegexp);
+                if(links && links.length > 0) {
+                    for(var i = 0; i < links.length; i++) {
+                        content = content.replace(links[i], "<a target=\"_blank\" href=\"" + links[i] + "\">" + links[i] + "</a>");
+                    }
+                }
+                return content;
             }
         });
 
