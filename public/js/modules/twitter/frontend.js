@@ -37,7 +37,7 @@ define([ "office", "hbs!modules/twitter/template", "hbsCustomHelpers" ],
 
                 // Refresh view
                 this.el.html(template({ "tweets": this.displayedTweets, "topics": this.config["topics"] }));
-                this.alert(5);
+                this.alert(3);
             }
         });
 

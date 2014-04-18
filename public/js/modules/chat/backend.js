@@ -32,7 +32,7 @@ var ChatModule = OfficeModule.extend({
             var username = this.getSocketUsername(socket);
             var message = {
                 "author": username ? username : "Obi-Wan Kenobi",
-                "content": content
+                "content": this.enhanceContent(content)
             };
             this.messages.push(message);
             if (this.messages.length > 100) {
@@ -40,6 +40,15 @@ var ChatModule = OfficeModule.extend({
             }
             this.iosockets.emit(this.config["id"] + ":dispatch", message);
         }).bind(this));
+    },
+
+    enhanceContent: function(content) {
+        var urlRegexp = /https?:\/\/[a-zA-Z0-9\.\-\/\?#=!]*/;
+        var links = content.match(urlRegexp);
+        for(var i = 0; i < links.length; i++) {
+            content = content.replace(links[i], "<a target=\"_blank\" href=\"" + links[i] + "\">" + links[i] + "</a>");
+        }
+        return content;
     },
 
     getData: function(socket) {

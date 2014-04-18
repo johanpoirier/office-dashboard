@@ -35,6 +35,14 @@
     margin-left: 10px;
 }
 
+.chat-message-content a {
+    color: #0c0a36;
+}
+
+.chat-message-content a:hover {
+    text-decoration: underline;
+}
+
 .chat-user {
     flex: 1;
     text-align: center;

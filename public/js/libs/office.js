@@ -206,7 +206,9 @@ define(["underscore", "jquery", "socket-io", "storage", "helpers", "hbs!../js/te
                 // Check if we are creating a new object or modifying an existing one
                 var isNew = false;
                 if (!this.config["id"]) isNew = true;
-                if (isNew) this.config["id"] = this.config["type"] + "-" + Math.floor((Math.random() * 10000) + 1);
+                if (isNew) {
+                    this.config["id"] = this.config["type"] + "-" + Math.floor((Math.random() * 10000) + 1);
+                }
 
                 // load css
                 helpers.loadAdminModuleCss(this.config["type"]);
@@ -219,7 +221,13 @@ define(["underscore", "jquery", "socket-io", "storage", "helpers", "hbs!../js/te
                     modalTitle = "Configure " + this.config["id"] + " module";
                 }
                 if (this.el === null) {
-                    this.rootEl.append(adminTemplate({ "id": this.config["id"], "type": this.config["type"], "title": modalTitle, "label": this.config["label"], "alert": this.config["alert"] }));
+                    this.rootEl.append(adminTemplate({
+                        "id": this.config["id"],
+                        "type": this.config["type"],
+                        "title": modalTitle,
+                        "label": this.config["label"],
+                        "alert": this.config["alert"]
+                    }));
                     this.el = this.rootEl.find("div#" + this.config["id"] + " .module-admin-box");
                 }
 
