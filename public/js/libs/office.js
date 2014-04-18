@@ -140,8 +140,12 @@ define(["underscore", "jquery", "socket-io", "storage", "helpers", "hbs!../js/te
                 container.attr("data-sizey", String(this.config["size"]["h"]));
             },
 
-            alert: function() {
+            alert: function(duration) {
                 if(this.config["alert"] === "true") {
+                    if(!duration) {
+                        duration = 10;
+                    }
+
                     var container = this.el.parent()
                     container.css("background-color", "red");
                     if(this.alertTimer) {
@@ -149,7 +153,7 @@ define(["underscore", "jquery", "socket-io", "storage", "helpers", "hbs!../js/te
                     }
                     this.alertTimer = setTimeout(function() {
                         container.css("background-color", "transparent");
-                    }, 10000);
+                    }, duration * 1000);
                 }
             },
 
