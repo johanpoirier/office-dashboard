@@ -1,3 +1,3 @@
 {{#each users}}
-    <span class="user module-item{{#ifequals this ../currentUser}} highlight{{/ifequals}}">{{this}}</span>
+    <span class="user module-item{{#ifequals this.username ../currentUser}} highlight{{/ifequals}}">{{this.username}}</span>
 {{/each}}

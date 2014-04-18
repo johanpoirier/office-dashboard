@@ -9,6 +9,11 @@
             <input type="text" name="label" class="persist" value="{{label}}" placeholder="your module friendly name..." />
         </div>
 
+        <div class="row">
+            <label for="refresh">Alert mode</label>
+            <input type="checkbox" name="alert" class="persist" value="true"{{#ifequals alert "true"}} checked{{/ifequals}} />
+        </div>
+
         <!-- Admin modal el -->
         <button type="submit" class="textual">Save</button>
         <button type="button" class="close-modal textual">Cancel</button>

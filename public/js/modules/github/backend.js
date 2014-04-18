@@ -4,6 +4,8 @@ var OfficeModule = require(__dirname + "/../../../../src/office-module"),
 
 var GithubModule = OfficeModule.extend({
 
+    commits: [],
+
     start: function () {
         console.log("[" + this.config["id"] + "] refreshing commits every " + this.config['refresh'] + " seconds");
         this.timer = setInterval(this.getData.bind(this), this.config['refresh'] * 1000);
@@ -11,6 +13,7 @@ var GithubModule = OfficeModule.extend({
 
     getData: function (socket) {
         this.getLastCommits((function (commits) {
+            this.commits = commits;
             (socket ? socket : this.iosockets).emit(this.config["id"] + ":commits", commits);
         }).bind(this));
     },
@@ -43,8 +46,11 @@ var GithubModule = OfficeModule.extend({
             });
             res.on('end', (function () {
                 if (callback) {
-                    var commits = JSON.parse(data);
-                    callback(commits.slice(0, this.config['nb_commits_display']));
+                    var commits = JSON.parse(data).slice(0, this.config['nb_commits_display']);
+                    if((this.commits.length > 0) && (commits[0].commit.url !== this.commits[0].commit.url)) {
+                        this.alert();
+                    }
+                    callback(commits);
                 }
             }).bind(this));
         }).bind(this));

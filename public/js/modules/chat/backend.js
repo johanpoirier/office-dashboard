@@ -4,7 +4,7 @@ var ChatModule = OfficeModule.extend({
 
     start: function () {
         this.messages = [{ "author": "bot", "content": "welcome to the chat" } ];
-        this.usernames = [];
+        this.users = [];
 
         this.registerSocketListener(this.config["id"] + ":adduser", (function (socket, username) {
             console.log("[" + this.config["id"] + "]" + " adduser socket : " + socket.id);
@@ -14,11 +14,17 @@ var ChatModule = OfficeModule.extend({
                 socket[this.config["id"]] = {
                     "username": username
                 };
-                this.usernames.push(username);
-                console.log("[" + this.config["id"] + "] new user " + username);
+
+                if(!this.getUser(socket.id, username)) {
+                    this.users.push({
+                        "username": username,
+                        "socket": socket.id
+                    });
+                    console.log("[" + this.config["id"] + "] new user " + username);
+                }
 
                 // update user list on all clients
-                this.iosockets.emit(this.config["id"] + ":users", this.usernames);
+                this.iosockets.emit(this.config["id"] + ":users", this.users);
             }
         }).bind(this));
 
@@ -44,13 +50,13 @@ var ChatModule = OfficeModule.extend({
     disconnect: function (socket) {
         var socketUsername = this.getSocketUsername(socket);
         if (socketUsername) {
-            // remove the username from global usernames list
-            this.usernames = this.usernames.filter(function (username) {
-                return socketUsername !== username;
+            // remove the user from global user list
+            this.users = this.users.filter(function (user) {
+                return socketUsername !== user["username"] || socket.id !== user["socket"];
             });
 
             // update list of users in chat, client-side
-            this.iosockets.emit(this.config["id"] + ":users", this.usernames);
+            this.iosockets.emit(this.config["id"] + ":users", this.users);
 
             console.log("[" + this.config["id"] + "] user " + socketUsername + " just left");
         }
@@ -58,6 +64,13 @@ var ChatModule = OfficeModule.extend({
 
     getSocketUsername: function(socket) {
         return socket[this.config["id"]] ? socket[this.config["id"]]["username"] : false;
+    },
+
+    getUser: function(socketId, username) {
+        var usersFound = this.users.filter(function (user) {
+            return username === user["username"] && socketId === user["socket"];
+        });
+        return (usersFound && usersFound.length === 1) ? usersFound[0] : false;
     }
 });
 

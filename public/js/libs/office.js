@@ -140,7 +140,23 @@ define(["underscore", "jquery", "socket-io", "storage", "helpers", "hbs!../js/te
                 container.attr("data-sizey", String(this.config["size"]["h"]));
             },
 
+            alert: function() {
+                if(this.config["alert"] === "true") {
+                    var container = this.el.parent()
+                    container.css("background-color", "red");
+                    if(this.alertTimer) {
+                        clearTimeout(this.alertTimer);
+                    }
+                    this.alertTimer = setTimeout(function() {
+                        container.css("background-color", "transparent");
+                    }, 5000);
+                }
+            },
+
             destroy: function () {
+                if(this.alertTimer) {
+                    clearTimeout(this.alertTimer);
+                }
                 if(this.config["dock"]) {
                     $(".center").css("height", "100%");
                     $(".center").css("top", "0");
@@ -199,7 +215,7 @@ define(["underscore", "jquery", "socket-io", "storage", "helpers", "hbs!../js/te
                     modalTitle = "Configure " + this.config["id"] + " module";
                 }
                 if (this.el === null) {
-                    this.rootEl.append(adminTemplate({ "id": this.config["id"], "type": this.config["type"], "title": modalTitle, "label": this.config["label"] }));
+                    this.rootEl.append(adminTemplate({ "id": this.config["id"], "type": this.config["type"], "title": modalTitle, "label": this.config["label"], "alert": this.config["alert"] }));
                     this.el = this.rootEl.find("div#" + this.config["id"] + " .module-admin-box");
                 }
 
@@ -208,7 +224,7 @@ define(["underscore", "jquery", "socket-io", "storage", "helpers", "hbs!../js/te
                 require(["hbs!modules/" + this.config["type"] + "/admin/admin"], (function (template) {
                     var context = this.context;
                     context.config = this.config;
-                    this.el.find(".row").after(template(context));
+                    this.el.find(".row:last-of-type").after(template(context));
 
                     // Register DOM events
                     this.events.apply(this);
@@ -234,8 +250,13 @@ define(["underscore", "jquery", "socket-io", "storage", "helpers", "hbs!../js/te
                 var newConf = this.config;
                 for (var i = 0; i < inputs.length; i++) {
                     var input = $(inputs[i]);
-                    if (input.attr("name").indexOf("size") !== 0) {
-                        newConf[input.attr("name")] = input.val();
+                    switch(input.attr("type")) {
+                        case "checkbox":
+                            newConf[input.attr("name")] = input.is(":checked").toString();
+                            break;
+                        default:
+                            newConf[input.attr("name")] = input.val();
+                            break;
                     }
                 }
                 this.socket.emit(Events.ADMIN_ADD_OR_UPDATE_MODULE_INSTANCE, newConf);

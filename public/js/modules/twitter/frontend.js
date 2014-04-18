@@ -36,8 +36,8 @@ define([ "office", "hbs!modules/twitter/template", "hbsCustomHelpers" ],
                 this.displayedTweets.unshift(tweet);
 
                 // Refresh view
-                //this.el.html(template({ "tweets": this.displayedTweets, "topics": this.config["topics"].join() }));
                 this.el.html(template({ "tweets": this.displayedTweets, "topics": this.config["topics"] }));
+                this.alert();
             }
         });
 

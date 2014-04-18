@@ -343,6 +343,12 @@ input[type="text"], input[type="number"], select {
     text-align: center;
     width: 60px;
 }
+
 .row input[name="refresh"] {
     width: 70px;
+}
+
+.row input[type="checkbox"] {
+    margin-top: 10px;
+    width: auto;
 }
