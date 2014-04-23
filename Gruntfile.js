@@ -119,6 +119,7 @@ module.exports = function (grunt) {
                         out: "build/js/main-front.js",
                         findNestedDependencies: true,
                         inlineText: true,
+                        optimize: "uglify2",
                         include: ["office", "moment", "hbsCustomHelpers"]
                     }
                 },
@@ -129,7 +130,8 @@ module.exports = function (grunt) {
                         name:'main-admin',
                         out: "build/js/main-admin.js",
                         findNestedDependencies: true,
-                        inlineText: true
+                        inlineText: true,
+                        optimize: "uglify2"
                     }
                 }
             },
