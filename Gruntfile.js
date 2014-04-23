@@ -180,21 +180,11 @@ module.exports = function (grunt) {
         }
     );
 
-    grunt.loadNpmTasks('grunt-env');
-    grunt.loadNpmTasks('grunt-concurrent');
-    grunt.loadNpmTasks('grunt-node-inspector');
-    grunt.loadNpmTasks('grunt-nodemon');
-    grunt.loadNpmTasks('grunt-string-replace');
-    grunt.loadNpmTasks('grunt-uncss');
-    grunt.loadNpmTasks('grunt-mocha-test');
-
     grunt.registerTask('build', [ 'env:prod', 'clean', 'cssmin', 'copy', 'processhtml', 'string-replace:prod', 'requirejs:front', 'requirejs:admin' ]);
-
     grunt.registerTask('test', ['mochaTest']);
-    grunt.registerTask('test-proxy', ['mochaTest']);
 
     grunt.registerTask('default', [ 'env:local', 'string-replace:dev', 'nodemon']);
-    grunt.registerTask('debug', ['env:local', 'string-replace', 'concurrent']);
+    grunt.registerTask('debug', ['env:local', 'string-replace:dev', 'concurrent']);
     grunt.registerTask('dev', [ 'env:dev', 'clean', 'cssmin', 'copy', 'processhtml', 'string-replace:dev', 'requirejs:front', 'requirejs:admin', 'nodemon' ]);
     grunt.registerTask('prod', [ 'env:prod', 'clean', 'cssmin', 'copy', 'processhtml', 'string-replace:prod', 'requirejs:front', 'requirejs:admin', 'nodemon' ]);
 }

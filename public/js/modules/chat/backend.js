@@ -45,8 +45,10 @@ var ChatModule = OfficeModule.extend({
     enhanceContent: function(content) {
         var urlRegexp = /https?:\/\/[a-zA-Z0-9\.\-\/\?#=!]*/g;
         var links = content.match(urlRegexp);
-        for(var i = 0; i < links.length; i++) {
-            content = content.replace(links[i], "<a target=\"_blank\" href=\"" + links[i] + "\">" + links[i] + "</a>");
+        if(links) {
+            for(var i = 0; i < links.length; i++) {
+                content = content.replace(links[i], "<a target=\"_blank\" href=\"" + links[i] + "\">" + links[i] + "</a>");
+            }
         }
         return content;
     },
