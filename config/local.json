@@ -1,8 +1,8 @@
 {
-    "NODE_ENV": "development",
+    "NODE_ENV": "local",
     "TEST_PORT": 8085,
     "server": "http://localhost:8085",
-    "app": "build",
+    "app": "public",
     "tempDir": "./work",
     "proxy_host": "proxy.priv.atos.fr",
     "proxy_port": 3128,

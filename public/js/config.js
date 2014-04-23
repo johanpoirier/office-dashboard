@@ -28,15 +28,3 @@ require.config({
         'storage' : 'libs/storage'
     }
 });
-
-// get context
-var bootstrapScript = document.querySelector("#bootstrap");
-var app = "app-";
-if(bootstrapScript.hasAttribute("data-context")) {
-    app += bootstrapScript.getAttribute("data-context");
-}
-
-// start app
-require(["events"], function() {
-    require([app]);
-});

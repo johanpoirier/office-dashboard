@@ -4,44 +4,51 @@
     <meta charset="utf-8">
     <title>Office Dashboard - Admin</title>
     <link rel="manifest" href="manifest.json">
-    <link href="/css/main.css" rel="stylesheet" type="text/css" media="screen">
+    <!-- build:css /css/admin-build.css -->
+    <link href="/css/normalize.css" rel="stylesheet" type="text/css" media="screen">
+    <link href="/css/animate.css" rel="stylesheet" type="text/css" media="screen">
+    <link href="/css/font-awesome.css" rel="stylesheet" type="text/css" media="screen">
+    <link href="/css/app.css" rel="stylesheet" type="text/css" media="screen">
+    <link href="/css/front.css" rel="stylesheet" type="text/css" media="screen">
+    <link href="/css/admin.css" rel="stylesheet" type="text/css" media="screen">
+    <!-- /build -->
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 </head>
 <body class="admin">
 
-    <div id="admin">
+<div id="admin">
 
-        <div class="admin-menu">
-            <div class="admin-menu-item" id="admin-menu-grid-dimensions">
-                <div class="admin-menu-item-title">
-                    <i class="fa fa-th-large"></i> Grid size
-                </div>
-                <div class="admin-menu-item-form">
-                    <input id="grid-columns-input" type="number" name="columns" value="3" size="2" />
-                    <i class="fa fa-times"></i>
-                    <input type="number" name="rows" value="3" size="2" />
-                </div>
+    <div class="admin-menu">
+        <div class="admin-menu-item" id="admin-menu-grid-dimensions">
+            <div class="admin-menu-item-title">
+                <i class="fa fa-th-large"></i> Grid size
             </div>
-
-            <div class="admin-menu-item">
-                <div class="admin-menu-item-title">
-                    <i class="fa fa-plus-square"></i> Modules
-                </div>
-                <div id="admin-menu-modules" class="admin-menu-modules"></div>
+            <div class="admin-menu-item-form">
+                <input id="grid-columns-input" type="number" name="columns" value="3" size="2" />
+                <i class="fa fa-times"></i>
+                <input type="number" name="rows" value="3" size="2" />
             </div>
         </div>
 
-        <div class="admin-dashboard">
-            <div class="top"></div>
-            <div class="center">
-                <div class="admin-dashboard-instances"></div>
+        <div class="admin-menu-item">
+            <div class="admin-menu-item-title">
+                <i class="fa fa-plus-square"></i> Modules
             </div>
-            <div class="bottom"></div>
+            <div id="admin-menu-modules" class="admin-menu-modules"></div>
         </div>
-
     </div>
 
-    <img id="resize" src="/images/1pix.png" alt="" />
-    <script src="/js/libs/vendor/require.js" data-main="js/main" id="bootstrap" data-context="admin"></script>
+    <div class="admin-dashboard">
+        <div class="top"></div>
+        <div class="center">
+            <div class="admin-dashboard-instances"></div>
+        </div>
+        <div class="bottom"></div>
+    </div>
+
+</div>
+
+<img id="resize" src="/images/1pix.png" alt="" />
+<script src="/js/libs/vendor/require.js" data-main="js/main-admin"></script>
 </body>
 </html>

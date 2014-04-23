@@ -18,6 +18,6 @@ node_modules
 *.iml
 .idea
 
-config/julien.json
 work
+build
 persist

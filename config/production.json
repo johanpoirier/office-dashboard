@@ -2,6 +2,7 @@
     "NODE_ENV": "production",
     "TEST_PORT": 8085,
     "server": "http://home.jops-dev.com:8090",
+    "app": "build",
     "tempDir": "./work",
     "proxy_host": "proxy.priv.atos.fr",
     "proxy_port": 3128,

@@ -9,14 +9,14 @@ var express = require('express')
     , DashboardConfig = require(__dirname + '/dashboard-config.js');
 
 /**
- * Global socket.io events
- */
-require(__dirname + '/../public/js/events.js')
-
-/**
  * Config
  */
 var config = require(__dirname + '/../config/' + app.get('env') + '.json');
+
+/**
+ * Global socket.io events
+ */
+require(__dirname + '/../' + config['app'] + '/js/events.js')
 
 
 // CORS middleware
@@ -28,12 +28,12 @@ var allowCrossDomain = function(req, res, next) {
 
 // all environments
 app.set('port', process.env.TEST_PORT || 8080);
-app.use(express.favicon(path.join(__dirname, '../public/images/favicon.ico')));
+app.use(express.favicon(path.join(__dirname, '../' + config['app'] + '/images/favicon.ico')));
 app.use(express.logger('dev'));
 app.use(express.bodyParser());
 app.use(express.methodOverride());
 app.use(allowCrossDomain);
-app.use(express.static(path.join(__dirname, '../public')));
+app.use(express.static(path.join(__dirname, '../' + config['app'])));
 
 // development only
 if ('development' == app.get('env')) {
@@ -42,10 +42,10 @@ if ('development' == app.get('env')) {
 
 //Routes
 app.get('/', function (req, res) {
-    res.sendfile(path.join(__dirname, '/../public/index.html'));
+    res.sendfile(path.join(__dirname, '/../' + config['app'] + '/index.html'));
 });
 app.get('/admin', function (req, res) {
-    res.sendfile(path.join(__dirname, '/../public/admin.html'));
+    res.sendfile(path.join(__dirname, '/../' + config['app'] + '/admin.html'));
 });
 
 //Socket.io Config

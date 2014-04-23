@@ -1,4 +1,4 @@
-define(["underscore", "jquery", "socket-io", "storage", "helpers", "hbs!../js/templates/module-administration"],
+define(["underscore", "jquery", "socket-io", "storage", "helpers", "hbs!templates/module-administration"],
     function (_, $, socketio, Storage, helpers, adminTemplate) {
         var Office = {};
 
