@@ -1,0 +1,10 @@
+{
+    "NODE_ENV": "demo",
+    "TEST_PORT": 8085,
+    "server": "http://home.jops-dev.com:8090",
+    "app": "public",
+    "tempDir": "./work",
+    "proxy_host": "proxy.priv.atos.fr",
+    "proxy_port": 3128,
+    "proxy_bypass": "*.priv.atos.fr"
+}

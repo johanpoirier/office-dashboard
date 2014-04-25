@@ -11,6 +11,9 @@ module.exports = function (grunt) {
                 local: {
                     src: "config/local.json"
                 },
+                demo: {
+                    src: "config/demo.json"
+                },
                 dev: {
                     src: "config/development.json"
                 },
@@ -21,7 +24,7 @@ module.exports = function (grunt) {
 
             concurrent: {
                 dev: {
-                    tasks: ["nodemon", "node-inspector"],
+                    tasks: ["nodemon:debug", "node-inspector"],
                     options: { logConcurrentOutput: true }
                 }
             },
@@ -38,11 +41,17 @@ module.exports = function (grunt) {
             },
 
             "nodemon": {
-                dev: {
+                debug: {
                     options: {
                         args: [grunt.option("proxy") ? "-proxy" : false],
                         file: "src/server.js",
                         nodeArgs: ['--debug=5857']
+                    }
+                },
+                run: {
+                    options: {
+                        args: [grunt.option("proxy") ? "-proxy" : false],
+                        file: "src/server.js"
                     }
                 }
             },
@@ -183,8 +192,9 @@ module.exports = function (grunt) {
     grunt.registerTask('build', [ 'env:prod', 'clean', 'cssmin', 'copy', 'processhtml', 'string-replace:prod', 'requirejs:front', 'requirejs:admin' ]);
     grunt.registerTask('test', ['mochaTest']);
 
-    grunt.registerTask('default', [ 'env:local', 'string-replace:dev', 'nodemon']);
     grunt.registerTask('debug', ['env:local', 'string-replace:dev', 'concurrent']);
-    grunt.registerTask('dev', [ 'env:dev', 'clean', 'cssmin', 'copy', 'processhtml', 'string-replace:dev', 'requirejs:front', 'requirejs:admin', 'nodemon' ]);
-    grunt.registerTask('prod', [ 'env:prod', 'clean', 'cssmin', 'copy', 'processhtml', 'string-replace:prod', 'requirejs:front', 'requirejs:admin', 'nodemon' ]);
+    grunt.registerTask('default', [ 'env:local', 'string-replace:dev', 'nodemon:run']);
+    grunt.registerTask('demo', [ 'env:demo', 'string-replace:dev', 'nodemon:run' ]);
+    grunt.registerTask('dev', [ 'env:dev', 'clean', 'cssmin', 'copy', 'processhtml', 'string-replace:dev', 'requirejs:front', 'requirejs:admin', 'nodemon:run' ]);
+    grunt.registerTask('prod', [ 'env:prod', 'clean', 'cssmin', 'copy', 'processhtml', 'string-replace:prod', 'requirejs:front', 'requirejs:admin', 'nodemon:run' ]);
 }
