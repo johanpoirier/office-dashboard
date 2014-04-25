@@ -4,9 +4,10 @@ office-dashboard
 To test the application : 
 -------------------------
 1. install Chrome Canary or Chromium (35.0 minimum)
-2. npm install
-3. grunt
-4. open http://localhost:8085 for client view and http://localhost:8085/admin for admin view
+2. enable experimental web platform features : http://html.adobe.com/webplatform/enable/
+3. npm install
+4. grunt
+5. open http://localhost:8085 for client view and http://localhost:8085/admin for admin view
 
 To debug backend application : 
 ------------------------------
