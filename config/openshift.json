@@ -2,5 +2,9 @@
     "NODE_ENV": "openshift",
     "server": "http://mfv3-dashboard.apps.zone52.org/",
     "app": "build",
-    "tempDir": "./work"
+    "tempDir": "./work",
+    "proxy_host": "proxy.priv.atos.fr",
+    "proxy_port": 3128,
+    "proxy_bypass": "*.priv.atos.fr",
+    "ipFilter": ["10.*", "160.92.*"]
 }

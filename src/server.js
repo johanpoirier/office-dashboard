@@ -3,6 +3,7 @@
  */
 var express = require('express')
     , app = express()
+    , ipfilter = require('express-ipfilter')
     , server = require('http').createServer(app)
     , path = require('path')
     , io = require('socket.io').listen(server)
@@ -20,10 +21,15 @@ require(__dirname + '/../' + config['app'] + '/js/events.js')
 
 
 // CORS middleware
-var allowCrossDomain = function(req, res, next) {
+var allowCrossDomain = function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
     next();
+}
+
+// IP filter
+if (config["ipFilter"]) {
+    app.use(ipfilter(config["ipFilter"], {"mode": "allow"}));
 }
 
 // all environments
@@ -34,6 +40,7 @@ app.use(express.bodyParser());
 app.use(express.methodOverride());
 app.use(allowCrossDomain);
 app.use(express.static(path.join(__dirname, '../' + config['app'])));
+
 
 // development only
 if ('development' == app.get('env')) {
@@ -59,7 +66,7 @@ server.listen(app.get('port'), ip, function () {
 // Loading modules
 DashboardConfig.init(config);
 var modulesConf = DashboardConfig.getModulesConf();
-modulesConf.forEach(function(moduleConfig) {
+modulesConf.forEach(function (moduleConfig) {
     DashboardConfig.loadModule(config, moduleConfig, io.sockets);
 });
 
