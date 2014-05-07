@@ -112,13 +112,6 @@ module.exports = function (grunt) {
                 }
             },
 
-            "uncss": {
-                dist: {
-                    src: ['public/admin.html'],
-                    dest: 'build/css/admin-build.css'
-                }
-            },
-
             "requirejs": {
                 front: {
                     options: {
