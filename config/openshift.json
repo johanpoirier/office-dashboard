@@ -3,8 +3,5 @@
     "server": "http://mfv3-dashboard.apps.zone52.org/",
     "app": "build",
     "tempDir": "./work",
-    "proxy_host": "proxy.priv.atos.fr",
-    "proxy_port": 3128,
-    "proxy_bypass": "*.priv.atos.fr",
     "ipFilter": ["127.0.0.1/8", "10.0.0.1/8", "160.92.0.1/16"]
 }
