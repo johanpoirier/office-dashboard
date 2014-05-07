@@ -29,7 +29,7 @@ var allowCrossDomain = function (req, res, next) {
 
 // IP filter
 if (config["ipFilter"]) {
-    app.use(ipfilter(config["ipFilter"], {"mode": "allow"}));
+    app.use(ipfilter(config["ipFilter"], {"mode": "allow", "cidr": true}));
 }
 
 // all environments
