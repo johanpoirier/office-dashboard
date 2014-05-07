@@ -38,4 +38,5 @@ node_modules/grunt-cli/bin/grunt build:openshift
 
 # Make git module shell executable
 cd ${OPENSHIFT_REPO_DIR}
+dos2unix public/js/modules/git/getlogs.sh
 chmod +x public/js/modules/git/getlogs.sh
