@@ -34,4 +34,3 @@ fi
 # Build app with grunt
 cd ${OPENSHIFT_REPO_DIR}
 node_modules/grunt-cli/bin/grunt build:openshift
-export NODE_ENV=openshift
