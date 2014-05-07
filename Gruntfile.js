@@ -60,24 +60,9 @@ module.exports = function (grunt) {
             },
 
             "string-replace": {
-                dev: {
+                build: {
                     files: {
                         "public/js/constants.js": "public/js/constants.js"
-                    },
-                    options: {
-                        replacements: [
-                            {
-                                pattern: /"node_server_url": "(.*)"/,
-                                replacement: function () {
-                                    return '"node_server_url": "' + process.env.server + '"'
-                                }
-                            }
-                        ]
-                    }
-                },
-                prod: {
-                    files: {
-                        "build/js/constants.js": "build/js/constants.js"
                     },
                     options: {
                         replacements: [
@@ -185,13 +170,13 @@ module.exports = function (grunt) {
         }
     );
 
-    grunt.registerTask('build', [ 'env:prod', 'clean', 'cssmin', 'copy', 'processhtml', 'string-replace:prod', 'requirejs:front', 'requirejs:admin' ]);
+    grunt.registerTask('build', [ 'env:prod', 'clean', 'cssmin', 'copy', 'processhtml', 'string-replace', 'requirejs:front', 'requirejs:admin' ]);
     grunt.registerTask('test', ['mochaTest']);
 
-    grunt.registerTask('debug', ['env:local', 'string-replace:dev', 'concurrent']);
-    grunt.registerTask('default', [ 'env:local', 'string-replace:dev', 'nodemon:run']);
-    grunt.registerTask('demo', [ 'env:demo', 'string-replace:dev', 'nodemon:run' ]);
-    grunt.registerTask('dev', [ 'env:dev', 'clean', 'cssmin', 'copy', 'processhtml', 'string-replace:dev', 'requirejs:front', 'requirejs:admin', 'nodemon:run' ]);
-    grunt.registerTask('openshift', [ 'env:openshift', 'clean', 'cssmin', 'copy', 'processhtml', 'string-replace:prod', 'requirejs:front', 'requirejs:admin', 'nodemon:run' ]);
-    grunt.registerTask('prod', [ 'env:prod', 'clean', 'cssmin', 'copy', 'processhtml', 'string-replace:prod', 'requirejs:front', 'requirejs:admin', 'nodemon:run' ]);
+    grunt.registerTask('debug', ['env:local', 'string-replace', 'concurrent']);
+    grunt.registerTask('default', [ 'env:local', 'string-replace', 'nodemon:run']);
+    grunt.registerTask('demo', [ 'env:demo', 'string-replace', 'nodemon:run' ]);
+    grunt.registerTask('dev', [ 'env:dev', 'clean', 'cssmin', 'copy', 'processhtml', 'string-replace', 'requirejs:front', 'requirejs:admin', 'nodemon:run' ]);
+    grunt.registerTask('openshift', [ 'env:openshift', 'clean', 'cssmin', 'copy', 'processhtml', 'string-replace', 'requirejs:front', 'requirejs:admin', 'nodemon:run' ]);
+    grunt.registerTask('prod', [ 'env:prod', 'clean', 'cssmin', 'copy', 'processhtml', 'string-replace', 'requirejs:front', 'requirejs:admin', 'nodemon:run' ]);
 }
