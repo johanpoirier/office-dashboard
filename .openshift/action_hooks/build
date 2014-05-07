@@ -32,5 +32,6 @@ fi
 
 
 # Build app with grunt
-${OPENSHIFT_REPO_DIR}/node_modules/grunt-cli/bin/grunt build:openshift
+cd ${OPENSHIFT_REPO_DIR}
+node_modules/grunt-cli/bin/grunt build:openshift
 set NODE_ENV=openshift
