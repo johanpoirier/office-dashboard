@@ -11,7 +11,13 @@ var DashboardConfig = {
     init: function (config) {
         this.config = config;
         if (config && config["tempDir"]) {
-            this.config["tempDir"] = path.join(__dirname, "..", config["tempDir"]);
+            if(process.env["OPENSHIFT_DATA_DIR"]) {
+                this.config["tempDir"] = process.env["OPENSHIFT_DATA_DIR"]
+            }
+            else {
+                this.config["tempDir"] = path.join(__dirname, "..", config["tempDir"]);
+            }
+
             storage.initSync({
                 "dir": path.join(this.config["tempDir"], "persist")
             });
