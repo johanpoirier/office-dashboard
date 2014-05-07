@@ -51,7 +51,8 @@ app.get('/admin', function (req, res) {
 //Socket.io Config
 io.set('log level', 1);
 
-server.listen(app.get('port'), function () {
+var ip = process.env.OPENSHIFT_NODEJS_IP || "127.0.0.1";
+server.listen(app.get('port'), ip, function () {
     console.log('Express server listening on port ' + app.get('port'));
 });
 
