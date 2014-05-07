@@ -1,0 +1,6 @@
+{
+    "NODE_ENV": "openshift",
+    "server": "http://mfv3.apps.zone52.org",
+    "app": "build",
+    "tempDir": "./work"
+}

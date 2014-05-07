@@ -27,7 +27,7 @@ var allowCrossDomain = function(req, res, next) {
 }
 
 // all environments
-app.set('port', process.env.TEST_PORT || 8080);
+app.set('port', process.env.OPENSHIFT_NODEJS_PORT || process.env.TEST_PORT || 8080);
 app.use(express.favicon(path.join(__dirname, '../' + config['app'] + '/images/favicon.ico')));
 app.use(express.logger('dev'));
 app.use(express.bodyParser());

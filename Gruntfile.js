@@ -19,6 +19,9 @@ module.exports = function (grunt) {
                 },
                 prod: {
                     src: "config/production.json"
+                },
+                openshift: {
+                    src: "config/openshift.json"
                 }
             },
 
@@ -189,5 +192,6 @@ module.exports = function (grunt) {
     grunt.registerTask('default', [ 'env:local', 'string-replace:dev', 'nodemon:run']);
     grunt.registerTask('demo', [ 'env:demo', 'string-replace:dev', 'nodemon:run' ]);
     grunt.registerTask('dev', [ 'env:dev', 'clean', 'cssmin', 'copy', 'processhtml', 'string-replace:dev', 'requirejs:front', 'requirejs:admin', 'nodemon:run' ]);
+    grunt.registerTask('openshift', [ 'env:openshift', 'clean', 'cssmin', 'copy', 'processhtml', 'string-replace:prod', 'requirejs:front', 'requirejs:admin', 'nodemon:run' ]);
     grunt.registerTask('prod', [ 'env:prod', 'clean', 'cssmin', 'copy', 'processhtml', 'string-replace:prod', 'requirejs:front', 'requirejs:admin', 'nodemon:run' ]);
 }

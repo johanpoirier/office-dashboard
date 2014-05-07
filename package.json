@@ -4,7 +4,7 @@
     "repository": "https://github.com/johanpoirier/office-dashboard",
     "private": true,
     "scripts": {
-        "start": "node src/server.js",
+        "start": "node_modules/grunt-cli/bin/grunt openshift",
         "test": "mocha --recursive"
     },
     "dependencies": {
