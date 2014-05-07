@@ -117,6 +117,16 @@ var DashboardConfig = {
         }
     },
 
+    unloadModule: function (moduleId) {
+        // remove module from instances
+        this.instances.forEach(function (instance, index) {
+            if (instance.config.id === moduleId) {
+                instance.destroy();
+                this.instances.splice(index, 1);
+            }
+        }.bind(this));
+    },
+
     deleteModule: function (moduleId) {
         // remove module from conf
         var modules = this.getModulesConf();
@@ -128,12 +138,8 @@ var DashboardConfig = {
         storage.setItem("modules", modules);
 
         // remove module from instances
-        this.instances.forEach(function (instance, index) {
-            if (instance.config.id === moduleId) {
-                instance.destroy();
-                this.instances.splice(index, 1);
-            }
-        }.bind(this));
+        this.unloadModule(moduleId);
+
         return modules;
     },
 

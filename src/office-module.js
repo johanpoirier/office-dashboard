@@ -53,8 +53,19 @@ OfficeModule.prototype.addClient = function(socket) {
 
 // remove the node module from cache
 OfficeModule.prototype.destroy = function() {
-    this.dispose.apply(this);
     console.log("[" + this.config["id"] + "] destroy");
+
+    // module custom destroy
+    this.dispose.apply(this);
+
+    // socketio listeners clean
+    this.listeners.forEach((function(eventHandler) {
+        this.iosockets.clients().forEach((function(socket) {
+            socket.removeAllListeners(eventHandler["event"]);
+        }).bind(this));
+    }).bind(this));
+
+    // node module destroy
     delete require.cache[require.resolve('../public/js/modules/' + this.config['type'] + '/backend')];
 };
 
