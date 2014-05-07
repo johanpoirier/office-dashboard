@@ -10,16 +10,16 @@ if [ ! -d .git ]; then
     git init
     git remote add origin $3
     if [ ! $4 = "" ]; then
-        git config --local http.proxy $4
+        git config http.proxy $4
     else
-        git config --local --unset http.proxy
+        git config --unset http.proxy
     fi
     git fetch --depth=$6 -n
 else
     if [ ! $4 = "" ]; then
-        git config --local http.proxy $4
+        git config http.proxy $4
     else
-        git config --local --unset http.proxy
+        git config --unset http.proxy
     fi
     git remote rm origin
     git remote add origin $3
